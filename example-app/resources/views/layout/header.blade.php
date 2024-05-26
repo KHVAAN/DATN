@@ -76,7 +76,7 @@
             <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light"
                 id="navbar-vertical" style="width: calc(100% - 30px); z-index: 10;">
                 <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                    <div class="nav-item dropdown">
+                    {{-- <div class="nav-item dropdown">
                         <a href="#" class="nav-link" data-toggle="dropdown">Dresses <i
                                 class="fa fa-angle-down float-right mt-1"></i></a>
                         <div class="dropdown-menu position-absolute bg-secondary border-0 rounded-0 w-100 m-0">
@@ -84,16 +84,17 @@
                             <a href="" class="dropdown-item">Women's Dresses</a>
                             <a href="" class="dropdown-item">Baby's Dresses</a>
                         </div>
-                    </div>
-                    <a href="" class="nav-item nav-link">Shirts</a>
-                    <a href="" class="nav-item nav-link">Jeans</a>
-                    <a href="" class="nav-item nav-link">Swimwear</a>
-                    <a href="" class="nav-item nav-link">Sleepwear</a>
-                    <a href="" class="nav-item nav-link">Sportswear</a>
-                    <a href="" class="nav-item nav-link">Jumpsuits</a>
-                    <a href="" class="nav-item nav-link">Blazers</a>
-                    <a href="" class="nav-item nav-link">Jackets</a>
-                    <a href="" class="nav-item nav-link">Shoes</a>
+                    </div> --}}
+                    <a href="" class="nav-item nav-link">Áo sơ mi</a>
+                    <a href="" class="nav-item nav-link">Áo khoác cổ cao</a>
+                    <a href="" class="nav-item nav-link">Áo khoác có nón</a>
+                    <a href="" class="nav-item nav-link">Áo thun</a>
+                    <a href="" class="nav-item nav-link">Áo hoodie</a>
+                    <a href="" class="nav-item nav-link">Áo polo</a>
+                    <a href="" class="nav-item nav-link">Áo T-shirt</a>
+                    <a href="" class="nav-item nav-link">Quần jeans</a>
+                    <a href="" class="nav-item nav-link">Quần short</a>
+                    <a href="" class="nav-item nav-link">Quần kaki</a>
                 </div>
             </nav>
         </div>
@@ -122,7 +123,7 @@
                     </div>
                     <div class="navbar-nav ml-auto py-0">
                         <a href="{{ url('/login') }}" class="nav-item nav-link">Đăng nhập</a>
-                        <a href="" class="nav-item nav-link">Đăng ký</a>
+                        <a href="{{ url('/register') }}" class="nav-item nav-link">Đăng ký</a>
                     </div>
                 </div>
             </nav>

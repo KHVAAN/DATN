@@ -18,6 +18,11 @@ Route::get('/login', function () {
     return view('login');
 });
 
+
+Route::get('/register', function () {
+    return view('register');
+});
+
 Route::get('/', function () {
     return view('user.index');
 });
@@ -40,4 +45,9 @@ Route::get('/checkout', function () {
 
 Route::get('/contact', function () {
     return view('user.contact');
+});
+
+
+Route::get('/admin', function () {
+    return view('admin.index');
 });

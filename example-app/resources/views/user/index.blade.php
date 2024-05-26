@@ -60,7 +60,7 @@
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                 <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
                     <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
-                    <h5 class="font-weight-semi-bold m-0">Hoàn Trả Trong 14 Ngày</h5>
+                    <h5 class="font-weight-semi-bold m-0">Hoàn Trong 14 Ngày</h5>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
@@ -77,6 +77,7 @@
     <!-- Categories Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5 pb-3">
+            <!-- Đồ nam -->
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Sản Phẩm</p>
@@ -86,6 +87,7 @@
                     <h5 class="font-weight-semi-bold m-0">Đồ Nam</h5>
                 </div>
             </div>
+            <!-- Đồ nữ -->
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
@@ -95,16 +97,17 @@
                     <h5 class="font-weight-semi-bold m-0">Đồ Nữ</h5>
                 </div>
             </div>
+            <!-- Đồ phụ kiện -->
             <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
                         <img class="img-fluid" src="img/cat-3.jpg" alt="">
                     </a>
-                    <h5 class="font-weight-semi-bold m-0">Đồ Trẻ Em</h5>
+                    <h5 class="font-weight-semi-bold m-0">Phụ Kiện</h5>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 pb-1">
+            {{-- <div class="col-lg-4 col-md-6 pb-1">
                 <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
                     <p class="text-right">15 Products</p>
                     <a href="" class="cat-img position-relative overflow-hidden mb-3">
@@ -130,7 +133,7 @@
                     </a>
                     <h5 class="font-weight-semi-bold m-0">Shoes</h5>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <!-- Categories End -->
@@ -486,33 +489,23 @@
             <div class="col">
                 <div class="owl-carousel vendor-carousel">
                     <div class="vendor-item border p-4">
-                        <img src="img/vendor-1.jpg" alt="">
+                        <img src="img/1.png" alt="">
                     </div>
                     <div class="vendor-item border p-4">
-                        <img src="img/vendor-2.jpg" alt="">
+                        <img src="img/2.png" alt="">
                     </div>
                     <div class="vendor-item border p-4">
-                        <img src="img/vendor-3.jpg" alt="">
+                        <img src="img/3.png" alt="">
                     </div>
                     <div class="vendor-item border p-4">
-                        <img src="img/vendor-4.jpg" alt="">
+                        <img src="img/4.png" alt="">
                     </div>
                     <div class="vendor-item border p-4">
-                        <img src="img/vendor-5.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-6.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-7.jpg" alt="">
-                    </div>
-                    <div class="vendor-item border p-4">
-                        <img src="img/vendor-8.jpg" alt="">
+                        <img src="img/5.png" alt="">
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Vendor End -->
-
 @endsection

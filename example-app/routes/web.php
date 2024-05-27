@@ -47,7 +47,55 @@ Route::get('/contact', function () {
     return view('user.contact');
 });
 
+// Admin (9)
+Route::get('/bang-dieu-khien', function () {
+    return view('admin.bang-dieu-khien');
+});
 
-Route::get('/admin', function () {
-    return view('admin.index');
+Route::get('/quan-li-nhan-vien', function () {
+    return view('admin.quan-li-nhan-vien');
+});
+
+Route::get('/quan-li-khach-hang', function () {
+    return view('admin.quan-li-khach-hang');
+});
+
+Route::get('/quan-li-don-hang', function () {
+    return view('admin.quan-li-don-hang');
+});
+
+Route::get('/quan-li-san-pham', function () {
+    return view('admin.quan-li-san-pham');
+});
+
+Route::get('/lich-cong-tac', function () {
+    return view('admin.lich-cong-tac');
+});
+
+Route::get('/quan-li-noi-bo', function () {
+    return view('admin.quan-li-noi-bo');
+});
+
+Route::get('/doanh-thu', function () {
+    return view('admin.doanh-thu');
+});
+
+Route::get('/bang-luong', function () {
+    return view('admin.bang-luong');
+});
+
+Route::get('/them-san-pham', function () {
+    return view('admin.them-san-pham');
+});
+
+Route::get('/them-don-hang', function () {
+    return view('admin.them-don-hang');
+});
+
+Route::get('/them-nhan-vien', function () {
+    return view('admin.them-nhan-vien');
+});
+
+Route::get('/them-tien-luong', function () {
+    return view('admin.them-tien-luong');
 });

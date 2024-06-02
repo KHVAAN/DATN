@@ -47,6 +47,10 @@ Route::get('/contact', function () {
     return view('user.contact');
 });
 
+Route::get('/intro', function () {
+    return view('user.intro');
+});
+
 // Admin (9)
 Route::get('/bang-dieu-khien', function () {
     return view('admin.bang-dieu-khien');
@@ -68,21 +72,11 @@ Route::get('/quan-li-san-pham', function () {
     return view('admin.quan-li-san-pham');
 });
 
-Route::get('/lich-cong-tac', function () {
-    return view('admin.lich-cong-tac');
-});
-
-Route::get('/quan-li-noi-bo', function () {
-    return view('admin.quan-li-noi-bo');
-});
 
 Route::get('/doanh-thu', function () {
     return view('admin.doanh-thu');
 });
 
-Route::get('/bang-luong', function () {
-    return view('admin.bang-luong');
-});
 
 Route::get('/them-san-pham', function () {
     return view('admin.them-san-pham');

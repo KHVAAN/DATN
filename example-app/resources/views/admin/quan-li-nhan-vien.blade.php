@@ -3,6 +3,12 @@
 @section('title', 'Quản lí nhân viên | Quản trị viên')
 
 @section('content')
+    <style>
+        .text-align-center th {
+            text-align: center;
+        }
+    </style>
+
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
@@ -53,10 +59,10 @@
                         </div>
                         <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0"
                             border="0" id="sampleTable">
-                            <thead>
+                            <thead class="text-align-center">
                                 <tr>
                                     <th width="10"><input type="checkbox" id="all"></th>
-                                    <th>ID nhân viên</th>
+                                    <th>ID khách hàng</th>
                                     <th width="150">Họ và tên</th>
                                     <th width="20">Ảnh thẻ</th>
                                     <th width="300">Địa chỉ</th>
@@ -67,6 +73,7 @@
                                     <th width="100">Tính năng</th>
                                 </tr>
                             </thead>
+
                             <tbody>
                                 <tr>
                                     <td width="10"><input type="checkbox" name="check1" value="1"></td>
@@ -115,8 +122,8 @@
     </main>
 
     <!--
-          MODAL
-        -->
+                  MODAL
+                -->
     <div class="modal fade" id="ModalUP" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
         data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -183,6 +190,6 @@
         </div>
     </div>
     <!--
-          MODAL
-        -->
+                  MODAL
+                -->
 @endsection

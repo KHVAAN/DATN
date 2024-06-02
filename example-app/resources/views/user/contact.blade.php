@@ -51,17 +51,17 @@
                 <h5 class="font-weight-semi-bold mb-3">Hãy liên hệ với chúng tôi</h5>
                 <p>Đừng ngần ngại liên hệ với chúng tôi nếu bạn cần bất kỳ sự trợ giúp nào. Chúng tôi luôn ở đây để lắng nghe và hỗ trợ bạn!</p>
                 <div class="d-flex flex-column mb-3">
-                    <h5 class="font-weight-semi-bold mb-3">Cửa hàng 1</h5>
-                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Địa chỉ 1</p>
-                    <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>Email 1</p>
-                    <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>SĐT 1</p>
+                    <h5 class="font-weight-semi-bold mb-3">Cửa hàng </h5>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>65 Huỳnh Thúc Kháng, Quận 1, TP.Hồ Chí Minh</p>
+                    <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>stylevistashop@gmail.com</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>(+84) 387236892</p>
                 </div>
-                <div class="d-flex flex-column">
+                {{-- <div class="d-flex flex-column">
                     <h5 class="font-weight-semi-bold mb-3">Cửa hàng 2</h5>
                     <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Địa chỉ 2</p>
                     <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>Email 1</p>
                     <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>SĐT 2</p>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

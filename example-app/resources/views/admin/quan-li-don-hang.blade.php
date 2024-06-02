@@ -3,6 +3,12 @@
 @section('title', 'Quản lí đơn hàng | Quản trị viên')
 
 @section('content')
+    <style>
+        .text-align-center th {
+            text-align: center;
+        }
+    </style>
+
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
@@ -49,9 +55,9 @@
                             </div>
                         </div>
                         <table class="table table-hover table-bordered" id="sampleTable">
-                            <thead>
+                            <thead class="text-align-center">
                                 <tr>
-                                    <th width="10"><input type="checkbox" id="all"></th>
+                                    <th width="10"></th>
                                     <th>ID đơn hàng</th>
                                     <th>Khách hàng</th>
                                     <th>Đơn hàng</th>

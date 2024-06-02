@@ -6,9 +6,9 @@
                     <h1 class="mb-4 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border border-white px-3 mr-1">E</span>StyleVista</h1>
                 </a>
                 <p>Chất lượng và phong cách là chìa khóa của chúng tôi. Khám phá thế giới thời trang tại cửa hàng của chúng tôi ngay hôm nay.</p>
-                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Địa chỉ</p>
-                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>Email</p>
-                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>SĐT</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>65 Huỳnh Thúc Kháng, Quận 1, TP. Hồ Chí Minh</p>
+                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>stylevistashop@gmail.com</p>
+                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>(+84) 387236892</p>
             </div>
             <div class="col-lg-8 col-md-12">
                 <div class="row">

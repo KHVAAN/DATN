@@ -1,6 +1,6 @@
 @extends('layout.master_ad')
 
-@section('title', 'Bảng kê lương | Quản trị viên')
+@section('title', 'Thêm đơn hàng | Quản trị viên')
 
 @section('content')
     <main class="app-content">

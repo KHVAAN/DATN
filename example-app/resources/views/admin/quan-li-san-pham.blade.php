@@ -3,21 +3,12 @@
 @section('title', 'Quản lí sản phẩm | Quản trị viên')
 
 @section('content')
-<style>
-        .table th,
-        .table td{
+    <style>
+        .text-align-center th {
             text-align: center;
-            /* Căn giữa ngang */
-            vertical-align: middle;
-            /* Căn giữa dọc */
-        }
-
-        .img-card-person {
-            width: 50px;
-            /* Kích thước ảnh thẻ */
-            height: auto;
         }
     </style>
+
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
@@ -64,9 +55,9 @@
                             </div>
                         </div>
                         <table class="table table-hover table-bordered" id="sampleTable">
-                            <thead>
+                            <thead class="text-align-center">
                                 <tr>
-                                    <th width="10"><input type="checkbox" id="all"></th>
+                                    <th width="10"></th>
                                     <th>Mã sản phẩm</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Ảnh</th>
@@ -150,60 +141,6 @@
                                                 class="fas fa-edit"></i></button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>72109004</td>
-                                    <td>Ghế làm việc Zuno</td>
-                                    <td><img src="/img-sanpham/zuno.jpg" alt="" width="100px;"></td>
-                                    <td>50</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>3.800.000 đ</td>
-                                    <td>Ghế gỗ</td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                            id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                class="fas fa-edit"></i></button>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>82716001</td>
-                                    <td>Ghế ăn Vitali</td>
-                                    <td><img src="/img-sanpham/vita.jpg" alt="" width="100px;"></td>
-                                    <td>55</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>4.600.000 đ</td>
-                                    <td>Ghế gỗ</td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                            id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                class="fas fa-edit"></i></button>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>72109001</td>
-                                    <td>Ghế ăn gỗ Lucy màu trắng</td>
-                                    <td><img src="/img-sanpham/lucy.jpg" alt="" width="100px;"></td>
-                                    <td>38</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>1.100.000 đ</td>
-                                    <td>Ghế gỗ</td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                            id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                class="fas fa-edit"></i> </button>
-
-                                    </td>
-                                </tr>
 
                             </tbody>
                         </table>
@@ -214,8 +151,8 @@
     </main>
 
     <!--
-      MODAL
-    -->
+          MODAL
+        -->
     <div class="modal fade" id="ModalUP" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
         data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -286,8 +223,8 @@
         </div>
     </div>
     <!--
-    MODAL
-    -->
+        MODAL
+        -->
 
     <!-- Essential javascripts for application to work-->
     <script src="js/jquery-3.2.1.min.js"></script>

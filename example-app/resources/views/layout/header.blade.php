@@ -119,6 +119,7 @@
                                 <a href="{{ url('/checkout') }}" class="dropdown-item">Thanh Toán</a>
                             </div>
                         </div>
+                        <a href="{{ url('/intro') }}" class="nav-item nav-link">Giới Thiệu</a>
                         <a href="{{ url('/contact') }}" class="nav-item nav-link">Liên Hệ</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0">

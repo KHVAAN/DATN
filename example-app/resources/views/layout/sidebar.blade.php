@@ -21,17 +21,9 @@
         </li>
         <li><a class="app-menu__item" href="{{ url('/quan-li-don-hang') }}"><i class='app-menu__icon bx bx-task'></i><span
                     class="app-menu__label">Quản lý đơn hàng</span></a></li>
-        <li><a class="app-menu__item" href="{{ url('/quan-li-noi-bo') }}"><i class='app-menu__icon bx bx-run'></i><span
-                    class="app-menu__label">Quản lý nội bộ
-                </span></a></li>
-        <li><a class="app-menu__item" href="{{ url('/bang-luong') }}"><i class='app-menu__icon bx bx-dollar'></i><span
-                    class="app-menu__label">Bảng kê lương</span></a></li>
         <li><a class="app-menu__item" href="{{ url('/doanh-thu') }}"><i
                     class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh
                     thu</span></a>
         </li>
-        <li><a class="app-menu__item" href="{{ url('/lich-cong-tac') }}"><i class='app-menu__icon bx bx-calendar-check'></i><span
-                    class="app-menu__label">Lịch công tác
-                </span></a></li>
     </ul>
 </aside>

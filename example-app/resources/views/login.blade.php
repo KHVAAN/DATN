@@ -308,7 +308,7 @@
     <h2>STYLEVISTA SHOP</h2>
     <div class="container" id="container">
         <div class="form-container sign-up-container">
-            <form action="" method="POST">
+            <form action="{{ route('xu-li-dang-ki') }}" method="POST">
                 @csrf
                 <h3><b>Đăng Ký</b></h3>
                 <span>Sử dụng email của bạn để đăng ký</span>
@@ -330,7 +330,7 @@
             </form>
         </div>
         <div class="form-container sign-in-container">
-            <form action="" method="post" id="form-login">
+            <form action="{{ route('xu-li-dang-nhap') }}" method="post" id="form-login">
                 @csrf
                 <h3><b>Đăng Nhập</b></h3>
                 <div class="social-container">

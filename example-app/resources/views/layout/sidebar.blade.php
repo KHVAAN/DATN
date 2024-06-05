@@ -9,8 +9,8 @@
     </div>
     <hr>
     <ul class="app-menu">
-        <li><a class="app-menu__item " href="{{ url('/bang-dieu-khien') }}"><i class='app-menu__icon bx bx-tachometer'></i><span
-                    class="app-menu__label">Bảng điều khiển</span></a></li>
+        <li><a class="app-menu__item " href="{{ url('/trang-chu') }}"><i class='app-menu__icon bx bx-tachometer'></i><span
+                    class="app-menu__label">Trang chủ</span></a></li>
         <li><a class="app-menu__item " href="{{ url('/quan-li-nhan-vien') }}"><i class='app-menu__icon bx bx-id-card'></i>
                 <span class="app-menu__label">Quản lý nhân viên</span></a></li>
         <li><a class="app-menu__item" href="{{ url('/quan-li-khach-hang') }}"><i class='app-menu__icon bx bx-user-voice'></i><span

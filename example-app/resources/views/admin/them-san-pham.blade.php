@@ -1,6 +1,6 @@
 @extends('layout.master_ad')
 
-@section('title', 'Thêm sản phẩm | Quản trị viên')
+@section('title', 'Bảng kê lương | Quản trị viên')
 
 @section('content')
     <style>

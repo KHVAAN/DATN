@@ -3,6 +3,7 @@
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,9 +15,18 @@ use App\Http\Controllers\ProductController;
 |
 */
 
+/**
+ * Đăng nhập
+ */
 Route::get('/login', function () {
     return view('login');
-});
+})->name('dang-nhap');
+
+Route::post('/login', [LoginController::class, 'login'])->name('xu-li-dang-nhap');
+Route::post('/register', [LoginController::class, 'register'])->name('xu-li-dang-ki');
+
+
+
 
 
 Route::get('/register', function () {
@@ -25,7 +35,7 @@ Route::get('/register', function () {
 
 Route::get('/', function () {
     return view('user.index');
-});
+})->name('home');
 
 Route::get('/shop', function () {
     return view('user.shop');
@@ -52,8 +62,8 @@ Route::get('/intro', function () {
 });
 
 // Admin (9)
-Route::get('/bang-dieu-khien', function () {
-    return view('admin.bang-dieu-khien');
+Route::get('/trang-chu', function () {
+    return view('admin.trang-chu');
 });
 
 Route::get('/quan-li-nhan-vien', function () {
@@ -93,3 +103,7 @@ Route::get('/them-nhan-vien', function () {
 Route::get('/them-tien-luong', function () {
     return view('admin.them-tien-luong');
 });
+
+Route::get('/trang-chu', function () {
+    return view('admin.trang-chu');
+})->name('trang-chu');

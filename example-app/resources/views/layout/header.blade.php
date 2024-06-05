@@ -123,7 +123,7 @@
                         <a href="{{ url('/contact') }}" class="nav-item nav-link">Liên Hệ</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="{{ url('/login') }}" class="nav-item nav-link">Đăng nhập</a>
+                        <a href="{{ route('dang-nhap') }}" class="nav-item nav-link">Đăng nhập</a>
                         <a href="{{ url('/register') }}" class="nav-item nav-link">Đăng ký</a>
                     </div>
                 </div>

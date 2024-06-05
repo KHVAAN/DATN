@@ -64,7 +64,6 @@
                                     <th width="10"><input type="checkbox" id="all"></th>
                                     <th>ID nhân viên</th>
                                     <th width="150">Họ và tên</th>
-                                    <th width="20">Ảnh thẻ</th>
                                     <th width="300">Địa chỉ</th>
                                     <th>Ngày sinh</th>
                                     <th>Giới tính</th>
@@ -78,7 +77,6 @@
                                     <td width="10"><input type="checkbox" name="check1" value="1"></td>
                                     <td>#CD12837</td>
                                     <td>Hồ Thị Thanh Ngân</td>
-                                    <td><img class="img-card-person" src="/img/cat-2.jpg" alt=""></td>
                                     <td>155-157 Trần Quốc Thảo, Quận 3, Hồ Chí Minh </td>
                                     <td>12/02/1999</td>
                                     <td>Nữ</td>
@@ -97,7 +95,6 @@
                                     <td width="10"><input type="checkbox" name="check2" value="2"></td>
                                     <td>#SX22837</td>
                                     <td>Trần Khả Ái</td>
-                                    <td><img class="img-card-person" src="/img/cat-2.jpg" alt=""></td>
                                     <td>6 Nguyễn Lương Bằng, Tân Phú, Quận 7, Hồ Chí Minh</td>
                                     <td>22/12/1999</td>
                                     <td>Nữ</td>

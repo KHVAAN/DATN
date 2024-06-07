@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Brand;
 use App\Models\Size;
-
+use App\Models\Color;
 
 class ChungController extends Controller
 {
@@ -14,8 +14,8 @@ class ChungController extends Controller
     {
         $brand = Brand::all();
         $size = Size::all();
-
-        return view('admin.danh-sach-chung', compact('brand','size'));
+        $color = Color::all();
+        return view('admin.danh-sach-chung', compact('brand','size','color'));
     }
 
     public function store1(Request $request)
@@ -61,6 +61,28 @@ class ChungController extends Controller
         $size->trangthai = $request->input('trangthai');
         $size->save();
         Alert()->success('Thành công', 'Kích thước đã được thêm thành công');
+        return \redirect()->back();
+    }
+
+    public function store3(Request $request)
+    {
+        //dd($request->all()); // Thêm dòng này để kiểm tra giá trị request
+
+        $request->validate([
+            'tenmau' => 'required|max:30|unique:color,tenmau',
+            'trangthai' => 'required|in:0,1',
+        ], [
+            'trangthai.required' => 'Không được để trống',
+            'trangthai.in' => 'Giá trị trạng thái không hợp lệ',
+            'tenmau.max' => 'Không quá 30 ký tự',
+            'tenmau.unique' => 'Màu sản phẩm đã tồn tại',
+            'tenmau.required' => 'Không được để trống',
+        ]);
+        $color = new Color;
+        $color->tenmau = $request->input('tenmau');
+        $color->trangthai = $request->input('trangthai');
+        $color->save();
+        Alert()->success('Thành công', 'Màu sắc đã được thêm thành công');
         return \redirect()->back();
     }
 }

@@ -124,3 +124,4 @@ Route::post('/them-san-pham', [ProductController::class, 'store'])->name('xu-li-
 Route::get('/danh-sach-chung', [ChungController::class, 'index'])->name('danh-sach-chung');
 Route::post('/them-nhan-hieu', [ChungController::class, 'store1'])->name('them-nhan-hieu');
 Route::post('/them-kich-thuoc', [ChungController::class, 'store2'])->name('them-kich-thuoc');
+Route::post('/them-mau-sac', [ChungController::class, 'store3'])->name('them-mau-sac');

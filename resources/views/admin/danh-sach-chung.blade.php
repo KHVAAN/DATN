@@ -224,29 +224,34 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <span class="thong-tin-thanh-toan">
-                                    <h5>Thêm mới màu sắc</h5>
-                                </span>
+                        <form action="{{ route('them-mau-sac') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <span class="thong-tin-thanh-toan">
+                                        <h5>Thêm mới màu sắc</h5>
+                                    </span>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Nhập tên màu sắc mới</label>
+                                    <input type="text" name="tenmau" class="form-control" placeholder="Tên màu sắc">
+                                    <div class="error-message">{{ $errors->first('tenmau') }}</div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Tình trạng</label>
+                                    <select id="inputState" name="trangthai" class="form-control">
+                                        <option value="">-- Chọn tình trạng --</option>
+                                        <option value="0">Còn hàng</option>
+                                        <option value="1">Hết hàng</option>
+                                    </select>
+                                    <div class="error-message">{{ $errors->first('trangthai') }}</div>
+                                </div>
                             </div>
-                            <div class="form-group col-md-12">
-                                <label class="control-label">Nhập tên màu sắc mới</label>
-                                <input class="form-control" type="text" required>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label class="control-label">Tình trạng</label>
-                                <select class="form-control" id="exampleSelect1">
-                                    <option>-- Chọn tình trạng --</option>
-                                    <option>Còn hàng</option>
-                                    <option>Hết hàng</option>
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                        <button class="btn btn-save" type="button">Lưu lại</button>
-                        <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                        <br>
+                            <br>
+                            <button class="btn btn-save" type="submit">Lưu lại</button>
+                            <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                            <br>
+                        </form>
                     </div>
                     <div class="modal-footer"></div>
                 </div>
@@ -276,10 +281,18 @@
                                 </tr>
                             </thead>
                             <tbody class="text-align-center">
-                                <tr>
-                                    <td>STT</td>
-                                    <td>Tên màu sắc</td>
-                                    <td>Trạng thái</td>
+                                @foreach ($color as $index => $item)
+                                    <td>{{ $index + 1 }}</td> <!-- STT -->
+                                    <td>{{ $item->tenmau }}</td>
+                                    <td>
+                                        @if ($item->trangthai == 0)
+                                            Còn hàng
+                                        @else
+                                            Hết hàng
+                                        @endif
+                                    </td>
+                                    <td>{{ $item->created_at }}</td>
+                                    <td>{{ $item->updated_at }}</td>
                                     <td>
                                         <button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
                                             <i class="fas fa-trash-alt"></i>
@@ -288,7 +301,8 @@
                                             <i class="fa fa-edit"></i>
                                         </button>
                                     </td>
-                                </tr>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

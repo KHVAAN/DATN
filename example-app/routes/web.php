@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,9 +27,14 @@ Route::get('/login', function () {
 Route::post('/login', [LoginController::class, 'login'])->name('xu-li-dang-nhap');
 Route::post('/register', [LoginController::class, 'register'])->name('xu-li-dang-ki');
 
-
-
-
+/**
+ * đăng xuất
+ */
+Route::post('/logout', function () {
+    Auth::logout();
+    session()->flush();
+    return redirect()->route('login');
+})->name('dang-xuat');
 
 Route::get('/register', function () {
     return view('register');
@@ -100,10 +107,17 @@ Route::get('/them-nhan-vien', function () {
     return view('admin.them-nhan-vien');
 });
 
-Route::get('/them-tien-luong', function () {
-    return view('admin.them-tien-luong');
+Route::get('/danh-sach-chung', function () {
+    return view('admin.danh-sach-chung');
 });
 
 Route::get('/trang-chu', function () {
     return view('admin.trang-chu');
 })->name('trang-chu');
+
+Route::get('/danh-sach-san-pham', [ProductController::class, 'index'])->name('danh-sach-san-pham');
+Route::get('/them-san-pham', [ProductController::class, 'create'])->name('them-san-pham');
+Route::post('/them-san-pham', [ProductController::class, 'store'])->name('xu-li-them-san-pham');
+
+Route::get('/danh-sach-chung', [BrandController::class, 'index'])->name('danh-sach-chung');
+Route::post('/them-nhan-hieu', [BrandController::class, 'store'])->name('them-nhan-hieu');

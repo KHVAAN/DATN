@@ -1,6 +1,6 @@
 @extends('layout.master_ad')
 
-@section('title', 'Bảng kê lương | Quản trị viên')
+@section('title', 'Thêm sản phẩm | Quản trị viên')
 
 @section('content')
     <style>
@@ -88,31 +88,32 @@
                         <div class="row element-button">
                             <div class="col-sm-2">
                                 <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#exampleModalCenter"><i
-                                        class="fas fa-folder-plus"></i> Thêm nhà cung cấp</a>
-                            </div>
-                            <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#adddanhmuc"><i
                                         class="fas fa-folder-plus"></i> Thêm danh mục</a>
                             </div>
                             <div class="col-sm-2">
+                                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#adddanhmuc"><i
+                                        class="fas fa-folder-plus"></i> Thêm nhãn hiệu</a>
+                            </div>
+                            {{-- <div class="col-sm-2">
                                 <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addtinhtrang"><i
                                         class="fas fa-folder-plus"></i> Thêm tình trạng</a>
-                            </div>
+                            </div> --}}
                         </div>
-                        <form class="row">
+                        <form class="row" action="{{ route('xu-li-them-san-pham') }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
                             <div class="form-group col-md-3">
                                 <label class="control-label">Mã sản phẩm </label>
-                                <input class="form-control" type="number" placeholder="">
+                                <input class="form-control" type="text" placeholder="Mã sản phẩm">
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Tên sản phẩm</label>
-                                <input class="form-control" type="text">
+                                <input type="text" name="tensanpham" class="form-control" placeholder="Tên sản phẩm">
+                                <div class="error-message">{{ $errors->first('tensanpham') }}</div>
                             </div>
-
-
                             <div class="form-group  col-md-3">
                                 <label class="control-label">Số lượng</label>
-                                <input class="form-control" type="number">
+                                <input class="form-control" type="number" placeholder="Số lượng">
                             </div>
                             <div class="form-group col-md-3 ">
                                 <label for="exampleSelect1" class="control-label">Tình trạng</label>
@@ -126,39 +127,34 @@
                                 <label for="exampleSelect1" class="control-label">Danh mục</label>
                                 <select class="form-control" id="exampleSelect1">
                                     <option>-- Chọn danh mục --</option>
-                                    <option>Bàn ăn</option>
-                                    <option>Bàn thông minh</option>
-                                    <option>Tủ</option>
-                                    <option>Ghế gỗ</option>
-                                    <option>Ghế sắt</option>
-                                    <option>Giường người lớn</option>
-                                    <option>Giường trẻ em</option>
-                                    <option>Bàn trang điểm</option>
-                                    <option>Giá đỡ</option>
+                                    @foreach ($category as $item)
+                                        <option value="{{ $item->id }}">{{ $item->tenloaisp }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-md-3 ">
-                                <label for="exampleSelect1" class="control-label">Nhà cung cấp</label>
+                                <label for="exampleSelect1" class="control-label">Nhà nhãn hiệu</label>
                                 <select class="form-control" id="exampleSelect1">
-                                    <option>-- Chọn nhà cung cấp --</option>
-                                    <option>Phong vũ</option>
-                                    <option>Thế giới di động</option>
-                                    <option>FPT</option>
-                                    <option>Võ Trường</option>
+                                    <option>-- Chọn nhãn hiệu --</option>
+                                    @foreach ($brand as $item)
+                                        <option value="{{ $item->id }}">{{ $item->tennhanhieu }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Giá bán</label>
-                                <input class="form-control" type="text">
+                                <input type="number" name="giatien" class="form-control" placeholder="Giá tiền">
+                                <div class="error-message">{{ $errors->first('giatien') }}</div>
                             </div>
                             <div class="form-group col-md-3">
-                                <label class="control-label">Giá vốn</label>
-                                <input class="form-control" type="text">
+                                <label class="control-label">Giảm giá</label>
+                                <input type="number" name="giamgia" class="form-control" placeholder="Giảm giá">
+                                <div class="error-message">{{ $errors->first('giamgia') }}</div>
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label">Ảnh sản phẩm</label>
                                 <div id="myfileupload">
-                                    <input type="file" id="uploadfile" name="ImageUpload" onchange="readURL(this);" />
+                                    <input type="file" id="uploadfile" name="images[]" onchange="readURL(this);" />
                                 </div>
                                 <div id="thumbbox">
                                     <img height="450" width="400" alt="Thumb image" id="thumbimage"
@@ -175,6 +171,7 @@
                             <div class="form-group col-md-12">
                                 <label class="control-label">Mô tả sản phẩm</label>
                                 <textarea class="form-control" name="mota" id="mota"></textarea>
+                                <div class="error-message">{{ $errors->first('mota') }}</div>
                                 <script>
                                     CKEDITOR.replace('mota');
                                 </script>
@@ -182,16 +179,14 @@
 
                     </div>
                     <button class="btn btn-save" type="button">Lưu lại</button>
-                    <a class="btn btn-cancel" href="table-data-product.html">Hủy bỏ</a>
+                    <a class="btn btn-cancel" href="{{ url('/them-san-pham') }}">Hủy bỏ</a>
                 </div>
     </main>
-
-
     <!--
-      MODAL CHỨC VỤ
-    -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        data-backdrop="static" data-keyboard="false">
+                                                      MODAL CHỨC VỤ
+                                                    -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
 
@@ -199,11 +194,11 @@
                     <div class="row">
                         <div class="form-group  col-md-12">
                             <span class="thong-tin-thanh-toan">
-                                <h5>Thêm mới nhà cung cấp</h5>
+                                <h5>Thêm mới nhãn hiệu</h5>
                             </span>
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="control-label">Nhập tên chức vụ mới</label>
+                            <label class="control-label">Nhập tên nhãn hiệu mới</label>
                             <input class="form-control" type="text" required>
                         </div>
                     </div>
@@ -218,14 +213,11 @@
         </div>
     </div>
     <!--
-    MODAL
-    -->
-
-
-
+                                                    MODAL
+                                                    -->
     <!--
-      MODAL DANH MỤC
-    -->
+                                                      MODAL DANH MỤC
+                                                    -->
     <div class="modal fade" id="adddanhmuc" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -242,20 +234,21 @@
                             <label class="control-label">Nhập tên danh mục mới</label>
                             <input class="form-control" type="text" required>
                         </div>
-                        <div class="form-group col-md-12">
+                        {{-- <div class="form-group col-md-12">
                             <label class="control-label">Danh mục sản phẩm hiện đang có</label>
+                                                        <input class="form-control" type="text" required>
+
                             <ul style="padding-left: 20px;">
-                                <li>Bàn ăn</li>
-                                <li>Bàn thông minh</li>
-                                <li>Tủ</li>
-                                <li>Ghế gỗ</li>
-                                <li>Ghế sắt</li>
-                                <li>Giường người lớn</li>
-                                <li>Giường trẻ em</li>
-                                <li>Bàn trang điểm</li>
-                                <li>Giá đỡ</li>
+                                <li>Áo sơ mi</li>
+                                <li>Áo khoác cổ cao</li>
+                                <li>Áo khoác có nón</li>
+                                <li>Áo thun</li>
+                                <li>Áo hoodie</li>
+                                <li>Áo polo</li>
+                                <li>Áo T-shirt</li>
+                                <li>Quần jeans</li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                     <BR>
                     <button class="btn btn-save" type="button">Lưu lại</button>
@@ -268,8 +261,8 @@
         </div>
     </div>
     <!--
-    MODAL
-    -->
+                                                    MODAL
+                                                    -->
 
 
 

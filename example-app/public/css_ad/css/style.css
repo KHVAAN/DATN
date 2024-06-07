@@ -3,20 +3,20 @@ body{
     padding: 0;
     margin: 0;
     color: black;
-    font-family: Montserrat-Bold;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     z-index: 9999;
-  } 
+  }
   ::-webkit-scrollbar {
     background:black;
     width:4px;
     height: 20px;
     overflow: hidden;
     }
-    ::-webkit-scrollbar-thumb {         
+    ::-webkit-scrollbar-thumb {
     background:white !important;
     border-radius: 30px;
     }
-  /* Add a dark background color with a little bit see-through */ 
+  /* Add a dark background color with a little bit see-through */
 .navbar {
     margin-bottom: 0;
     background-color: rgb(255, 255, 255) !important;
@@ -28,40 +28,40 @@ body{
     z-index: 999;
     box-shadow: 10px 0px 40px rgb(201, 200, 200);
   }
-  
+
   /* Add a gray color to all navbar links */
-  .navbar li a, .navbar .navbar-brand { 
+  .navbar li a, .navbar .navbar-brand {
     color: #000000 !important;
     padding-left:10px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
   .navbar-brand{
       font-weight: 900 !important;
-      
+
   }
-  
+
   /* On hover, the links will turn white */
   .navbar-nav li a:hover {
     color: rgb(23, 81, 241) !important;
   }
-  
+
   /* The active link */
   .navbar-nav li.active a {
     color: rgb(23, 45, 250) !important;
     background: none !important;
     border-bottom: 2px solid black;
   }
-  
+
   /* Remove border color from the collapsible button */
   .navbar-default .navbar-toggle {
     border-color: transparent;
   }
-  
+
   /* Dropdown */
   ul{
     padding: 0;
     list-style: none;
-   
+
 }
 ul li{
     display: inline-block;
@@ -78,7 +78,7 @@ ul li a{
     font-size: 10px;
 }
 ul li a:hover{
-    
+
     text-decoration: none;
 }
 ul li ul.dropdown{
@@ -107,7 +107,7 @@ ul li ul.dropdown li{
   }
   .nv{
       background: rgb(20, 97, 197);
-      border: 1px solid rgb(255, 255, 255);  
+      border: 1px solid rgb(255, 255, 255);
       width: 100px;
       text-align: center;
       height: 30px;
@@ -121,7 +121,7 @@ ul li ul.dropdown li{
   }
   .nv1{
     background: royalblue;
-    border: 1px solid rgb(255, 255, 255);  
+    border: 1px solid rgb(255, 255, 255);
     width: 100px;
     text-align: center;
     height: 30px;
@@ -182,7 +182,7 @@ ul li ul.dropdown li{
     font-size: 12px;
     padding: 0px !important;
   }
-  
+
   #myTable th,
    #myTable td {
     text-align: left;
@@ -190,11 +190,11 @@ ul li ul.dropdown li{
     padding-bottom: 15px;
     padding-top: 15px;
   }
-  
+
   #myTable tr {
     border-bottom: 1px solid #ddd;
   }
-  
+
 
   form input{
       width: 100%;
@@ -242,7 +242,7 @@ ul li ul.dropdown li{
     margin-left: 15px;
   margin-top: -40px;
   }
- 
+
   #clock{
     text-align: center;
     float: right;
@@ -256,24 +256,24 @@ ul li ul.dropdown li{
     margin-top: 10px;
   }
   .background-modal {
-    display: none; 
+    display: none;
     position: fixed;
-    z-index: 1; 
+    z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
     padding-top: 60px;
 }
 
 .modal-content {
     background-color: #fefefe;
-    margin: 5% auto 15% auto; 
+    margin: 5% auto 15% auto;
     border: 1px solid #888;
-    width: 80%; 
+    width: 80%;
     text-align: left;
     border-radius: 12px;
 }
@@ -347,7 +347,7 @@ ul li ul.dropdown li{
       display: inline-block;
       margin: 0 5px;
   min-width: 24px;
-  }    
+  }
 table.table td a.add {
       color: #27C46B;
   }
@@ -365,7 +365,7 @@ table.table td a.add i {
     margin-right: -1px;
       position: relative;
       top: 3px;
-  }    
+  }
   table.table .form-control {
       height: 32px;
       line-height: 32px;
@@ -386,15 +386,15 @@ table.table td .add {
 .pg-normal {
   color: #006bcf;
   font-weight: normal;
-  text-decoration: none;  
-  cursor: pointer;  
+  text-decoration: none;
+  cursor: pointer;
   font-weight: 600;
   text-align: center;
 }
 
 .pg-selected {
   color: black;
-  font-weight: bold;     
+  font-weight: bold;
   text-decoration: underline;
   cursor: pointer;
   text-decoration: none;

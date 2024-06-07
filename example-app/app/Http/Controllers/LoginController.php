@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Hash;
 
 class loginController extends Controller
@@ -65,7 +64,7 @@ class loginController extends Controller
     {
         $request->validate([
             'hovaten' => 'required|max:30',
-            'email1' => 'required|email|unique:user,email',
+            'email' => 'required|email|unique:user,email',
             'password' => 'required|min:6',
             'sdt' => 'required|size:10',
             'diachi' => 'required|max:255',
@@ -73,12 +72,12 @@ class loginController extends Controller
             'sdt.required' => 'Không được để trống',
             'sdt.size' => 'Số điện thoại phải đủ 10 số',
             'diachi.max' => 'Địa chỉ không quá 255 ký tự',
-            'email1.unique' => 'Email đã tồn tại',
+            'email.unique' => 'Email đã tồn tại',
             'diachi.required' => 'Không được để trống',
             'hovaten.required' => 'Không được để trống',
             'hovaten.max' => 'Họ và tên không quá 30 ký tự',
-            'email1.required' => 'Không được để trống',
-            'email1.email' => 'Định dạng không hợp lệ',
+            'email.required' => 'Không được để trống',
+            'email.email' => 'Định dạng không hợp lệ',
             'password.required' => 'Không được để trống',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
         ]);
@@ -88,7 +87,7 @@ class loginController extends Controller
         $user->sdt = $request->input('sdt');
         $user->password = Hash::make($password);
         $user->hovaten = $request->input('hovaten');
-        $user->email = $request->input('email1');
+        $user->email = $request->input('email');
         $user->diachi = $request->input('diachi');
         $user->save();
 

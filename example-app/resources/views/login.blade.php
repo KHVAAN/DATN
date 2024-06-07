@@ -36,7 +36,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             height: 100vh;
             margin: -20px 0 50px;
         }
@@ -69,6 +69,7 @@
 
         span {
             font-size: 14px;
+            color:#c7eaff;
         }
 
         a {
@@ -362,7 +363,7 @@
             </div>
         </div>
     </div>
-
+    @include('sweetalert::alert')
 </body>
 <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
 <script>

@@ -87,61 +87,6 @@
 
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>61304005</td>
-                                    <td>Bàn ăn Reno mặt đá</td>
-                                    <td><img src="/img-sanpham/reno.jpg" alt="" width="100px;"></td>
-                                    <td>70</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>24.200.000 đ</td>
-                                    <td>Bàn ăn</td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                            id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                class="fas fa-edit"></i></button>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>62304003</td>
-                                    <td>Bàn ăn Vitali mặt đá</td>
-                                    <td><img src="/img-sanpham/matda.jpg" alt="" width="100px;"></td>
-                                    <td>40</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>33.235.000 đ</td>
-                                    <td>Bàn ăn</td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                            id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                class="fas fa-edit"></i></button>
-
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>72638003</td>
-                                    <td>Ghế ăn gỗ Theresa</td>
-                                    <td><img src="/img-sanpham/ghethera.jpg" alt="" width="100px;"></td>
-                                    <td>50</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>950.000 đ</td>
-                                    <td>Ghế gỗ</td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                            id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                class="fas fa-edit"></i></button>
-                                    </td>
-                                </tr>
-
                             </tbody>
                         </table>
                     </div>
@@ -151,8 +96,8 @@
     </main>
 
     <!--
-          MODAL
-        -->
+              MODAL
+            -->
     <div class="modal fade" id="ModalUP" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
         data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -223,8 +168,8 @@
         </div>
     </div>
     <!--
-        MODAL
-        -->
+            MODAL
+            -->
 
     <!-- Essential javascripts for application to work-->
     <script src="js/jquery-3.2.1.min.js"></script>

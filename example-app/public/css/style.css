@@ -55,7 +55,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
   margin: 0;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -156,7 +156,7 @@ a {
   color: #D19C97;
   text-decoration: none;
   background-color: transparent;
-  
+
 }
 
 a:hover {
@@ -6106,7 +6106,7 @@ button.bg-primary:focus {
 }
 
 .bg-secondary {
-  background-color: #EDF1FF !important;
+  background-color: #f8d7da !important;
 }
 
 a.bg-secondary:hover, a.bg-secondary:focus,

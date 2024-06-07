@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Category extends Model
+class Brand extends Model
 {
     use HasFactory;
-    protected $table = 'Category';
+    protected $table = 'Brand';
     protected $fillable = [
-        'tenloaisp',
+        'tennhanhieu',
         'trangthai',
     ];
 }

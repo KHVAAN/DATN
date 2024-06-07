@@ -17,7 +17,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-
+    <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
 </head>
 
 <body onload="time()" class="app sidebar-mini rtl">
@@ -28,7 +28,9 @@
     <div class="content">
         @yield('content')
     </div>
+    @include('sweetalert::alert')
 
+    <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
     <!-- Navbar-->
     <script src="/js_ad/js/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->

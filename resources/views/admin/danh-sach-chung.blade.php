@@ -1,0 +1,295 @@
+@extends('layout.master_ad')
+
+@section('title', 'Danh sách nhãn hiệu | Quản trị viên')
+
+@section('content')
+    <style>
+        .text-align-center th,
+        td {
+            text-align: center;
+        }
+    </style>
+    <main class="app-content">
+        <div class="row element-button">
+            <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#exampleModalCenter1" title="Thêm"><i
+                        class="fas fa-plus"></i>
+                    Thêm mới nhãn hiệu</a>
+            </div>
+            <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#exampleModalCenter2" title="Thêm"><i
+                        class="fas fa-plus"></i>
+                    Thêm mới kích thước</a>
+            </div>
+            <div class="col-sm-2">
+                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#exampleModalCenter3" title="Thêm"><i
+                        class="fas fa-plus"></i>
+                    Thêm mới màu sắc</a>
+            </div>
+        </div>
+        {{-- Modal 1 --}}
+        <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form action="{{ route('them-nhan-hieu') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <span class="thong-tin-thanh-toan">
+                                        <h5>Thêm mới nhãn hiệu</h5>
+                                    </span>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Nhập tên nhãn hiệu mới</label>
+                                    <input type="text" name="tennhanhieu" class="form-control"
+                                        placeholder="Tên nhãn hiệu">
+                                    <div class="error-message">{{ $errors->first('tennhanhieu') }}</div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Tình trạng</label>
+                                    <select id="inputState" name="trangthai" class="form-control">
+                                        <option value="">-- Chọn tình trạng --</option>
+                                        <option value="0">Còn hàng</option>
+                                        <option value="1">Hết hàng</option>
+                                    </select>
+                                    <div class="error-message">{{ $errors->first('trangthai') }}</div>
+                                </div>
+                            </div>
+                            <br>
+                            <button class="btn btn-save" type="submit">Lưu lại</button>
+                            <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                            <br>
+                        </form>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+        {{-- Danh sách nhãn hiệu --}}
+        <div class="app-title">
+            <ul class="app-breadcrumb breadcrumb side">
+                <li class="breadcrumb-item active"><a href="{{ url('/danh-sach-chung') }}"><b>Danh sách nhãn hiệu</b></a>
+                </li>
+            </ul>
+            <div id="clock"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
+                        <table class="table table-hover table-bordered" id="sampleTable">
+                            <thead class="text-align-center">
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên nhãn hiệu</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày tạo</th>
+                                    <th>Ngày cập nhật</th>
+                                    <th>Tính năng</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-align-center">
+                                @foreach ($brand as $index => $item)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td> <!-- STT -->
+                                        <td>{{ $item->tennhanhieu }}</td>
+                                        <td>
+                                            @if ($item->trangthai == 0)
+                                                Còn hàng
+                                            @else
+                                                Hết hàng
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->created_at }}</td>
+                                        <td>{{ $item->updated_at }}</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                            <button class="btn btn-primary btn-sm edit" type="button" title="Sửa">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Danh sách kích thước --}}
+        <div class="app-title">
+            <ul class="app-breadcrumb breadcrumb side">
+                <li class="breadcrumb-item active"><a href="{{ url('/danh-sach-chung') }}"><b>Danh sách kích thước</b></a>
+                </li>
+            </ul>
+            <div id="clock"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
+                        <table class="table table-hover table-bordered" id="sampleTable">
+                            <thead class="text-align-center">
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên kích thước</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày đăng</th>
+                                    <th>Ngày cập nhật</th>
+                                    <th>Tính năng</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-align-center">
+                                {{-- @foreach ($size as $index => $item)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td> <!-- STT -->
+                                        <td>Tên kích thước</td>
+                                        <td>
+                                            @if ($item->trangthai == 0)
+                                                Còn hàng
+                                            @else
+                                                Hết hàng
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->created_at }}</td>
+                                        <td>
+                                            <a href="{{ route('admin.nhan-hieu-san-pham.chinh-sua-nhan-hieu', ['id' => $item->id]) }}"
+                                                class="btn btn-primary btn-sm trash">Sửa</a>
+                                            <a href="{{ route('admin.nhan-hieu-san-pham.xoa-nhan-hieu', ['id' => $item->id]) }}"
+                                                class="btn btn-primary btn-sm edit">Xóa</a>
+                                        </td>
+                                    </tr>
+                                @endforeach --}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Danh sách màu sắc --}}
+        <div class="app-title">
+            <ul class="app-breadcrumb breadcrumb side">
+                <li class="breadcrumb-item active"><a href="{{ url('/danh-sach-chung') }}"><b>Danh sách màu sắc</b></a>
+                </li>
+            </ul>
+            <div id="clock"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tile">
+                    <div class="tile-body">
+                        <table class="table table-hover table-bordered" id="sampleTable">
+                            <thead class="text-align-center">
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên màu sắc</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày đăng</th>
+                                    <th>Ngày cập nhật</th>
+                                    <th>Tính năng</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-align-center">
+                                <tr>
+                                    <td>STT</td>
+                                    <td>Tên màu sắc</td>
+                                    <td>Trạng thái</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Modal 2 --}}
+        <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form action="{{ route('them-nhan-hieu') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <span class="thong-tin-thanh-toan">
+                                        <h5>Thêm mới nhãn hiệu</h5>
+                                    </span>
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Nhập tên nhãn hiệu mới</label>
+                                    <input type="text" name="tennhanhieu" class="form-control"
+                                        placeholder="Tên nhãn hiệu">
+                                    <div class="error-message">{{ $errors->first('tennhanhieu') }}</div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Tình trạng</label>
+                                    <select id="inputState" name="trangthai" class="form-control">
+                                        <option value="">-- Chọn tình trạng --</option>
+                                        <option value="0">Còn hàng</option>
+                                        <option value="1">Hết hàng</option>
+                                    </select>
+                                    <div class="error-message">{{ $errors->first('trangthai') }}</div>
+                                </div>
+                            </div>
+                            <br>
+                            <button class="btn btn-save" type="submit">Lưu lại</button>
+                            <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                            <br>
+                        </form>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Modal 3 --}}
+        <div class="modal fade" id="exampleModalCenter3" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <span class="thong-tin-thanh-toan">
+                                    <h5>Thêm mới màu sắc</h5>
+                                </span>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Nhập tên màu sắc mới</label>
+                                <input class="form-control" type="text" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Tình trạng</label>
+                                <select class="form-control" id="exampleSelect1">
+                                    <option>-- Chọn tình trạng --</option>
+                                    <option>Còn hàng</option>
+                                    <option>Hết hàng</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <button class="btn btn-save" type="button">Lưu lại</button>
+                        <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
+                        <br>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+@endsection

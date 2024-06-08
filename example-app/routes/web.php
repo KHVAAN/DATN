@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ChungController;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SizeController;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -115,9 +117,20 @@ Route::get('/trang-chu', function () {
     return view('admin.trang-chu');
 })->name('trang-chu');
 
-Route::get('/danh-sach-san-pham', [ProductController::class, 'index'])->name('danh-sach-san-pham');
+Route::get('/quan-li-san-pham', [ProductController::class, 'index_ad'])->name('quan-li-san-pham');
 Route::get('/them-san-pham', [ProductController::class, 'create'])->name('them-san-pham');
 Route::post('/them-san-pham', [ProductController::class, 'store'])->name('xu-li-them-san-pham');
+Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'show'])->name('chi-tiet-san-pham');
 
-Route::get('/danh-sach-chung', [BrandController::class, 'index'])->name('danh-sach-chung');
-Route::post('/them-nhan-hieu', [BrandController::class, 'store'])->name('them-nhan-hieu');
+
+Route::get('/danh-sach-chung', [ChungController::class, 'index'])->name('danh-sach-chung');
+Route::post('/them-nhan-hieu', [ChungController::class, 'store1'])->name('them-nhan-hieu');
+Route::post('/them-kich-thuoc', [ChungController::class, 'store2'])->name('them-kich-thuoc');
+Route::post('/them-mau-sac', [ChungController::class, 'store3'])->name('them-mau-sac');
+Route::post('/them-loai', [ChungController::class, 'store4'])->name('them-loai');
+
+
+
+
+// Route::get('/chinh-sua-nhan-hieu/{id}', [ChungController::class, 'edit'])->name('chinh-sua-nhan-hieu');
+// Route::put('/cap-nhat-nhan-hieu/{id}', [ChungController::class, 'update'])->name('cap-nhat-nhan-hieu');

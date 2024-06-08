@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Size extends Model
 {
     use HasFactory;
-    protected $table = 'Size';
+    protected $table = 'size';
     protected $fillable = [
         'tensize',
         'trangthai',

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Image extends Model
 {
     use HasFactory;
-    protected $table = 'Iimage';
+    protected $table = 'image';
     protected $fillable = [
         'sp_id',
         'tenimage',

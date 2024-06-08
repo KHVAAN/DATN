@@ -4,7 +4,8 @@
 
 @section('content')
     <style>
-        .text-align-center th {
+        .text-align-center th,
+        td {
             text-align: center;
         }
     </style>
@@ -12,7 +13,8 @@
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
-                <li class="breadcrumb-item active"><a href="{{ url('/quan-li-nhan-vien') }}"><b>Danh sách nhân viên</b></a>
+                <li class="breadcrumb-item active"><a href="{{ url('/quan-li-nhan-vien') }}"><b>Danh sách quản trị
+                            viên</b></a>
                 </li>
             </ul>
             <div id="clock"></div>
@@ -22,19 +24,16 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body">
-
                         <div class="row element-button">
                             <div class="col-sm-2">
-
-                                <a class="btn btn-add btn-sm" href="{{ url('/them-nhan-vien') }}" title="Thêm"><i
+                                <a class="btn btn-add btn-sm" href="{{ url('/them-admin') }}" title="Thêm"><i
                                         class="fas fa-plus"></i>
-                                    Tạo mới nhân viên</a>
+                                    Tạo mới quản trị viên</a>
                             </div>
                             <div class="col-sm-2">
                                 <a class="btn btn-delete btn-sm nhap-tu-file" type="button" title="Nhập"
                                     onclick="myFunction(this)"><i class="fas fa-file-upload"></i> Tải từ file</a>
                             </div>
-
                             <div class="col-sm-2">
                                 <a class="btn btn-delete btn-sm print-file" type="button" title="In"
                                     onclick="myApp.printTable()"><i class="fas fa-print"></i> In dữ liệu</a>
@@ -57,55 +56,67 @@
                                         class="fas fa-trash-alt"></i> Xóa tất cả </a>
                             </div>
                         </div>
-                        <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0"
-                            border="0" id="sampleTable">
+                        <table class="table table-hover table-bordered" id="sampleTable">
                             <thead class="text-align-center">
                                 <tr>
                                     {{-- <th width="10"><input type="checkbox" id="all"></th> --}}
-                                    <th>ID khách hàng</th>
-                                    <th width="150">Họ và tên</th>
-                                    <th width="20">Ảnh thẻ</th>
-                                    <th width="300">Địa chỉ</th>
-                                    <th>Ngày sinh</th>
-                                    <th>Giới tính</th>
+                                    <th width="200">Họ và tên</th>
+                                    <th width="250">Địa chỉ</th>
                                     <th>SĐT</th>
+                                    <th>Giới tính</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Email</th>
                                     <th>Chức vụ</th>
-                                    <th width="100">Tính năng</th>
+                                    <th>Trạng thái</th>
+                                    <th>Tính năng</th>
                                 </tr>
                             </thead>
-
-                            <tbody>
-                                <tr>
-                                    {{-- <td width="10"><input type="checkbox" name="check1" value="1"></td> --}}
-                                    <td>#CD12837</td>
-                                    <td>Hồ Thị Thanh Ngân</td>
-                                    <td><img class="img-card-person" src="/img/cat-1.jpg" alt=""></td>
-                                    <td>155-157 Trần Quốc Thảo, Quận 3, Hồ Chí Minh </td>
-                                    <td>12/02/1999</td>
-                                    <td>Nữ</td>
-                                    <td>0926737168</td>
-                                    <td>Bán hàng</td>
-                                    <td class="table-td-center"><button class="btn btn-primary btn-sm trash" type="button"
-                                            title="Xóa" onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                            id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                class="fas fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-
+                            <tbody class="text-align-center">
+                                @foreach ($user as $index => $item)
+                                    <tr>
+                                        <td>{{ $item->hovaten }}</td>
+                                        <td>{{ $item->diachi }}</td>
+                                        <td>{{ $item->sdt }}</td>
+                                        <td>{{ $item->gioitinh }}</td>
+                                        <td>{{ $item->ngaysinh }}</td>
+                                        <td>{{ $item->email }}</td>
+                                        <td>
+                                            @if ($item->phanquyen === 1)
+                                                Admin
+                                            @else
+                                                {{ $item->phanquyen }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($item->trangthai == 0)
+                                                Hoạt động
+                                            @else
+                                                Vô hiệu hóa
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="" class="btn btn-add btn-sm" title="Xem chi tiết">
+                                                <i class="far fa-eye"></i>
+                                            </a>
+                                            <button class="btn btn-primary btn-sm edit"type="button" title="Sửa">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+
     </main>
 
-    <!--
-                  MODAL
-                -->
+    <!--MODAL -->
     <div class="modal fade" id="ModalUP" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
         data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -171,7 +182,5 @@
             </div>
         </div>
     </div>
-    <!--
-                  MODAL
-                -->
+    <!--MODAL-->
 @endsection

@@ -17,7 +17,7 @@
         </li>
         <li><a class="app-menu__item " href="{{ url('/quan-li-nhan-vien') }}"><i
                     class='app-menu__icon bx bx-id-card'></i>
-                <span class="app-menu__label">Quản lý nhân viên</span></a>
+                <span class="app-menu__label">Quản lý quản trị viên</span></a>
         </li>
         <li><a class="app-menu__item" href="{{ url('/quan-li-khach-hang') }}"><i
                     class='app-menu__icon bx bx-user-voice'></i><span class="app-menu__label">Quản lý khách

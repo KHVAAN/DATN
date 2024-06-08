@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ChungController;
 use GuzzleHttp\Psr7\Request;
@@ -129,8 +130,6 @@ Route::post('/them-kich-thuoc', [ChungController::class, 'store2'])->name('them-
 Route::post('/them-mau-sac', [ChungController::class, 'store3'])->name('them-mau-sac');
 Route::post('/them-loai', [ChungController::class, 'store4'])->name('them-loai');
 
-
-
-
-// Route::get('/chinh-sua-nhan-hieu/{id}', [ChungController::class, 'edit'])->name('chinh-sua-nhan-hieu');
-// Route::put('/cap-nhat-nhan-hieu/{id}', [ChungController::class, 'update'])->name('cap-nhat-nhan-hieu');
+Route::get('/quan-li-nhan-vien', [AdminController::class, 'index'])->name('quan-li-nhan-vien');
+Route::get('/them-admin', [AdminController::class, 'create'])->name('them-admin');
+Route::post('/them-admin', [AdminController::class, 'store'])->name('xu-li-them-admin');

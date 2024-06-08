@@ -76,7 +76,7 @@
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item">Danh sách sản phẩm</li>
+                <li class="breadcrumb-item"><a href="{{ url('/quan-li-san-pham') }}">Danh sách sản phẩm</a></li>
                 <li class="breadcrumb-item"><a href="{{ url('/them-san-pham') }}">Thêm sản phẩm</a></li>
             </ul>
         </div>

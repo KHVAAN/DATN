@@ -22,7 +22,6 @@ class ProductController extends Controller
         return view('admin.quan-li-san-pham', compact('product')); // Truyền biến products tới view
     }
 
-
     /**
      * Show the form for creating a new resource.
      */
@@ -41,7 +40,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         // Kiểm tra dữ liệu request
-        dd($request->all());
+        //dd($request->all());
 
         $request->validate([
             'dongia' => 'required|numeric|min:1',
@@ -99,9 +98,9 @@ class ProductController extends Controller
         $category = Category::where('trangthai', 0)->get();
         $brand = Brand::where('trangthai', 0)->get();
         $product = Product::find($id); // Lấy sản phẩm được chọn
-        //$image = Image::where('sp_id', $id)->get();
+        $image = Image::where('sp_id', $id)->get();
         // $sanphamcon = ChiTietSanPham::where('sanpham_id', $id)->get();
-        return view('admin.quan-li-san-pham', compact('product', 'category', 'brand'));
+        return view('admin.chi-tiet-san-pham', compact('product', 'category', 'brand','image'));
     }
 
 

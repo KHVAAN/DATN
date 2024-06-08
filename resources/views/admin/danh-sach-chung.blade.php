@@ -410,7 +410,7 @@
                             <thead class="text-align-center">
                                 <tr>
                                     <th>STT</th>
-                                    <th>Tên mloại sản phẩm</th>
+                                    <th>Tên loại sản phẩm</th>
                                     <th>Trạng thái</th>
                                     <th>Ngày đăng</th>
                                     <th>Ngày cập nhật</th>

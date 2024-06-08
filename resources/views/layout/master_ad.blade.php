@@ -121,15 +121,38 @@
     </script>
     {{-- Chuyển page active --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
         $(document).ready(function() {
             // Lấy URL hiện tại của trang
             var url = window.location.href;
 
             // Thêm class "active" cho liên kết tương ứng với URL hiện tại
-            $('.app-menu a').filter(function() {
-                return this.href === url;
-            }).addClass('active');
+            $('.app-menu a').each(function() {
+                if (url.includes($(this).attr('href'))) {
+                    $(this).addClass('active');
+                }
+            });
+
+            // Giữ "Quản lí sản phẩm" active khi ở trang "Tạo mới sản phẩm"
+            if (url.includes('them-san-pham')) {
+                $('.app-menu a[href*="quan-li-san-pham"]').addClass('active');
+            }
+
+            // Giữ "Quản lí nhân viên" active khi ở trang "Tạo mới nhân viên"
+            if (url.includes('them-nhan-vien')) {
+                $('.app-menu a[href*="quan-li-nhan-vien"]').addClass('active');
+            }
+
+            // Giữ "Quản lí khách hàng" active khi ở trang "Tạo mới khách hàng"
+            if (url.includes('them-khach-hang')) {
+                $('.app-menu a[href*="quan-li-khach-hang"]').addClass('active');
+            }
+
+            // Giữ "Quản lí nhân viên" active khi ở trang "Tạo mới quản trị viên"
+            if (url.includes('them-admin')) {
+                $('.app-menu a[href*="quan-li-nhan-vien"]').addClass('active');
+            }
         });
     </script>
 

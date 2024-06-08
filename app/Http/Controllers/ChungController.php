@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Size;
 use App\Models\Color;
 
@@ -15,7 +16,8 @@ class ChungController extends Controller
         $brand = Brand::all();
         $size = Size::all();
         $color = Color::all();
-        return view('admin.danh-sach-chung', compact('brand','size','color'));
+        $category = Category::all();
+        return view('admin.danh-sach-chung', compact('brand', 'size', 'color','category'));
     }
 
     public function store1(Request $request)
@@ -83,6 +85,54 @@ class ChungController extends Controller
         $color->trangthai = $request->input('trangthai');
         $color->save();
         Alert()->success('Thành công', 'Màu sắc đã được thêm thành công');
+        return \redirect()->back();
+    }
+
+    public function store4(Request $request)
+    {
+        //dd($request->all()); // Thêm dòng này để kiểm tra giá trị request
+
+        $request->validate([
+            'tenloaisp' => 'required|max:30|unique:category,tenloaisp',
+            'trangthai' => 'required|in:0,1',
+        ], [
+            'trangthai.required' => 'Không được để trống',
+            'trangthai.in' => 'Giá trị trạng thái không hợp lệ',
+            'tenloaisp.max' => 'Không quá 30 ký tự',
+            'tenloaisp.unique' => 'Màu sản phẩm đã tồn tại',
+            'tenloaisp.required' => 'Không được để trống',
+        ]);
+        $category = new Category();
+        $category->tenloaisp = $request->input('tenloaisp');
+        $category->trangthai = $request->input('trangthai');
+        $category->save();
+        Alert()->success('Thành công', 'Loại sản phẩm đã được thêm thành công');
+        return \redirect()->back();
+    }
+
+    public function edit(string $id)
+    {
+        $brand = Brand::findOrFail($id);
+        return view('admin.danh-sach-chung', compact('brand'));
+    }
+
+
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'tennhanhieu' => 'required|max:30|unique:brand,tennhanhieu,',
+            'trangthai' => 'required',
+        ], [
+            'trangthai.required' => 'Không được để trống',
+            'tennhanhieu.unique' => 'Tên nhãn hiệu sản phẩm đã tồn tại',
+            'tennhanhieu.max' => 'Không quá 30 ký tự',
+            'tennhanhieu.required' => 'Không được để trống'
+        ]);
+
+        $brand = Brand::findOrFail($id);
+        $brand->update($request->all());
+
+        alert()->success('Thành công', 'Cập nhật nhãn hiệu thành công');
         return \redirect()->back();
     }
 }

@@ -16,7 +16,7 @@ class Product extends Model
         'nh_id',
         'mota',
         'trangthai',
-
+        'soluong'
     ];
     public function brand()
     {

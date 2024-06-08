@@ -61,7 +61,7 @@
                             border="0" id="sampleTable">
                             <thead class="text-align-center">
                                 <tr>
-                                    <th width="10"><input type="checkbox" id="all"></th>
+                                    {{-- <th width="10"><input type="checkbox" id="all"></th> --}}
                                     <th>ID khách hàng</th>
                                     <th width="150">Họ và tên</th>
                                     <th width="20">Ảnh thẻ</th>
@@ -76,7 +76,7 @@
 
                             <tbody>
                                 <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
+                                    {{-- <td width="10"><input type="checkbox" name="check1" value="1"></td> --}}
                                     <td>#CD12837</td>
                                     <td>Hồ Thị Thanh Ngân</td>
                                     <td><img class="img-card-person" src="/img/cat-1.jpg" alt=""></td>
@@ -94,25 +94,7 @@
                                         </button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check2" value="2"></td>
-                                    <td>#SX22837</td>
-                                    <td>Trần Khả Ái</td>
-                                    <td><img class="img-card-person" src="/img/cat-2.jpg" alt=""></td>
-                                    <td>6 Nguyễn Lương Bằng, Tân Phú, Quận 7, Hồ Chí Minh</td>
-                                    <td>22/12/1999</td>
-                                    <td>Nữ</td>
-                                    <td>0931342432</td>
-                                    <td>Bán hàng</td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                            id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                class="fas fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>

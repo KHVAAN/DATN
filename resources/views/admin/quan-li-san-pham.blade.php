@@ -4,7 +4,8 @@
 
 @section('content')
     <style>
-        .text-align-center th {
+        .text-align-center th,
+        td {
             text-align: center;
         }
     </style>
@@ -22,7 +23,6 @@
                     <div class="tile-body">
                         <div class="row element-button">
                             <div class="col-sm-2">
-
                                 <a class="btn btn-add btn-sm" href="{{ url('/them-san-pham') }}" title="Thêm"><i
                                         class="fas fa-plus"></i>
                                     Tạo mới sản phẩm</a>
@@ -57,36 +57,47 @@
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead class="text-align-center">
                                 <tr>
-                                    <th width="10"></th>
                                     <th>Mã sản phẩm</th>
                                     <th>Tên sản phẩm</th>
-                                    <th>Ảnh</th>
                                     <th>Số lượng</th>
-                                    <th>Tình trạng</th>
                                     <th>Giá tiền</th>
                                     <th>Danh mục</th>
+                                    <th>Nhãn hiệu</th>
+                                    <th>Tình trạng</th>
                                     <th>Chức năng</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>71309005</td>
-                                    <td>Bàn ăn gỗ Theresa</td>
-                                    <td><img src="/img-sanpham/theresa.jpg" alt="" width="100px;"></td>
-                                    <td>40</td>
-                                    <td><span class="badge bg-success">Còn hàng</span></td>
-                                    <td>5.600.000 đ</td>
-                                    <td>Bàn ăn</td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            onclick="myFunction(this)"><i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"
-                                            id="show-emp" data-toggle="modal" data-target="#ModalUP"><i
-                                                class="fas fa-edit"></i></button>
-
-                                    </td>
-                                </tr>
+                            <tbody class="text-align-center">
+                                @foreach ($product as $index => $item)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $item->tensanpham }}</td>
+                                        <td>{{ $item->soluong }}</td>
+                                        <td>{{ $item->dongia }}</td>
+                                        <td>{{ $item->category->tenloaisp }}</td>
+                                        <td>{{ $item->brand->tennhanhieu }}</td>
+                                        <td>
+                                            @if ($item->trangthai == 0)
+                                                Còn hàng
+                                            @else
+                                                Hết hàng
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-add btn-sm" data-toggle="modal" data-target="#ModalUP1"
+                                                type="button" title="Xem chi tiết">
+                                                <i class="far fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-primary btn-sm edit" data-toggle="modal"
+                                                data-target="#ModalUP" type="button" title="Sửa">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -95,166 +106,106 @@
         </div>
     </main>
 
-    <!--
-              MODAL
-            -->
-    <div class="modal fade" id="ModalUP" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
+
+    <!--MODAL thông tin sản phẩm-->
+    {{-- <div class="modal fade" id="ModalUP1" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static"
         data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-
+                @if (isset($product))
+                    <form action="{{ route('chi-tiet-san-pham', ['id' => $product->id]) }}" method="post">
+                    @else
+                        <form>
+                @endif
+                @csrf
+                <input type="hidden" id="productId" value="">
                 <div class="modal-body">
                     <div class="row">
-                        <div class="form-group  col-md-12">
+                        <div class="form-group col-md-12">
                             <span class="thong-tin-thanh-toan">
-                                <h5>Chỉnh sửa thông tin sản phẩm cơ bản</h5>
+                                <h5>Thông tin sản phẩm</h5>
                             </span>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Mã sản phẩm </label>
-                            <input class="form-control" type="number" value="71309005">
+                    @if (isset($product))
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Mã sản phẩm </label>
+                                <input class="form-control" type="text" name="masanpham"
+                                    value="{{ $product->id }}" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Tên sản phẩm</label>
+                                <input type="text" name="tensanpham" class="form-control"
+                                    value="{{ $product->tensanpham }}">
+                                <div class="error-message">{{ $errors->first('tensanpham') }}</div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Số lượng</label>
+                                <input class="form-control" type="number" name="soluong"
+                                    value="{{ $product->soluong }}">
+                                <div class="error-message">{{ $errors->first('soluong') }}</div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleSelect1" class="control-label">Tình trạng sản phẩm</label>
+                                <select class="form-control" name="trangthai" id="exampleSelect1"
+                                    value="{{ $product->trangthai }}">
+                                    <option>Còn hàng</option>
+                                    <option>Hết hàng</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Giá bán</label>
+                                <input class="form-control" type="text" value="{{ $product->dongia }}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleSelect1" class="control-label">Danh mục</label>
+                                <select class="form-control" id="exampleSelect1" name="loaisp_id">
+                                    <option selected value="{{ $product->category->id }}">
+                                        {{ $product->category->tenloaisp }}</option>
+                                    @foreach ($category as $item)
+                                        <option value="{{ $item->id }}">{{ $item->tenloaisp }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="error-message">{{ $errors->first('category') }}</div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="exampleSelect1" class="control-label">Nhãn hiệu</label>
+                                <select class="form-control" id="exampleSelect1" name="nhanhieu_id">
+                                    <option selected value="{{ $product->brand->id }}">
+                                        {{ $product->brand->tennhanhieu }}</option>
+                                    @foreach ($brand as $item)
+                                        <option value="{{ $item->id }}">{{ $item->tennhanhieu }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="error-message">{{ $errors->first('brand') }}</div>
+                            </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Tên sản phẩm</label>
-                            <input class="form-control" type="text" required value="Bàn ăn gỗ Theresa">
-                        </div>
-                        <div class="form-group  col-md-6">
-                            <label class="control-label">Số lượng</label>
-                            <input class="form-control" type="number" required value="20">
-                        </div>
-                        <div class="form-group col-md-6 ">
-                            <label for="exampleSelect1" class="control-label">Tình trạng sản phẩm</label>
-                            <select class="form-control" id="exampleSelect1">
-                                <option>Còn hàng</option>
-                                <option>Hết hàng</option>
-                                <option>Đang nhập hàng</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label class="control-label">Giá bán</label>
-                            <input class="form-control" type="text" value="5.600.000">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="exampleSelect1" class="control-label">Danh mục</label>
-                            <select class="form-control" id="exampleSelect1">
-                                <option>Bàn ăn</option>
-                                <option>Bàn thông minh</option>
-                                <option>Tủ</option>
-                                <option>Ghế gỗ</option>
-                                <option>Ghế sắt</option>
-                                <option>Giường người lớn</option>
-                                <option>Giường trẻ em</option>
-                                <option>Bàn trang điểm</option>
-                                <option>Giá đỡ</option>
-                            </select>
-                        </div>
+                    @endif
+                    <div class="modal-footer">
+                        @if (isset($product))
+                            <button class="btn btn-save" type="submit">Lưu lại</button>
+                        @endif
+                        <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
                     </div>
-                    <BR>
-                    <a href="#" style="    float: right;
-    font-weight: 600;
-    color: #ea0000;">Chỉnh sửa sản
-                        phẩm nâng cao</a>
-                    <BR>
-                    <BR>
-                    <button class="btn btn-save" type="button">Lưu lại</button>
-                    <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                    <BR>
                 </div>
-                <div class="modal-footer">
-                </div>
+                </form>
             </div>
         </div>
-    </div>
-    <!--
-            MODAL
-            -->
+    </div> --}}
 
-    <!-- Essential javascripts for application to work-->
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="src/jquery.table2excel.js"></script>
-    <script src="js/main.js"></script>
-    <!-- The javascript plugin to display page loading on top-->
-    <script src="js/plugins/pace.min.js"></script>
-    <!-- Page specific javascripts-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-    <!-- Data table plugin-->
-    <script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="js/plugins/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript">
-        $('#sampleTable').DataTable();
-        //Thời Gian
-        function time() {
-            var today = new Date();
-            var weekday = new Array(7);
-            weekday[0] = "Chủ Nhật";
-            weekday[1] = "Thứ Hai";
-            weekday[2] = "Thứ Ba";
-            weekday[3] = "Thứ Tư";
-            weekday[4] = "Thứ Năm";
-            weekday[5] = "Thứ Sáu";
-            weekday[6] = "Thứ Bảy";
-            var day = weekday[today.getDay()];
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1;
-            var yyyy = today.getFullYear();
-            var h = today.getHours();
-            var m = today.getMinutes();
-            var s = today.getSeconds();
-            m = checkTime(m);
-            s = checkTime(s);
-            nowTime = h + " giờ " + m + " phút " + s + " giây";
-            if (dd < 10) {
-                dd = '0' + dd
-            }
-            if (mm < 10) {
-                mm = '0' + mm
-            }
-            today = day + ', ' + dd + '/' + mm + '/' + yyyy;
-            tmp = '<span class="date"> ' + today + ' - ' + nowTime +
-                '</span>';
-            document.getElementById("clock").innerHTML = tmp;
-            clocktime = setTimeout("time()", "1000", "Javascript");
+    <!-- MODAL-->
 
-            function checkTime(i) {
-                if (i < 10) {
-                    i = "0" + i;
-                }
-                return i;
-            }
-        }
-    </script>
-    <script>
-        function deleteRow(r) {
-            var i = r.parentNode.parentNode.rowIndex;
-            document.getElementById("myTable").deleteRow(i);
-        }
-        jQuery(function() {
-            jQuery(".trash").click(function() {
-                swal({
-                        title: "Cảnh báo",
-                        text: "Bạn có chắc chắn là muốn xóa sản phẩm này?",
-                        buttons: ["Hủy bỏ", "Đồng ý"],
-                    })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            swal("Đã xóa thành công.!", {
-
-                            });
-                        }
-                    });
+    {{-- Modal chi tiết sản phẩm --}}
+    {{-- <script>
+        $(document).ready(function() {
+            $('.btn-save').click(function() {
+                var productId = $(this).closest('tr').find('td:first-child')
+                    .text(); // Lấy mã sản phẩm từ hàng của nút được nhấn
+                $('#productId').val(productId); // Thiết lập giá trị của input ẩn là mã sản phẩm
+                $('#ModalUP1').modal('show'); // Hiển thị modal
             });
         });
-        oTable = $('#sampleTable').dataTable();
-        $('#all').click(function(e) {
-            $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
-            e.stopImmediatePropagation();
-        });
-    </script>
-    </body>
+    </script> --}}
 
-    </html>
+@endsection

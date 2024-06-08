@@ -85,26 +85,12 @@
                 <div class="tile">
                     <h3 class="tile-title">Tạo mới sản phẩm</h3>
                     <div class="tile-body">
-                        <div class="row element-button">
-                            <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#exampleModalCenter"><i
-                                        class="fas fa-folder-plus"></i> Thêm danh mục</a>
-                            </div>
-                            <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#adddanhmuc"><i
-                                        class="fas fa-folder-plus"></i> Thêm nhãn hiệu</a>
-                            </div>
-                            {{-- <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" data-toggle="modal" data-target="#addtinhtrang"><i
-                                        class="fas fa-folder-plus"></i> Thêm tình trạng</a>
-                            </div> --}}
-                        </div>
                         <form class="row" action="{{ route('xu-li-them-san-pham') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             <div class="form-group col-md-3">
                                 <label class="control-label">Mã sản phẩm </label>
-                                <input class="form-control" type="text" placeholder="Mã sản phẩm">
+                                <input class="form-control" type="text" name="masanpham" placeholder="Mã sản phẩm">
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Tên sản phẩm</label>
@@ -113,19 +99,20 @@
                             </div>
                             <div class="form-group  col-md-3">
                                 <label class="control-label">Số lượng</label>
-                                <input class="form-control" type="number" placeholder="Số lượng">
+                                <input class="form-control" type="number" name="soluong" placeholder="Số lượng">
+                                <div class="error-message">{{ $errors->first('soluong') }}</div>
                             </div>
                             <div class="form-group col-md-3 ">
                                 <label for="exampleSelect1" class="control-label">Tình trạng</label>
-                                <select class="form-control" id="exampleSelect1">
+                                <select id="inputState" name="trangthai" class="form-control">
                                     <option>-- Chọn tình trạng --</option>
-                                    <option>Còn hàng</option>
-                                    <option>Hết hàng</option>
+                                    <option value="0">Còn hàng</option>
+                                    <option value="1">Hết hàng</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="exampleSelect1" class="control-label">Danh mục</label>
-                                <select class="form-control" id="exampleSelect1">
+                                <select class="form-control" id="exampleSelect1" name="loaisp_id">
                                     <option>-- Chọn danh mục --</option>
                                     @foreach ($category as $item)
                                         <option value="{{ $item->id }}">{{ $item->tenloaisp }}</option>
@@ -133,8 +120,8 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-3 ">
-                                <label for="exampleSelect1" class="control-label">Nhà nhãn hiệu</label>
-                                <select class="form-control" id="exampleSelect1">
+                                <label for="exampleSelect1" class="control-label">Nhãn hiệu</label>
+                                <select class="form-control" id="exampleSelect1" name="nhanhieu_id">
                                     <option>-- Chọn nhãn hiệu --</option>
                                     @foreach ($brand as $item)
                                         <option value="{{ $item->id }}">{{ $item->tennhanhieu }}</option>
@@ -143,8 +130,8 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Giá bán</label>
-                                <input type="number" name="giatien" class="form-control" placeholder="Giá tiền">
-                                <div class="error-message">{{ $errors->first('giatien') }}</div>
+                                <input type="number" name="dongia" class="form-control" placeholder="Đơn giá">
+                                <div class="error-message">{{ $errors->first('dongia') }}</div>
                             </div>
                             <div class="form-group col-md-3">
                                 <label class="control-label">Giảm giá</label>
@@ -154,7 +141,8 @@
                             <div class="form-group col-md-12">
                                 <label class="control-label">Ảnh sản phẩm</label>
                                 <div id="myfileupload">
-                                    <input type="file" id="uploadfile" name="images[]" onchange="readURL(this);" />
+                                    <input type="file" id="uploadfile" name="image[]" onchange="readURL(this);"
+                                        multiple />
                                 </div>
                                 <div id="thumbbox">
                                     <img height="450" width="400" alt="Thumb image" id="thumbimage"
@@ -166,7 +154,6 @@
                                         ảnh</a>
                                     <p style="clear:both"></p>
                                 </div>
-
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label">Mô tả sản phẩm</label>
@@ -176,130 +163,14 @@
                                     CKEDITOR.replace('mota');
                                 </script>
                             </div>
-
+                            <div class="form-group col-md-12">
+                                <button class="btn btn-save" type="submit">Lưu lại</button>
+                                <a class="btn btn-cancel" href="{{ url('/them-san-pham') }}">Hủy bỏ</a>
+                            </div>
+                        </form>
                     </div>
-                    <button class="btn btn-save" type="button">Lưu lại</button>
-                    <a class="btn btn-cancel" href="{{ url('/them-san-pham') }}">Hủy bỏ</a>
                 </div>
+            </div>
+        </div>
     </main>
-    <!--
-                                                      MODAL CHỨC VỤ
-                                                    -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="form-group  col-md-12">
-                            <span class="thong-tin-thanh-toan">
-                                <h5>Thêm mới nhãn hiệu</h5>
-                            </span>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label class="control-label">Nhập tên nhãn hiệu mới</label>
-                            <input class="form-control" type="text" required>
-                        </div>
-                    </div>
-                    <BR>
-                    <button class="btn btn-save" type="button">Lưu lại</button>
-                    <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                    <BR>
-                </div>
-                <div class="modal-footer">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--
-                                                    MODAL
-                                                    -->
-    <!--
-                                                      MODAL DANH MỤC
-                                                    -->
-    <div class="modal fade" id="adddanhmuc" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="form-group  col-md-12">
-                            <span class="thong-tin-thanh-toan">
-                                <h5>Thêm mới danh mục </h5>
-                            </span>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label class="control-label">Nhập tên danh mục mới</label>
-                            <input class="form-control" type="text" required>
-                        </div>
-                        {{-- <div class="form-group col-md-12">
-                            <label class="control-label">Danh mục sản phẩm hiện đang có</label>
-                                                        <input class="form-control" type="text" required>
-
-                            <ul style="padding-left: 20px;">
-                                <li>Áo sơ mi</li>
-                                <li>Áo khoác cổ cao</li>
-                                <li>Áo khoác có nón</li>
-                                <li>Áo thun</li>
-                                <li>Áo hoodie</li>
-                                <li>Áo polo</li>
-                                <li>Áo T-shirt</li>
-                                <li>Quần jeans</li>
-                            </ul>
-                        </div> --}}
-                    </div>
-                    <BR>
-                    <button class="btn btn-save" type="button">Lưu lại</button>
-                    <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                    <BR>
-                </div>
-                <div class="modal-footer">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--
-                                                    MODAL
-                                                    -->
-
-
-
-
-    {{-- <!--
-      MODAL TÌNH TRẠNG
-    -->
-    <div class="modal fade" id="addtinhtrang" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-        data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="form-group  col-md-12">
-                            <span class="thong-tin-thanh-toan">
-                                <h5>Thêm mới tình trạng</h5>
-                            </span>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label class="control-label">Nhập tình trạng mới</label>
-                            <input class="form-control" type="text" required>
-                        </div>
-                    </div>
-                    <BR>
-                    <button class="btn btn-save" type="button">Lưu lại</button>
-                    <a class="btn btn-cancel" data-dismiss="modal" href="#">Hủy bỏ</a>
-                    <BR>
-                </div>
-                <div class="modal-footer">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--
-    MODAL
-    --> --}}
-
-
 @endsection

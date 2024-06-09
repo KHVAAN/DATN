@@ -17,7 +17,7 @@ class ChungController extends Controller
         $size = Size::all();
         $color = Color::all();
         $category = Category::all();
-        return view('admin.danh-sach-chung', compact('brand', 'size', 'color','category'));
+        return view('admin.danh-sach-chung', compact('brand', 'size', 'color', 'category'));
     }
 
     public function store1(Request $request)
@@ -110,29 +110,4 @@ class ChungController extends Controller
         return \redirect()->back();
     }
 
-    public function edit(string $id)
-    {
-        $brand = Brand::findOrFail($id);
-        return view('admin.danh-sach-chung', compact('brand'));
-    }
-
-
-    public function update(Request $request, string $id)
-    {
-        $request->validate([
-            'tennhanhieu' => 'required|max:30|unique:brand,tennhanhieu,',
-            'trangthai' => 'required',
-        ], [
-            'trangthai.required' => 'Không được để trống',
-            'tennhanhieu.unique' => 'Tên nhãn hiệu sản phẩm đã tồn tại',
-            'tennhanhieu.max' => 'Không quá 30 ký tự',
-            'tennhanhieu.required' => 'Không được để trống'
-        ]);
-
-        $brand = Brand::findOrFail($id);
-        $brand->update($request->all());
-
-        alert()->success('Thành công', 'Cập nhật nhãn hiệu thành công');
-        return \redirect()->back();
-    }
 }

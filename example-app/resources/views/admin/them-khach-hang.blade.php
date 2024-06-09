@@ -1,6 +1,6 @@
 @extends('layout.master_ad')
 
-@section('title', 'Thêm quản trị viên | Quản trị viên')
+@section('title', 'Thêm khách hàng | Quản trị viên')
 
 @section('content')
     <style>
@@ -72,41 +72,41 @@
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('quan-li-nhan-vien') }}">Danh sách quản trị viên</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('them-admin') }}">Thêm quản trị viên</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('quan-li-nhan-vien') }}">Danh sách khách hàng</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('them-khach-hang') }}">Thêm quản khách hàng</a></li>
             </ul>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="tile">
-                    <h3 class="tile-title">Tạo mới quản trị viên</h3>
+                    <h3 class="tile-title">Tạo mới khách hàng</h3>
                     <div class="tile-body">
-                        <form class="row" action="{{ route('xu-li-them-admin') }}" method="POST"
+                        <form class="row" action="{{ route('xu-li-them-khach-hang') }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="control-label">Họ và tên</label>
                                 <input class="form-control" name="hovaten" type="text" required placeholder="Họ và tên">
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="control-label">Email</label>
                                 <input class="form-control" name="email" type="text" required placeholder="Email">
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="control-label">Mật khẩu</label>
                                 <input class="form-control" name="password" type="password" required placeholder="Mật khẩu">
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label class="control-label">Địa chỉ</label>
                                 <input class="form-control" name="diachi" type="text" required placeholder="Địa chỉ">
                             </div>
-                            <div class="form-group  col-md-6">
+                            <div class="form-group  col-md-3">
                                 <label class="control-label">Số điện thoại</label>
                                 <input class="form-control" name="sdt" type="number" required
                                     placeholder="Số điện thoại">
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label class="control-label">Giới tính</label>
                                 <select class="form-control" name="gioitinh" required>
                                     <option value="">-- Chọn giới tính --</option>
@@ -114,11 +114,11 @@
                                     <option value="Nữ">Nữ</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label class="control-label">Ngày sinh</label>
                                 <input class="form-control" type="date" name="ngaysinh" required>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-3">
                                 <label for="exampleSelect1" class="control-label">Chức vụ</label>
                                 <select class="form-control" id="exampleSelect1" name="phanquyen">
                                     <option>-- Chọn chức vụ --</option>

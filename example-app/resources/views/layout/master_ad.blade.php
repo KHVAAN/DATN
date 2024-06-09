@@ -224,7 +224,7 @@
         })
     </script>
 
-    <script>
+    {{-- <script>
         function deleteRow(r) {
             var i = r.parentNode.parentNode.rowIndex;
             document.getElementById("myTable").deleteRow(i);
@@ -238,7 +238,7 @@
                     })
                     .then((willDelete) => {
                         if (willDelete) {
-                            swal("Đã xóa thành công.!", {
+                            swal("Đã xóa thành công!", {
 
                             });
                         }
@@ -250,8 +250,16 @@
             $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
             e.stopImmediatePropagation();
         });
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+            $('.trash').click(function() {
+                var id = $(this).data('id');
+                var url = "{{ url('/xoa-nhan-hieu') }}" + '/' + id;
+                $('#deleteForm').attr('action', url);
+            });
+        });
     </script>
-
 </body>
 
 </html>

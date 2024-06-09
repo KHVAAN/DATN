@@ -2,65 +2,42 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function edit($id)
     {
-        //
+        $category = Category::find($id);
+        return view('admin.chinh-sua-chung', [
+            'type' => 'loại sản phẩm',
+            'updateRoute' => route('cap-nhat-loai', ['id' => $category->id]),
+            'nameField' => 'tenloaisp',
+            'item' => $category
+        ]);
+    }
+    public function update(Request $request, string $id)
+    {
+        $request->validate(
+            [
+                'tenloaisp' => 'required|max:30|unique:category,tenloaisp,' . $id,
+                'trangthai' => 'required',
+            ],
+            [
+                'trangthai.required' => 'Không được để trống',
+                'tenloaisp.unique' => 'Tên nhãn hiệu sản phẩm đã tồn tại',
+                'tenloaisp.max' => 'Không quá 30 ký tự',
+                'tenloaisp.required' => 'Không được để trống'
+            ]
+        );
+
+        $category = Category::findOrFail($id);
+        $category->update($request->all());
+
+        alert()->success('Thành công', 'Cập nhật loại sản phẩm thành công');
+        return \redirect()->back();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCategoryRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCategoryRequest $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Category $category)
-    {
-        //
-    }
 }

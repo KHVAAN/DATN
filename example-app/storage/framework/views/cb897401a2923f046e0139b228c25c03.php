@@ -70,7 +70,7 @@
         <div class="col-lg-3 d-none d-lg-block">
             <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100"
                 data-toggle="collapse" href="#navbar-vertical" style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                <h6 class="m-0">Phân loại</h6>
+                <h6 class="m-0">Danh mục</h6>
                 <i class="fa fa-angle-down text-dark"></i>
             </a>
             <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light"
@@ -111,10 +111,11 @@
                                 <a href="<?php echo e(url('/checkout')); ?>" class="dropdown-item">Thanh Toán</a>
                             </div>
                         </div>
+                        <a href="<?php echo e(url('/intro')); ?>" class="nav-item nav-link">Giới Thiệu</a>
                         <a href="<?php echo e(url('/contact')); ?>" class="nav-item nav-link">Liên Hệ</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0">
-                        <a href="<?php echo e(url('/login')); ?>" class="nav-item nav-link">Đăng nhập</a>
+                        <a href="<?php echo e(route('dang-nhap')); ?>" class="nav-item nav-link">Đăng nhập</a>
                         <a href="<?php echo e(url('/register')); ?>" class="nav-item nav-link">Đăng ký</a>
                     </div>
                 </div>

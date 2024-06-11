@@ -71,8 +71,8 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->updated_at }}</td>
                                         <td>
-                                            <form id="deleteForm" action="{{ url('/xoa-nhan-hieu', ['id' => $item->id]) }}"
-                                                method="POST">
+                                            <form id="deleteForm-{{ $item->id }}"
+                                                action="{{ url('/xoa-nhan-hieu', ['id' => $item->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <a href="{{ url('/chinh-sua-nhan-hieu', ['id' => $item->id]) }}"
@@ -80,7 +80,8 @@
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                                    data-toggle="modal" data-target="#confirmDeleteModal">
+                                                    data-toggle="modal"
+                                                    data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
@@ -261,8 +262,8 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td>{{ $item->updated_at }}</td>
                                         <td>
-                                            <form id="deleteForm" action="{{ url('/xoa-loai', ['id' => $item->id]) }}"
-                                                method="POST">
+                                            <form id="deleteForm-{{ $item->id }}"
+                                                action="{{ url('/xoa-loai', ['id' => $item->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <a href="{{ url('/chinh-sua-loai', ['id' => $item->id]) }}"
@@ -270,7 +271,8 @@
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <button class="btn btn-primary btn-sm trash" type="button"
-                                                    title="Xóa" data-toggle="modal" data-target="#confirmDeleteModal">
+                                                    title="Xóa" data-toggle="modal"
+                                                    data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
@@ -448,7 +450,8 @@
         </div>
         <!--MODAL-->
 
-        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog"
+        <!-- Modal -->
+        <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -456,7 +459,8 @@
                         <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
                         <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
                         <div class="form-group mt-4">
-                            <button id="confirmDeleteBtn" class="btn btn-primary mr-2">Xác nhận</button>
+                            <button id="confirmDeleteBtn-{{ $item->id }}" class="btn btn-primary mr-2">Xác
+                                nhận</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
                         </div>
                     </div>
@@ -465,8 +469,8 @@
         </div>
 
         <script>
-            document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-                document.getElementById('deleteForm').submit();
+            document.getElementById('confirmDeleteBtn-{{ $item->id }}').addEventListener('click', function() {
+                document.getElementById('deleteForm-{{ $item->id }}').submit();
             });
         </script>
     </main>

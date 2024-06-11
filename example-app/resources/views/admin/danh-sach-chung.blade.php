@@ -450,7 +450,7 @@
         </div>
         <!--MODAL-->
 
-        <!-- Modal -->
+        <!-- Modal xóa-->
         <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered" role="document">

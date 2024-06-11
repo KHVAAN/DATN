@@ -153,6 +153,11 @@
             if (url.includes('them-admin')) {
                 $('.app-menu a[href*="quan-li-nhan-vien"]').addClass('active');
             }
+
+            // Giữ "Quản lí nhân viên" active khi ở trang "Tạo mới quản trị viên"
+            if (url.includes('chinh-sua-tai-khoan')) {
+                $('.app-menu a[href*="quan-li-nhan-vien"]').addClass('active');
+            }
         });
     </script>
 

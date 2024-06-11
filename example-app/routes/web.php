@@ -154,3 +154,6 @@ Route::get('/quan-li-nhan-vien', [AdminController::class, 'index'])->name('quan-
 Route::get('/them-admin', [AdminController::class, 'create'])->name('them-admin');
 Route::post('/them-admin', [AdminController::class, 'store'])->name('xu-li-them-admin');
 Route::get('/chi-tiet-admin/{id}', [AdminController::class, 'show'])->name('chi-tiet-admin');
+Route::get('/chinh-sua-tai-khoan/{id}', [AdminController::class, 'edit'])->name('chinh-sua-tai-khoan');
+Route::post('/cap-nhat-admin/{id}', [AdminController::class, 'update'])->name('cap-nhat-admin');
+Route::delete('/xoa-admin/{id}', [AdminController::class, 'destroy'])->name('xoa-admin');

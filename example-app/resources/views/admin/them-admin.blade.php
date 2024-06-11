@@ -128,7 +128,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <button class="btn btn-save" type="submit">Lưu lại</button>
-                                <a class="btn btn-cancel" href="{{ url('/quan-li-nhan-vien') }}">Hủy bỏ</a>
+                                <a class="btn btn-cancel" href="{{ route('quan-li-nhan-vien') }}">Hủy bỏ</a>
                             </div>
                     </div>
                     </form>

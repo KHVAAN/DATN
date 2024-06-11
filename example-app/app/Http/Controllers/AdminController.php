@@ -70,4 +70,76 @@ class AdminController extends Controller
         $user = User::where('id', $id)->first();
         return view('admin.chi-tiet-admin', compact('user'));
     }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.chinh-sua-tai-khoan', [
+            'item' => $user,
+            'type' => 'quản trị viên',
+            'nameField' => 'hovaten',
+            'sdt' => 'sdt',
+            'email' => 'email',
+            'diachi' => 'diachi',
+            'phanquyen' => 'phanquyen',
+            'gioitinh' => 'gioitinh',
+            'ngaysinh' => 'ngaysinh',
+            'updateRoute' => route('cap-nhat-admin', ['id' => $user->id])
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'sdt' => 'required|size:10',
+            'hovaten' => 'required|max:30',
+            'email' => 'required|email|unique:user,email,' . $id,
+            'password' => 'nullable|min:6',
+            'diachi' => 'required|max:255',
+            'phanquyen' => 'required|in:1,2', // Chỉ chấp nhận giá trị 1 hoặc 2
+            'gioitinh' => 'required',
+            'ngaysinh' => 'required|date',
+        ], [
+            'sdt.required' => 'Không được để trống',
+            'sdt.size' => 'Số điện thoại phải đủ 10 số',
+            'email.required' => 'Không được để trống',
+            'email.unique' => 'Email đã tồn tại',
+            'email.email' => 'Định dạng email không hợp lệ',
+            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
+            'diachi.required' => 'Không được để trống',
+            'diachi.max' => 'Địa chỉ không quá 255 ký tự',
+            'phanquyen.required' => 'Không được để trống',
+            'phanquyen.in' => 'Phân quyền không hợp lệ',
+            'gioitinh.required' => 'Không được để trống',
+            'ngaysinh.required' => 'Không được để trống',
+            'ngaysinh.date' => 'Ngày sinh không hợp lệ',
+        ]);
+
+        $user = User::find($id);
+        $user->hovaten = $request->input('hovaten') ?? $user->hovaten;
+        $user->sdt = $request->input('sdt') ?? $user->sdt;
+        $user->diachi = $request->input('diachi') ?? $user->diachi;
+        $user->phanquyen = $request->input('phanquyen') ?? $user->phanquyen;
+        $user->email = $request->input('email') ?? $user->email;
+        $user->gioitinh = $request->input('gioitinh') ?? $user->gioitinh;
+        $user->ngaysinh = $request->input('ngaysinh') ?? $user->ngaysinh;
+
+        // Cập nhật mật khẩu nếu được cung cấp
+        if ($request->has('password')) {
+            $user->password = Hash::make($request->input('password'));
+        }
+
+        $user->save();
+
+        Alert()->success('Thành công', 'Cập nhật tài khoản quản trị viên thành công.');
+        return redirect()->back();
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $admin = User::findOrFail($id);
+        $admin->delete();
+        alert()->success('Thành công', 'Xóa loại sản phẩm thành công');
+        return redirect()->back();
+    }
 }

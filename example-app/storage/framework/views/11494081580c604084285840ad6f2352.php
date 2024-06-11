@@ -96,7 +96,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-12">
-                            <button class="btn btn-save" type="submit">Lưu lại</button>
+                            <button class="btn btn-save" type="submit">Cập nhật</button>
                             <a class="btn btn-cancel" href="<?php echo e(url('/quan-li-san-pham')); ?>">Hủy bỏ</a>
                         </div>
                     </form>

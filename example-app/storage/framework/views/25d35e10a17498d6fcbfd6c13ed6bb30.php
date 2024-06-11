@@ -54,7 +54,6 @@
                                     <th>SĐT</th>
                                     <th>Giới tính</th>
                                     <th>Ngày sinh</th>
-                                    <th>Email</th>
                                     <th>Chức vụ</th>
                                     <th>Trạng thái</th>
                                     <th>Tính năng</th>
@@ -67,9 +66,14 @@
                                         <td><?php echo e($item->hovaten); ?></td>
                                         <td><?php echo e($item->diachi); ?></td>
                                         <td><?php echo e($item->sdt); ?></td>
-                                        <td><?php echo e($item->gioitinh); ?></td>
+                                        <td>
+                                            <?php if($item->gioitinh === 'male'): ?>
+                                                Nam
+                                            <?php else: ?>
+                                                Nữ
+                                            <?php endif; ?>
+                                        </td>
                                         <td><?php echo e($item->ngaysinh); ?></td>
-                                        <td><?php echo e($item->email); ?></td>
                                         <td>
                                             <?php if($item->phanquyen === 1): ?>
                                                 Admin

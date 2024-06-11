@@ -110,12 +110,12 @@
                                 <input type="password" name="password" class="form-control"  value="{{ $item->password }}">
                                 <div class="error-message">{{ $errors->first('password') }}</div>
                             </div> --}}
-
                             <div class="form-group col-md-3">
-                                <label class="control-label">Địa chỉ</label>
-                                <input type="text" name="diachi" class="form-control" value="{{ $item->diachi }}">
-                                <div class="error-message">{{ $errors->first('diachi') }}</div>
+                                <label class="control-label">Ngày sinh</label>
+                                <input type="date" name="ngaysinh" class="form-control" value="{{ $item->ngaysinh }}">
+                                <div class="error-message">{{ $errors->first('ngaysinh') }}</div>
                             </div>
+
 
                             <div class="form-group col-md-3">
                                 <label class="control-label">Phân quyền</label>
@@ -136,12 +136,12 @@
                                 <div class="error-message">{{ $errors->first('gioitinh') }}</div>
                             </div>
 
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Ngày sinh</label>
-                                <input type="date" name="ngaysinh" class="form-control" value="{{ $item->ngaysinh }}">
-                                <div class="error-message">{{ $errors->first('ngaysinh') }}</div>
-                            </div>
 
+                            <div class="form-group col-md-6">
+                                <label class="control-label">Địa chỉ</label>
+                                <input type="text" name="diachi" class="form-control" value="{{ $item->diachi }}">
+                                <div class="error-message">{{ $errors->first('diachi') }}</div>
+                            </div>
                             <div class="form-group col-md-12">
                                 <button class="btn btn-save" type="submit">Cập nhật</button>
                                 <a class="btn btn-cancel" href="{{ url('/quan-li-nhan-vien') }}">Hủy bỏ</a>

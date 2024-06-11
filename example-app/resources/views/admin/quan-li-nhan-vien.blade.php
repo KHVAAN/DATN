@@ -56,7 +56,6 @@
                                     <th>SĐT</th>
                                     <th>Giới tính</th>
                                     <th>Ngày sinh</th>
-                                    <th>Email</th>
                                     <th>Chức vụ</th>
                                     <th>Trạng thái</th>
                                     <th>Tính năng</th>
@@ -69,9 +68,14 @@
                                         <td>{{ $item->hovaten }}</td>
                                         <td>{{ $item->diachi }}</td>
                                         <td>{{ $item->sdt }}</td>
-                                        <td>{{ $item->gioitinh }}</td>
+                                        <td>
+                                            @if ($item->gioitinh === 'male')
+                                                Nam
+                                            @else
+                                                Nữ
+                                            @endif
+                                        </td>
                                         <td>{{ $item->ngaysinh }}</td>
-                                        <td>{{ $item->email }}</td>
                                         <td>
                                             @if ($item->phanquyen === 1)
                                                 Admin

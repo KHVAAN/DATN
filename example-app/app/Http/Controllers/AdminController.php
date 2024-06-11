@@ -139,7 +139,7 @@ class AdminController extends Controller
     {
         $admin = User::findOrFail($id);
         $admin->delete();
-        alert()->success('Thành công', 'Xóa loại sản phẩm thành công');
+        alert()->success('Thành công', 'Xóa tài khoản thành công');
         return redirect()->back();
     }
 }

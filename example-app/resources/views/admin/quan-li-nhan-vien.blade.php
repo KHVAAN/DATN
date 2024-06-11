@@ -50,8 +50,9 @@
                             <thead class="text-align-center">
                                 <tr>
                                     {{-- <th width="10"><input type="checkbox" id="all"></th> --}}
-                                    <th width="200">Họ và tên</th>
-                                    <th width="250">Địa chỉ</th>
+                                    <th>STT</th>
+                                    <th>Họ và tên</th>
+                                    <th>Địa chỉ</th>
                                     <th>SĐT</th>
                                     <th>Giới tính</th>
                                     <th>Ngày sinh</th>
@@ -64,6 +65,7 @@
                             <tbody class="text-align-center">
                                 @foreach ($user as $index => $item)
                                     <tr>
+                                        <td>{{ $index + 1 }}</td> <!-- STT -->
                                         <td>{{ $item->hovaten }}</td>
                                         <td>{{ $item->diachi }}</td>
                                         <td>{{ $item->sdt }}</td>
@@ -85,7 +87,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="" class="btn btn-add btn-sm" title="Xem chi tiết">
+                                            <a href="{{ route('chi-tiet-admin', ['id' => $item->id]) }}" class="btn btn-add btn-sm" title="Xem chi tiết">
                                                 <i class="far fa-eye"></i>
                                             </a>
                                             <button class="btn btn-primary btn-sm edit"type="button" title="Sửa">

@@ -128,7 +128,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <button class="btn btn-save" type="submit">Lưu lại</button>
-                                <a class="btn btn-cancel" href="#">Hủy bỏ</a>
+                                <a class="btn btn-cancel" href="{{ url('/quan-li-nhan-vien') }}">Hủy bỏ</a>
                             </div>
                     </div>
                     </form>
@@ -138,7 +138,7 @@
 
 
     <!--MODAL-->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    {{-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
         data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -164,6 +164,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!--MODAL-->
 @endsection

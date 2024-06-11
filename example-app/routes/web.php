@@ -122,19 +122,12 @@ Route::get('/trang-chu', function () {
 })->name('trang-chu');
 
 Route::get('/quan-li-san-pham', [ProductController::class, 'index_ad'])->name('quan-li-san-pham');
-// Hiển thị trang quản lí sản phẩm
 
 Route::get('/them-san-pham', [ProductController::class, 'create'])->name('them-san-pham');
-// Hiển thị form thêm sản phẩm
-
 Route::post('/them-san-pham', [ProductController::class, 'store'])->name('xu-li-them-san-pham');
-// Xử lí thông tin thêm sản phẩm từ form
-
 Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'show'])->name('chi-tiet-san-pham');
-// Hiển thị chi tiết sản phẩm dựa trên ID
 
 Route::get('/danh-sach-chung', [ChungController::class, 'index'])->name('danh-sach-chung');
-// Hiển thị danh sách các thông tin chung (nhãn hiệu, kích thước, màu sắc, loại)
 
 Route::post('/them-nhan-hieu', [ChungController::class, 'store1'])->name('them-nhan-hieu');
 Route::get('/chinh-sua-nhan-hieu/{id}', [BrandController::class, 'edit'])->name('chinh-sua-nhan-hieu');
@@ -158,10 +151,6 @@ Route::delete('/xoa-loai/{id}', [CategoryController::class, 'destroy'])->name('x
 
 
 Route::get('/quan-li-nhan-vien', [AdminController::class, 'index'])->name('quan-li-nhan-vien');
-// Hiển thị trang quản lí nhân viên
-
 Route::get('/them-admin', [AdminController::class, 'create'])->name('them-admin');
-// Hiển thị form thêm nhân viên quản trị
-
 Route::post('/them-admin', [AdminController::class, 'store'])->name('xu-li-them-admin');
-// Xử lí thông tin thêm nhân viên quản trị từ form
+Route::get('/chi-tiet-admin/{id}', [AdminController::class, 'show'])->name('chi-tiet-admin');

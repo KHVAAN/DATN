@@ -64,4 +64,10 @@ class AdminController extends Controller
         Alert()->success('Thành công', 'Thêm quản trị viên thành công.');
         return \redirect()->back();
     }
+
+    public function show($id)
+    {
+        $user = User::where('id', $id)->first();
+        return view('admin.chi-tiet-admin', compact('user'));
+    }
 }

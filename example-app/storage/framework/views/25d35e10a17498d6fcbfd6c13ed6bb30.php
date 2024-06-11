@@ -48,8 +48,9 @@
                             <thead class="text-align-center">
                                 <tr>
                                     
-                                    <th width="200">Họ và tên</th>
-                                    <th width="250">Địa chỉ</th>
+                                    <th>STT</th>
+                                    <th>Họ và tên</th>
+                                    <th>Địa chỉ</th>
                                     <th>SĐT</th>
                                     <th>Giới tính</th>
                                     <th>Ngày sinh</th>
@@ -62,6 +63,7 @@
                             <tbody class="text-align-center">
                                 <?php $__currentLoopData = $user; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
+                                        <td><?php echo e($index + 1); ?></td> <!-- STT -->
                                         <td><?php echo e($item->hovaten); ?></td>
                                         <td><?php echo e($item->diachi); ?></td>
                                         <td><?php echo e($item->sdt); ?></td>
@@ -84,7 +86,7 @@
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <a href="" class="btn btn-add btn-sm" title="Xem chi tiết">
+                                            <a href="<?php echo e(route('chi-tiet-admin', ['id' => $item->id])); ?>" class="btn btn-add btn-sm" title="Xem chi tiết">
                                                 <i class="far fa-eye"></i>
                                             </a>
                                             <button class="btn btn-primary btn-sm edit"type="button" title="Sửa">

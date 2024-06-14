@@ -119,7 +119,7 @@
                             </div>
                             <div class="form-group col-md-3 ">
                                 <label for="exampleSelect1" class="control-label">Nhãn hiệu</label>
-                                <select class="form-control" id="exampleSelect1" name="nhanhieu_id">
+                                <select class="form-control" id="exampleSelect1" name="nh_id">
                                     <option>-- Chọn nhãn hiệu --</option>
                                     <?php $__currentLoopData = $brand; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <option value="<?php echo e($item->id); ?>"><?php echo e($item->tennhanhieu); ?></option>
@@ -143,7 +143,7 @@
                                         multiple />
                                 </div>
                                 <div id="thumbbox">
-                                    <img height="450" width="400" alt="Thumb image" id="thumbimage"
+                                    <img height="200" width="150" alt="Thumb image" id="thumbimage"
                                         style="display: none" />
                                     <a class="removeimg" href="javascript:"></a>
                                 </div>

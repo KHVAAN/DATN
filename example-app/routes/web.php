@@ -122,12 +122,15 @@ Route::get('/trang-chu', function () {
 })->name('trang-chu');
 
 Route::get('/quan-li-san-pham', [ProductController::class, 'index_ad'])->name('quan-li-san-pham');
-
 Route::get('/them-san-pham', [ProductController::class, 'create'])->name('them-san-pham');
 Route::post('/them-san-pham', [ProductController::class, 'store'])->name('xu-li-them-san-pham');
 Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'show'])->name('chi-tiet-san-pham');
+Route::get('/chinh-sua-san-pham/{id}', [ProductController::class, 'edit'])->name('chinh-sua-san-pham');
+Route::put('cap-nhat-san-pham/{id}', [ProductController::class, 'update'])->name('cap-nhat-san-pham');
+Route::delete('/xoa-san-pham/{id}', [ProductController::class, 'destroy'])->name('xoa-san-pham');
 
 Route::get('/danh-sach-chung', [ChungController::class, 'index'])->name('danh-sach-chung');
+
 
 Route::post('/them-nhan-hieu', [ChungController::class, 'store1'])->name('them-nhan-hieu');
 Route::get('/chinh-sua-nhan-hieu/{id}', [BrandController::class, 'edit'])->name('chinh-sua-nhan-hieu');
@@ -157,3 +160,6 @@ Route::get('/chi-tiet-admin/{id}', [AdminController::class, 'show'])->name('chi-
 Route::get('/chinh-sua-tai-khoan/{id}', [AdminController::class, 'edit'])->name('chinh-sua-tai-khoan');
 Route::post('/cap-nhat-admin/{id}', [AdminController::class, 'update'])->name('cap-nhat-admin');
 Route::delete('/xoa-admin/{id}', [AdminController::class, 'destroy'])->name('xoa-admin');
+
+
+Route::get('/quan-li-nhan-vien', [AdminController::class, 'index'])->name('quan-li-nhan-vien');

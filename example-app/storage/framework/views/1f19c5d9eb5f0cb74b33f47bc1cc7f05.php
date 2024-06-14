@@ -2,12 +2,16 @@
 
 <?php $__env->startSection('content'); ?>
     <style>
-        .text-align-center th, td {
+        .text-align-center th,
+        td {
             text-align: center;
         }
+
         .active {
-            font-weight: bold; /* Thêm kiểu hiển thị cho class active */
-            color: #007bff; /* Màu sắc khác để dễ phân biệt */
+            font-weight: bold;
+            /* Thêm kiểu hiển thị cho class active */
+            color: #007bff;
+            /* Màu sắc khác để dễ phân biệt */
         }
     </style>
 
@@ -24,18 +28,22 @@
                     <div class="tile-body">
                         <div class="row element-button">
                             <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" href="<?php echo e(url('/them-san-pham')); ?>" title="Thêm"><i class="fas fa-plus"></i> Tạo mới sản phẩm</a>
+                                <a class="btn btn-add btn-sm" href="<?php echo e(url('/them-san-pham')); ?>" title="Thêm"><i
+                                        class="fas fa-plus"></i> Tạo mới sản phẩm</a>
                             </div>
 
                             <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm print-file" type="button" title="In" onclick="myApp.printTable()"><i class="fas fa-print"></i> In dữ liệu</a>
+                                <a class="btn btn-delete btn-sm print-file" type="button" title="In"
+                                    onclick="myApp.printTable()"><i class="fas fa-print"></i> In dữ liệu</a>
                             </div>
 
                             <div class="col-sm-2">
-                                <a class="btn btn-excel btn-sm" href="" title="In"><i class="fas fa-file-excel"></i> Xuất Excel</a>
+                                <a class="btn btn-excel btn-sm" href="" title="In"><i
+                                        class="fas fa-file-excel"></i> Xuất Excel</a>
                             </div>
                             <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm pdf-file" type="button" title="In" onclick="myFunction(this)"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
+                                <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
+                                    onclick="myFunction(this)"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
                             </div>
                         </div>
                         <table class="table table-hover table-bordered" id="sampleTable">
@@ -68,15 +76,24 @@
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <a href="<?php echo e(route('chi-tiet-san-pham', ['id' => $item->id])); ?>" class="btn btn-add btn-sm" title="Xem chi tiết">
-                                                <i class="far fa-eye"></i>
-                                            </a>
-                                            <button class="btn btn-primary btn-sm edit" data-toggle="modal" data-target="#ModalUP" type="button" title="Sửa">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-sm trash" type="button" title="Xóa">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
+                                            <form id="deleteForm-<?php echo e($item->id); ?>"
+                                                action="<?php echo e(url('/xoa-san-pham', ['id' => $item->id])); ?>" method="POST">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
+                                                <a href="<?php echo e(url('/chi-tiet-san-pham', ['id' => $item->id])); ?>"
+                                                    class="btn btn-add btn-sm" title="Xem chi tiết">
+                                                    <i class="far fa-eye"></i>
+                                                </a>
+                                                <a href="<?php echo e(url('/chinh-sua-san-pham', ['id' => $item->id])); ?>"
+                                                    class="btn btn-primary btn-sm edit" type="button" title="Sửa">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                    data-toggle="modal"
+                                                    data-target="#confirmDeleteModal-<?php echo e($item->id); ?>">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -86,6 +103,28 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="confirmDeleteModal-<?php echo e($item->id); ?>" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
+                        <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
+                        <div class="form-group mt-4">
+                            <button id="confirmDeleteBtn-<?php echo e($item->id); ?>" class="btn btn-primary mr-2">Xác
+                                nhận</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('confirmDeleteBtn-<?php echo e($item->id); ?>').addEventListener('click', function() {
+                document.getElementById('deleteForm-<?php echo e($item->id); ?>').submit();
+            });
+        </script>
     </main>
 <?php $__env->stopSection(); ?>
 

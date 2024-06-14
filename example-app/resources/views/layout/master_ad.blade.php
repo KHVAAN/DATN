@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Trang chủ | Quản trị Admin</title>
+    <title>@yield('title')</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -158,6 +158,11 @@
             if (url.includes('chinh-sua-tai-khoan')) {
                 $('.app-menu a[href*="quan-li-nhan-vien"]').addClass('active');
             }
+
+             // Giữ "Quản lí sản phẩm" active khi ở trang "Chỉnh sửa sản phẩm"
+            if (url.includes('chinh-sua-san-pham')) {
+                $('.app-menu a[href*="quan-li-san-pham"]').addClass('active');
+            }
         });
     </script>
 
@@ -229,33 +234,6 @@
         })
     </script>
 
-    {{-- <script>
-        function deleteRow(r) {
-            var i = r.parentNode.parentNode.rowIndex;
-            document.getElementById("myTable").deleteRow(i);
-        }
-        jQuery(function() {
-            jQuery(".trash").click(function() {
-                swal({
-                        title: "Cảnh báo",
-                        text: "Bạn có chắc chắn là muốn xóa sản phẩm này?",
-                        buttons: ["Hủy bỏ", "Đồng ý"],
-                    })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            swal("Đã xóa thành công!", {
-
-                            });
-                        }
-                    });
-            });
-        });
-        oTable = $('#sampleTable').dataTable();
-        $('#all').click(function(e) {
-            $('#sampleTable tbody :checkbox').prop('checked', $(this).is(':checked'));
-            e.stopImmediatePropagation();
-        });
-    </script> --}}
     <script>
         $(document).ready(function() {
             $('.trash').click(function() {

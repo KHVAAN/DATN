@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\UserController;
 use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -31,24 +33,36 @@ Route::get('/login', function () {
 })->name('dang-nhap');
 
 Route::post('/login', [LoginController::class, 'login'])->name('xu-li-dang-nhap');
-Route::post('/register', [LoginController::class, 'register'])->name('xu-li-dang-ki');
-
 /**
  * đăng xuất
  */
-Route::post('/logout', function () {
-    Auth::logout();
-    session()->flush();
-    return redirect()->route('login');
-})->name('dang-xuat');
-
-Route::get('/register', function () {
-    return view('register');
-});
-
 Route::get('/', function () {
     return view('user.index');
 })->name('home');
+
+Route::post('/logout', function () {
+    if (Auth::user()->phanquyen == 1) {
+        Auth::logout();
+        session()->flush();
+        return redirect()->route('dang-nhap');
+    } else {
+        Auth::logout();
+        session()->flush();
+        return redirect()->route('home');
+    }
+})->name('dang-xuat');
+
+
+Route::get('/register', function () {
+    return view('register');
+})->name('dang-ki');
+
+Route::post('/register', [LoginController::class, 'register'])->name('xu-li-dang-ki');
+
+
+Route::get('/', [ProductController::class, 'index_user'])->name('trang-chu-user');
+Route::get('/search', [ProductController::class, 'search'])->name('tim-kiem');
+Route::get('/detail/{id}', [ProductController::class, 'detail'])->name('detail');
 
 Route::get('/shop', function () {
     return view('user.shop');
@@ -123,6 +137,11 @@ Route::get('/trang-chu', function () {
 
 Route::get('/quan-li-san-pham', [ProductController::class, 'index_ad'])->name('quan-li-san-pham');
 Route::get('/them-san-pham', [ProductController::class, 'create'])->name('them-san-pham');
+
+Route::get('/them-san-pham-con/{id}', [ProductController::class, 'create_child'])->name('them-san-pham-con');
+Route::post('/them-san-pham-con/{id}', [ProductController::class, 'add_child'])->name('xu-li-them-con');
+Route::delete('/xoa-san-pham-con/{id}', [ProductController::class, 'delete_child'])->name('delete_child');
+
 Route::post('/them-san-pham', [ProductController::class, 'store'])->name('xu-li-them-san-pham');
 Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'show'])->name('chi-tiet-san-pham');
 Route::get('/chinh-sua-san-pham/{id}', [ProductController::class, 'edit'])->name('chinh-sua-san-pham');
@@ -162,4 +181,7 @@ Route::post('/cap-nhat-admin/{id}', [AdminController::class, 'update'])->name('c
 Route::delete('/xoa-admin/{id}', [AdminController::class, 'destroy'])->name('xoa-admin');
 
 
-Route::get('/quan-li-nhan-vien', [AdminController::class, 'index'])->name('quan-li-nhan-vien');
+Route::get('/quan-li-khach-hang', [UserController::class, 'index'])->name('quan-li-khach-hang');
+// Route::get('/them-khach-hang', [UserController::class, 'create'])->name('them-khach-hang');
+// Route::post('/them-khach-hang', [UserController::class, 'store'])->name('xu-li-them-khach-hang');
+Route::get('/chi-tiet-khach-hang/{id}', [AdminController::class, 'show'])->name('chi-tiet-khach-hang');

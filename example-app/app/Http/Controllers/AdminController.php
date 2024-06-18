@@ -11,8 +11,8 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $user = User::where('phanquyen', 1)->get();
-        return view('admin.quan-li-nhan-vien', compact('user'));
+        $admin = User::where('phanquyen', 1)->get();
+        return view('admin.quan-li-nhan-vien', compact('admin'));
     }
 
     public function create()
@@ -142,4 +142,5 @@ class AdminController extends Controller
         alert()->success('Thành công', 'Xóa tài khoản thành công');
         return redirect()->back();
     }
+
 }

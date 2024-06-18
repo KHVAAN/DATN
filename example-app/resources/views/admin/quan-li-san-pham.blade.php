@@ -82,6 +82,10 @@
                                                 action="{{ url('/xoa-san-pham', ['id' => $item->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
+                                                <a href="{{ url('/them-san-pham-con', ['id' => $item->id]) }}"
+                                                    class="btn btn-excel btn-sm" title="Thêm sản phẩm con">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
                                                 <a href="{{ url('/chi-tiet-san-pham', ['id' => $item->id]) }}"
                                                     class="btn btn-add btn-sm" title="Xem chi tiết">
                                                     <i class="far fa-eye"></i>

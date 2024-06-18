@@ -87,22 +87,22 @@
                         <form class="row" action="<?php echo e(route('chi-tiet-san-pham', ['id' => $product->id])); ?>"
                             method="POST" enctype="multipart/form-data">
                             <?php echo csrf_field(); ?>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label class="control-label">Mã sản phẩm </label>
                                 <input class="form-control" type="text" value="<?php echo e($product->id); ?>" readonly>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label class="control-label">Tên sản phẩm</label>
                                 <input type="text" name="tensanpham" class="form-control"
                                     value="<?php echo e($product->tensanpham); ?>">
                                 <div class="error-message"><?php echo e($errors->first('tensanpham')); ?></div>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label class="control-label">Số lượng</label>
                                 <input class="form-control" type="number" name="soluong" value="<?php echo e($product->soluong); ?>">
                                 <div class="error-message"><?php echo e($errors->first('soluong')); ?></div>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="exampleSelect1" class="control-label">Tình trạng sản phẩm</label>
                                 <select class="form-control" name="trangthai" id="exampleSelect1">
                                     <option value="Còn hàng" <?php echo e($product->trangthai == 'Còn hàng' ? 'selected' : ''); ?>>Còn
@@ -111,11 +111,15 @@
                                         hàng</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label class="control-label">Giá bán</label>
                                 <input class="form-control" type="text" value="<?php echo e($product->dongia); ?>">
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
+                                <label class="control-label">Giá giảm</label>
+                                <input class="form-control" type="text" value="<?php echo e($product->giamgia); ?>">
+                            </div>
+                            <div class="form-group col-md-3">
                                 <label for="exampleSelect1" class="control-label">Danh mục</label>
                                 <select class="form-control" id="exampleSelect1" name="loaisp_id">
                                     <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -128,7 +132,7 @@
                                 </select>
                                 <div class="error-message"><?php echo e($errors->first('category')); ?></div>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label for="exampleSelect1" class="control-label">Nhãn hiệu</label>
                                 <select class="form-control" id="exampleSelect1" name="nhanhieu_id">
                                     <?php $__currentLoopData = $brand; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -141,14 +145,7 @@
                                 </select>
                                 <div class="error-message"><?php echo e($errors->first('brand')); ?></div>
                             </div>
-                            <div class="form-group col-md-8">
-                                <label class="control-label">Mô tả sản phẩm</label>
-                                <textarea class="form-control" name="mota" id="mota"><?php echo e($product->mota); ?></textarea>
-                                <div class="error-message"><?php echo e($errors->first('mota')); ?></div>
-                                <script>
-                                    CKEDITOR.replace('mota');
-                                </script>
-                            </div>
+
                             <div class="form-group col-md-12">
                                 <label class="control-label">Ảnh sản phẩm</label>
                                 <div id="thumbbox">
@@ -166,6 +163,14 @@
                                         ảnh</a>
                                     <p style="clear:both"></p>
                                 </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Mô tả sản phẩm</label>
+                                <textarea class="form-control" name="mota" id="mota"><?php echo e($product->mota); ?></textarea>
+                                <div class="error-message"><?php echo e($errors->first('mota')); ?></div>
+                                <script>
+                                    CKEDITOR.replace('mota');
+                                </script>
                             </div>
                             <div class="form-group col-md-12">
                                 

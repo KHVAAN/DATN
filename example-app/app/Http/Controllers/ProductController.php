@@ -10,6 +10,7 @@ use App\Models\Image;
 use App\Models\Size;
 use App\Models\Color;
 use App\Models\Brand;
+use App\Models\Product_detail;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,6 +21,19 @@ class ProductController extends Controller
     {
         $product = Product::with(['category', 'brand'])->get(); // Lấy tất cả sản phẩm kèm theo loại sản phẩm và nhãn hiệu
         return view('admin.quan-li-san-pham', compact('product')); // Truyền biến product tới view
+    }
+    public function index_user()
+    {
+        $name_brand = ['Yame', 'Ben & Tod', 'Chuottrang', 'SomeHow', 'Uniqlo'];
+        // Lấy thông tin về các nhãn hiệu
+        $brands = Brand::whereIn('tennhanhieu', $name_brand)->get();
+        // Lấy các sản phẩm thuộc các nhãn hiệu trên
+        $brand_detail = Product::whereIn('nh_id', $brands->pluck('id'))->get();
+        $products = Product::where('trangthai', 1) // Lọc sản phẩm có trạng thái = 1 (hoặc có thể lọc theo điều kiện khác)
+            ->orderByDesc('created_at') // Sắp xếp theo thời gian tạo mới nhất
+            ->with('image') // Load các hình ảnh liên kết
+            ->get(); // Lấy danh sách các sản phẩm
+        return view('user.index', compact('brand_detail', 'brands', 'products'));
     }
 
     public function create()
@@ -96,6 +110,58 @@ class ProductController extends Controller
         return view('admin.chi-tiet-san-pham', compact('product', 'category', 'brand', 'image'));
     }
 
+    public function create_child(string $id)
+    {
+        $product = Product::findOrFail($id);
+        $colors = Color::all();
+        $sizes = Size::all();
+        $subProducts = Product_detail::where('sanpham_id', $id)->with(['color', 'size'])->get();
+        // Tính tổng số lượng tồn kho
+        $total = $subProducts->sum('soluong');
+        return view('admin.them-san-pham-con', compact('product', 'colors', 'sizes', 'subProducts','total'));
+    }
+
+    // Xử lý thêm sản phẩm con
+    public function add_child(Request $request, $id)
+    {
+        $request->validate([
+            'size' => 'nullable|exists:size,id',
+            'mau' => 'required|exists:color,id',
+            'soluong' => 'required|integer|min:1',
+        ]);
+
+        $existingProductDetail = Product_detail::where('sanpham_id', $id)
+            ->where('mau_id', $request->input('mau'))
+            ->where('size_id', $request->input('size'))
+            ->first();
+
+        if ($existingProductDetail) {
+            $existingProductDetail->soluong += $request->input('soluong');
+            $existingProductDetail->save();
+            Alert()->success('Thành công', 'Số lượng sản phẩm con đã được cập nhật.');
+
+        } else {
+            $productDetail = new Product_detail();
+            $productDetail->sanpham_id = $id;
+            $productDetail->mau_id = $request->input('mau');
+            $productDetail->size_id = $request->input('size');
+            $productDetail->soluong = $request->input('soluong');
+            $productDetail->save();
+            Alert()->success('Thành công', 'Sản phẩm con được thêm thành công.');
+
+        }
+        return redirect()->back();
+    }
+
+
+    // Xử lý xóa sản phẩm con
+    public function delete_child($id)
+    {
+        $productDetail = Product_detail::findOrFail($id);
+        $productDetail->delete();
+        Alert()->success('Thành công', 'Xóa sản phẩm con thành công');
+        return redirect()->back();
+    }
     public function edit($id)
     {
         $product = Product::with('image')->findOrFail($id);
@@ -163,5 +229,63 @@ class ProductController extends Controller
         $product->delete();
         alert()->success('Thành công', 'Xóa sản phẩm thành công');
         return redirect()->back();
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        // Thực hiện tìm kiếm trong cơ sở dữ liệu
+        $product = Product::where('tensanpham', 'like', '%' . $search . '%')->get();
+
+        return view('user.tim-kiem', compact('product'));
+    }
+
+
+    public function detail(string $id, Request $request)
+    {
+        $product = Product::find($id);
+
+        $image = Image::where('sp_id', $id)->get();
+        $giamgia = $product->giamgia;
+        $dongia = $product->dongia;
+
+        // Lấy chi tiết màu sắc độc nhất
+        $uniqueDetails = Product_detail::where('sanpham_id', $id)->get()->unique('color.tenmau');
+
+        // Lấy tất cả chi tiết sản phẩm
+        $allDetails = Product_detail::where('sanpham_id', $id)->get();
+
+        $colorId = $request->input('color');
+        $sizeId = $request->input('size');
+
+        // Lấy tên kích cỡ
+        $size = Size::find($sizeId);
+        $sizeName = $size->tensize ?? NULL;
+
+        // Lấy kích cỡ khả dụng cho màu đã chọn
+        $availableSizes = Product_detail::select('size_id')
+            ->where('sanpham_id', $id)
+            ->where('mau_id', $colorId)
+            ->distinct()->get();
+
+        // Lấy chi tiết màu sắc đã chọn
+        $color = Color::find($colorId);
+        $colorName = $color->tenmau ?? NULL;
+        $colorId = $color->id ?? NULL;
+
+        // Lấy chi tiết sản phẩm cho màu sắc và kích cỡ đã chọn
+        $productDetail = Product_detail::where('sanpham_id', $id)
+            ->where('mau_id', $colorId)
+            ->where('size_id', $sizeId)
+            ->first();
+
+        $quantity = $productDetail->soluong ?? NULL;
+
+        // // Lấy bình luận cho sản phẩm
+        // $reviews = Review::where('product_id', $id)->get();
+
+
+        return view('user.detail', compact('quantity', 'sizeName', 'sizeId', 'colorId', 'colorName', 'productDetail', 'image', 'product', 'availableSizes', 'uniqueDetails'));
     }
 }

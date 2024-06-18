@@ -159,8 +159,13 @@
                 $('.app-menu a[href*="quan-li-nhan-vien"]').addClass('active');
             }
 
-             // Giữ "Quản lí sản phẩm" active khi ở trang "Chỉnh sửa sản phẩm"
+            // Giữ "Quản lí sản phẩm" active khi ở trang "Chỉnh sửa sản phẩm"
             if (url.includes('chinh-sua-san-pham')) {
+                $('.app-menu a[href*="quan-li-san-pham"]').addClass('active');
+            }
+
+            // Giữ "Quản lí sản phẩm" active khi ở trang "Chi tiết sản phẩm"
+            if (url.includes('chi-tiet-san-pham')) {
                 $('.app-menu a[href*="quan-li-san-pham"]').addClass('active');
             }
         });
@@ -234,15 +239,6 @@
         })
     </script>
 
-    <script>
-        $(document).ready(function() {
-            $('.trash').click(function() {
-                var id = $(this).data('id');
-                var url = "{{ url('/xoa-nhan-hieu') }}" + '/' + id;
-                $('#deleteForm').attr('action', url);
-            });
-        });
-    </script>
 </body>
 
 </html>

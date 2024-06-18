@@ -62,7 +62,7 @@
                                 </tr>
                             </thead>
                             <tbody class="text-align-center">
-                                @foreach ($user as $index => $item)
+                                @foreach ($admin as $index => $item)
                                     <tr>
                                         <td>{{ $index + 1 }}</td> <!-- STT -->
                                         <td>{{ $item->hovaten }}</td>

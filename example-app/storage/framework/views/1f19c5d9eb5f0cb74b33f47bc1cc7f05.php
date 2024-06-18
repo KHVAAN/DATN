@@ -80,6 +80,10 @@
                                                 action="<?php echo e(url('/xoa-san-pham', ['id' => $item->id])); ?>" method="POST">
                                                 <?php echo csrf_field(); ?>
                                                 <?php echo method_field('DELETE'); ?>
+                                                <a href="<?php echo e(url('/them-san-pham-con', ['id' => $item->id])); ?>"
+                                                    class="btn btn-excel btn-sm" title="Thêm sản phẩm con">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
                                                 <a href="<?php echo e(url('/chi-tiet-san-pham', ['id' => $item->id])); ?>"
                                                     class="btn btn-add btn-sm" title="Xem chi tiết">
                                                     <i class="far fa-eye"></i>

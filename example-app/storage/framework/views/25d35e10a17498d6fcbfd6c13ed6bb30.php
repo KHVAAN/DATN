@@ -60,7 +60,7 @@
                                 </tr>
                             </thead>
                             <tbody class="text-align-center">
-                                <?php $__currentLoopData = $user; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $admin; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
                                         <td><?php echo e($index + 1); ?></td> <!-- STT -->
                                         <td><?php echo e($item->hovaten); ?></td>

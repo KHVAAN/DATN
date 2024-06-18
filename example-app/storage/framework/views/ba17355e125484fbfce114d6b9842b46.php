@@ -322,8 +322,8 @@
                 <input type="text" name="diachi" placeholder="Địa chỉ" />
                 <div class="error-message"><?php echo e($errors->first('diachi')); ?></div>
 
-                <input type="email" name="email1" placeholder="Email" />
-                <div class="error-message"><?php echo e($errors->first('email1')); ?></div>
+                <input type="email" name="email" placeholder="Email" />
+                <div class="error-message"><?php echo e($errors->first('email')); ?></div>
 
                 <input type="password" name="password" placeholder="Mật khẩu" />
                 <div class="error-message"><?php echo e($errors->first('password')); ?></div>

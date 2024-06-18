@@ -4,7 +4,7 @@
 
 @section('content')
     <style>
-        .text-align-center th {
+        .text-align-center th, td {
             text-align: center;
         }
     </style>
@@ -24,12 +24,12 @@
                     <div class="tile-body">
 
                         <div class="row element-button">
-                            <div class="col-sm-2">
+                            {{-- <div class="col-sm-2">
 
                                 <a class="btn btn-add btn-sm" href="{{ url('/them-khach-hang') }}" title="Thêm"><i
                                         class="fas fa-plus"></i>
                                     Tạo mới khách hàng</a>
-                            </div>
+                            </div> --}}
 
                             <div class="col-sm-2">
                                 <a class="btn btn-delete btn-sm print-file" type="button" title="In"
@@ -46,17 +46,18 @@
                             </div>
 
                         </div>
-                        <table class="table table-hover table-bordered js-copytextarea" cellpadding="0" cellspacing="0"
-                            border="0" id="sampleTable">
+                        <table class="table table-hover table-bordered" id="sampleTable">
                             <thead class="text-align-center">
                                 <tr>
+                                    {{-- <th width="10"><input type="checkbox" id="all"></th> --}}
                                     <th>STT</th>
                                     <th>Họ và tên</th>
                                     <th>Địa chỉ</th>
-                                    <th>Ngày sinh</th>
-                                    <th>Giới tính</th>
                                     <th>SĐT</th>
+                                    <th>Giới tính</th>
+                                    <th>Ngày sinh</th>
                                     <th>Chức vụ</th>
+                                    <th>Trạng thái</th>
                                     <th>Tính năng</th>
                                 </tr>
                             </thead>
@@ -77,7 +78,7 @@
                                         <td>{{ $item->ngaysinh }}</td>
                                         <td>
                                             @if ($item->phanquyen === 2)
-                                                Khách hàng
+                                                User
                                             @else
                                                 {{ $item->phanquyen }}
                                             @endif
@@ -91,14 +92,14 @@
                                         </td>
                                         <td>
                                             <form id="deleteForm-{{ $item->id }}"
-                                                action="{{ url('/xoa-khach-hang', ['id' => $item->id]) }}" method="POST">
+                                                action="" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <a href="{{ route('chi-tiet-khach-hang', ['id' => $item->id]) }}"
+                                                <a href=""
                                                     class="btn btn-add btn-sm" title="Xem chi tiết">
                                                     <i class="far fa-eye"></i>
                                                 </a>
-                                                <a href="{{ url('/chinh-sua-tai-khoan', ['id' => $item->id]) }}"
+                                                <a href="{{ route('chi-tiet-khach-hang', ['id' => $item->id]) }}"
                                                     class="btn btn-primary btn-sm edit" type="button" title="Sửa">
                                                     <i class="fa fa-edit"></i>
                                                 </a>

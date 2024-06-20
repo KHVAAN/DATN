@@ -18,7 +18,7 @@ class adminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if(Auth::check()){
-            if ((Auth::user()->phanquyen == 0 || (Auth::user()->phanquyen == 1) && (Auth::user()->trangthai == 0))) {
+            if (((Auth::user()->phanquyen == 1) && (Auth::user()->trangthai == 0))) {
                 return $next($request);
             }elseif((Auth::user()->trangthai == 1)){
                 Alert::error('Đăng nhập không thành công', 'Tài khoản bị vô hiệu hóa. Vui lòng liên hệ admin! ');

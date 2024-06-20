@@ -7,6 +7,8 @@ use App\Models\Size;
 
 class SizeController extends Controller
 {
+
+
     public function edit($id)
     {
         $size = Size::find($id);

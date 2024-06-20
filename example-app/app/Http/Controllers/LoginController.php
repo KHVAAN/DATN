@@ -14,8 +14,11 @@ class loginController extends Controller
      */
     public function login(Request $request)
     {
+        // Tìm user theo email
         $tt = User::where('email', $request->input('email'))->first();
         $ttt = $tt->trangthai ?? null;
+
+        // Xác thực đầu vào
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
@@ -25,30 +28,53 @@ class loginController extends Controller
             'password.required' => 'Không được để trống',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
         ]);
+
         $taiKhoan = $request->only('email', 'password');
+
+        // Kiểm tra thông tin đăng nhập
         if (Auth::attempt($taiKhoan)) {
             $user = Auth::user();
             session([
                 'id' => $user->id,
                 'name' => $user->hovaten,
                 'chucvu' => $user->phanquyen,
-                'avatar' => $user->avatar,
             ]);
             $name = $user->hovaten;
             $phanQuyen = $user->phanquyen;
             $chuyenDoi = intval($phanQuyen);
+
+            // Kiểm tra quyền và điều hướng
             if ($chuyenDoi == 1 && $ttt == 0) {
                 alert()->success('Đăng nhập thành công', 'Chào mừng ' . $name . ' đến với trang quản trị');
-                return \redirect()->route('trang-chu');
+                return redirect()->route('trang-chu');
             } elseif ($chuyenDoi == 2 && $ttt == 0) {
-                return \redirect()->route('index');
+                // Sử dụng ProductController để gọi hàm index_user
+                $productController = new ProductController();
+                return $productController->index_user();
             }
         } else {
-
-            alert()->error('Đăng nhập không thành công', 'Tài khoản hoặc mật khẩu không chính xác! ');
+            alert()->error('Đăng nhập không thành công', 'Tài khoản hoặc mật khẩu không chính xác!');
             return redirect()->back();
         }
     }
+
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
+        if ($user->phanquyen == 1) {
+            Auth::logout();
+            session()->flush();
+            return redirect()->route('dang-nhap');
+        } else {
+            Auth::logout();
+            session()->flush();
+            // Tạo lại đối tượng ProductController
+            $productController = new ProductController();
+            // Chuyển hướng đến hàm index_user của ProductController
+            return $productController->index_user();
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -57,6 +83,7 @@ class loginController extends Controller
     {
         return view('admin.trang-chu');
     }
+
 
     /**
      * Store a newly created resource in storage.

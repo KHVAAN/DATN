@@ -17,9 +17,10 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
 
+
     public function index_ad()
     {
-        $product = Product::with(['category', 'brand'])->get(); // Lấy tất cả sản phẩm kèm theo loại sản phẩm và nhãn hiệu
+        $product = Product::with(['category', 'brand'])->paginate(10); // Lấy tất cả sản phẩm kèm theo loại sản phẩm và nhãn hiệu
         return view('admin.quan-li-san-pham', compact('product')); // Truyền biến product tới view
     }
     public function index_user()
@@ -118,7 +119,7 @@ class ProductController extends Controller
         $subProducts = Product_detail::where('sanpham_id', $id)->with(['color', 'size'])->get();
         // Tính tổng số lượng tồn kho
         $total = $subProducts->sum('soluong');
-        return view('admin.them-san-pham-con', compact('product', 'colors', 'sizes', 'subProducts','total'));
+        return view('admin.them-san-pham-con', compact('product', 'colors', 'sizes', 'subProducts', 'total'));
     }
 
     // Xử lý thêm sản phẩm con
@@ -139,7 +140,6 @@ class ProductController extends Controller
             $existingProductDetail->soluong += $request->input('soluong');
             $existingProductDetail->save();
             Alert()->success('Thành công', 'Số lượng sản phẩm con đã được cập nhật.');
-
         } else {
             $productDetail = new Product_detail();
             $productDetail->sanpham_id = $id;
@@ -148,7 +148,6 @@ class ProductController extends Controller
             $productDetail->soluong = $request->input('soluong');
             $productDetail->save();
             Alert()->success('Thành công', 'Sản phẩm con được thêm thành công.');
-
         }
         return redirect()->back();
     }
@@ -241,51 +240,46 @@ class ProductController extends Controller
         return view('user.tim-kiem', compact('product'));
     }
 
-
-    public function detail(string $id, Request $request)
+    public function detail($id)
     {
         $product = Product::find($id);
+        if (!$product) {
+            abort(404); // Xử lý khi không tìm thấy sản phẩm
+        }
 
-        $image = Image::where('sp_id', $id)->get();
-        $giamgia = $product->giamgia;
-        $dongia = $product->dongia;
+        // Lấy các chi tiết sản phẩm duy nhất theo màu và kích thước
+        $uniqueDetails = Product_detail::where('sanpham_id', $id)->get()->unique('mau_id', 'size_id');
 
-        // Lấy chi tiết màu sắc độc nhất
-        $uniqueDetails = Product_detail::where('sanpham_id', $id)->get()->unique('color.tenmau');
-
-        // Lấy tất cả chi tiết sản phẩm
+        // Lấy tất cả các chi tiết sản phẩm
         $allDetails = Product_detail::where('sanpham_id', $id)->get();
 
-        $colorId = $request->input('color');
-        $sizeId = $request->input('size');
+        // Lấy màu và kích thước mặc định từ chi tiết sản phẩm đầu tiên (nếu có)
+        $defaultDetail = $allDetails->first();
+        $defaultColor = $defaultDetail ? $defaultDetail->mau_id : null;
+        $defaultSize = $defaultDetail ? $defaultDetail->size_id : null;
 
-        // Lấy tên kích cỡ
-        $size = Size::find($sizeId);
-        $sizeName = $size->tensize ?? NULL;
+        // Lấy tên màu và kích thước mặc định
+        $color = Color::find($defaultColor);
+        $size = Size::find($defaultSize);
+        $colorName = $color ? $color->tenmau : null;
+        $sizeName = $size ? $size->tensize : null;
 
-        // Lấy kích cỡ khả dụng cho màu đã chọn
-        $availableSizes = Product_detail::select('size_id')
-            ->where('sanpham_id', $id)
-            ->where('mau_id', $colorId)
-            ->distinct()->get();
+        // Lấy danh sách các size và màu sắc có sẵn
+        $availableSizes = Product_detail::select('size_id')->where('sanpham_id', $id)
+            ->where('mau_id', $defaultColor)->distinct()->get();
+        $availableColors = Product_detail::select('mau_id')->where('sanpham_id', $id)
+            ->where('size_id', $defaultSize)->distinct()->get();
 
-        // Lấy chi tiết màu sắc đã chọn
-        $color = Color::find($colorId);
-        $colorName = $color->tenmau ?? NULL;
-        $colorId = $color->id ?? NULL;
-
-        // Lấy chi tiết sản phẩm cho màu sắc và kích cỡ đã chọn
+        // Lấy chi tiết sản phẩm mặc định
         $productDetail = Product_detail::where('sanpham_id', $id)
-            ->where('mau_id', $colorId)
-            ->where('size_id', $sizeId)
-            ->first();
+            ->where('mau_id', $defaultColor)
+            ->where('size_id', $defaultSize)->first();
+        $quantity = $productDetail ? $productDetail->soluong : null;
 
-        $quantity = $productDetail->soluong ?? NULL;
+        // Lấy các hình ảnh của sản phẩm
+        $image = Image::where('sp_id', $id)->get();
 
-        // // Lấy bình luận cho sản phẩm
-        // $reviews = Review::where('product_id', $id)->get();
-
-
-        return view('user.detail', compact('quantity', 'sizeName', 'sizeId', 'colorId', 'colorName', 'productDetail', 'image', 'product', 'availableSizes', 'uniqueDetails'));
+        // Trả về view 'user.detail' với các dữ liệu cần thiết
+        return view('user.detail', compact('quantity', 'sizeName', 'colorName', 'productDetail', 'image', 'product', 'availableSizes', 'availableColors', 'uniqueDetails'));
     }
 }

@@ -4,16 +4,57 @@
 
 @section('content')
     <style>
-        .text-align-center th,
-        td {
-            text-align: center;
+        /* .text-align-center th,
+                td {
+                    text-align: center;
+                } */
+
+        .bg-gray {
+            background-color: #f2f2f2;
+            /* Màu nền xám */
         }
 
-        .active {
+        .text-dark {
+            color: #000000;
+            /* Màu chữ đen */
+        }
+
+        .font-weight-bold {
             font-weight: bold;
-            /* Thêm kiểu hiển thị cho class active */
-            color: #007bff;
-            /* Màu sắc khác để dễ phân biệt */
+            /* Chữ in đậm */
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .form-control-sm.d-inline-block {
+            display: inline-block;
+            width: auto;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+        }
+
+        .mr-2 {
+            margin-right: 0.5rem;
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .mt-3 {
+            margin-top: 0.5rem;
+        }
+
+        .pagination {
+            justify-content: flex-end;
         }
     </style>
 
@@ -47,10 +88,32 @@
                                 <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
                                     onclick="myFunction(this)"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
                             </div>
+
                         </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="d-flex align-items-center">
+                                <label class="mr-2 mb-0">Hiển thị
+                                    <select name="sampleTable_length" aria-controls="sampleTable"
+                                        class="form-control form-control-sm d-inline-block">
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <label class="mr-2 mb-0">Tìm kiếm:</label>
+                                <input type="search" id="searchInput" class="form-control form-control-sm mr-2"
+                                    style="width: 200px; height: 40px;" placeholder="Nhập từ khóa tìm kiếm..."
+                                    aria-controls="sampleTable" onkeydown="handleSearch(event)">
+                            </div>
+                        </div>
+
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead class="text-align-center">
-                                <tr>
+                                <tr class="bg-gray text-dark font-weight-bold">
                                     <th>STT</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Số lượng</th>
@@ -72,9 +135,9 @@
                                         <td>{{ $item->brand->tennhanhieu }}</td>
                                         <td>
                                             @if ($item->trangthai == 0)
-                                                Còn hàng
+                                                <span class="badge bg-success">Còn hàng</span>
                                             @else
-                                                Hết hàng
+                                                <span class="badge bg-danger">Hết hàng</span>
                                             @endif
                                         </td>
                                         <td>
@@ -105,6 +168,20 @@
                                 @endforeach
                             </tbody>
                         </table>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="sampleTable_info" role="status" aria-live="polite">
+                                    Có {{ $product->total() }} thông tin được tìm thấy
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
+                                    {{ $product->links() }}
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

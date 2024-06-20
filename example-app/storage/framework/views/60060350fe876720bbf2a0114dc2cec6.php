@@ -21,7 +21,7 @@
                         <div class="widget-small primary coloured-icon"><i class='icon bx bxs-user-account fa-3x'></i>
                             <div class="info">
                                 <h4>Tổng khách hàng</h4>
-                                <p><b>56 khách hàng</b></p>
+                                <p><b><?php echo e($count); ?> khách hàng</b></p>
                                 <p class="info-tong">Tổng số khách hàng được quản lý.</p>
                             </div>
                         </div>
@@ -31,7 +31,7 @@
                         <div class="widget-small info coloured-icon"><i class='icon bx bxs-data fa-3x'></i>
                             <div class="info">
                                 <h4>Tổng sản phẩm</h4>
-                                <p><b>1850 sản phẩm</b></p>
+                                <p><b><?php echo e($count_product); ?> sản phẩm</b></p>
                                 <p class="info-tong">Tổng số sản phẩm được quản lý.</p>
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                         <div class="widget-small danger coloured-icon"><i class='icon bx bxs-error-alt fa-3x'></i>
                             <div class="info">
                                 <h4>Sắp hết hàng</h4>
-                                <p><b>4 sản phẩm</b></p>
+                                <p><b><?php echo e($product_stt); ?> sản phẩm</b></p>
                                 <p class="info-tong">Số sản phẩm cảnh báo hết cần nhập thêm.</p>
                             </div>
                         </div>
@@ -118,37 +118,20 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Tên khách hàng</th>
-                                            <th>Ngày sinh</th>
-                                            <th>Số điện thoại</th>
+                                            <th>STT</th>
+                                            <th>Họ và tên</th>
+                                            <th>Địa chỉ</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>#183</td>
-                                            <td>Hột vịt muối</td>
-                                            <td>21/7/1992</td>
-                                            <td><span class="tag tag-success">0921387221</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>#219</td>
-                                            <td>Bánh tráng trộn</td>
-                                            <td>30/4/1975</td>
-                                            <td><span class="tag tag-warning">0912376352</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>#627</td>
-                                            <td>Cút rang bơ</td>
-                                            <td>12/3/1999</td>
-                                            <td><span class="tag tag-primary">01287326654</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>#175</td>
-                                            <td>Hủ tiếu nam vang</td>
-                                            <td>4/12/20000</td>
-                                            <td><span class="tag tag-danger">0912376763</span></td>
-                                        </tr>
+                                        <?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <tr>
+                                                <td><?php echo e($index + 1); ?></td> <!-- STT -->
+                                                <td><?php echo e($item->hovaten); ?></td>
+                                                <td><?php echo e($item->diachi); ?></td>
+                                            </tr>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </tbody>
                                 </table>
                             </div>

@@ -8,6 +8,11 @@
         td {
             text-align: center;
         }
+
+        .tfoot-left td {
+            text-align: left;
+            font-weight: bold;
+        }
     </style>
     <main class="app-content">
         <div class="row element-button">
@@ -89,7 +94,11 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+
                         </table>
+                    </div>
+                    <div class="tile-footer">
+                        <h6>Tổng cộng: {{ $brand->count() }}</h6>
                     </div>
                 </div>
             </div>
@@ -157,6 +166,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="tile-footer">
+                        <h6>Tổng cộng: {{ $size->count() }}</h6>
+                    </div>
                 </div>
             </div>
         </div>
@@ -220,6 +232,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="tile-footer">
+                        <h6>Tổng cộng: {{ $color->count() }}</h6>
+                    </div>
                 </div>
             </div>
         </div>
@@ -281,6 +296,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="tile-footer">
+                        <h6>Tổng cộng: {{ $category->count() }}</h6>
                     </div>
                 </div>
             </div>

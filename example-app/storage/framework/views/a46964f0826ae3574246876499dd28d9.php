@@ -173,7 +173,7 @@
                                 </script>
                             </div>
                             <div class="form-group col-md-12">
-                                
+
                                 <a class="btn btn-cancel" href="<?php echo e(route('quan-li-san-pham')); ?>">Hủy bỏ</a>
                             </div>
                         </form>

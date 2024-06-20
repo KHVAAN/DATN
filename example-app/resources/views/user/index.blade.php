@@ -171,7 +171,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer d-flex justify-content-between bg-light border">
-                                    <a href="{{ route('detail', ['id' => $item->id]) }}"
+                                    <a href="{{ url('/detail', ['id' => $item->id]) }}"
                                         class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Xem
                                         Chi Tiết</a>
                                     <form action="" method="POST">

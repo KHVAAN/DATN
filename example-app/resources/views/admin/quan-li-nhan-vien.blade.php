@@ -4,9 +4,57 @@
 
 @section('content')
     <style>
-        .text-align-center th,
-        td {
-            text-align: center;
+        /* .text-align-center th,
+                td {
+                    text-align: center;
+                } */
+
+        .bg-gray {
+            background-color: #f2f2f2;
+            /* Màu nền xám */
+        }
+
+        .text-dark {
+            color: #000000;
+            /* Màu chữ đen */
+        }
+
+        .font-weight-bold {
+            font-weight: bold;
+            /* Chữ in đậm */
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .form-control-sm.d-inline-block {
+            display: inline-block;
+            width: auto;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+        }
+
+        .mr-2 {
+            margin-right: 0.5rem;
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .mt-3 {
+            margin-top: 0.5rem;
+        }
+
+        .pagination {
+            justify-content: flex-end;
         }
     </style>
 
@@ -14,8 +62,7 @@
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
                 <li class="breadcrumb-item active"><a href="{{ route('quan-li-nhan-vien') }}"><b>Danh sách quản trị
-                            viên</b></a>
-                </li>
+                            viên</b></a></li>
             </ul>
             <div id="clock"></div>
         </div>
@@ -26,30 +73,55 @@
                     <div class="tile-body">
                         <div class="row element-button">
                             <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" href="{{ route('them-admin') }}" title="Thêm"><i
-                                        class="fas fa-plus"></i>
-                                    Tạo mới quản trị viên</a>
+                                <a class="btn btn-add btn-sm" href="{{ route('them-admin') }}" title="Thêm">
+                                    <i class="fas fa-plus"></i> Tạo mới quản trị viên
+                                </a>
                             </div>
 
                             <div class="col-sm-2">
                                 <a class="btn btn-delete btn-sm print-file" type="button" title="In"
-                                    onclick="myApp.printTable()"><i class="fas fa-print"></i> In dữ liệu</a>
+                                    onclick="myApp.printTable()">
+                                    <i class="fas fa-print"></i> In dữ liệu
+                                </a>
                             </div>
 
                             <div class="col-sm-2">
-                                <a class="btn btn-excel btn-sm" href="" title="In"><i
-                                        class="fas fa-file-excel"></i> Xuất Excel</a>
+                                <a class="btn btn-excel btn-sm" href="" title="In">
+                                    <i class="fas fa-file-excel"></i> Xuất Excel
+                                </a>
                             </div>
+
                             <div class="col-sm-2">
                                 <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
-                                    onclick="myFunction(this)"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
+                                    onclick="myFunction(this)">
+                                    <i class="fas fa-file-pdf"></i> Xuất PDF
+                                </a>
                             </div>
-
                         </div>
-                        <table class="table table-hover table-bordered" id="sampleTable">
+
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="d-flex align-items-center">
+                                <label class="mr-2 mb-0">Hiển thị
+                                    <select name="sampleTable_length" aria-controls="sampleTable"
+                                        class="form-control form-control-sm d-inline-block">
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <label class="mr-2 mb-0">Tìm kiếm:</label>
+                                <input type="search" id="searchInput" class="form-control form-control-sm mr-2"
+                                    style="width: 200px; height: 40px;" placeholder="Nhập từ khóa tìm kiếm..."
+                                    aria-controls="sampleTable" onkeydown="handleSearch(event)">
+                            </div>
+                        </div>
+
+                        <table class="table table-hover table-bordered mt-3" id="sampleTable">
                             <thead class="text-align-center">
-                                <tr>
-                                    {{-- <th width="10"><input type="checkbox" id="all"></th> --}}
+                                <tr class="bg-gray text-dark font-weight-bold">
                                     <th>STT</th>
                                     <th>Họ và tên</th>
                                     <th>Địa chỉ</th>
@@ -95,7 +167,7 @@
                                                 action="{{ url('/xoa-admin', ['id' => $item->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <a href="{{ route('chi-tiet-admin', ['id' => $item->id]) }}"
+                                                <a href="{{ url('/chi-tiet-admin', ['id' => $item->id]) }}"
                                                     class="btn btn-add btn-sm" title="Xem chi tiết">
                                                     <i class="far fa-eye"></i>
                                                 </a>
@@ -114,10 +186,25 @@
                                 @endforeach
                             </tbody>
                         </table>
+
+                        <div class="row mt-3">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="sampleTable_info" role="status" aria-live="polite">
+                                    Có {{ $admin->total() }} thông tin được tìm thấy
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
+                                    {{ $admin->links() }}
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -140,5 +227,41 @@
                 document.getElementById('deleteForm-{{ $item->id }}').submit();
             });
         </script>
+        {{-- xử lí nút search --}}
+        {{-- <script>
+            function handleSearch(event) {
+                if (event.keyCode === 13) { // Kiểm tra nếu nhấn phím Enter
+                    event.preventDefault(); // Ngăn không cho form submit mặc định
+
+                    var searchText = document.getElementById('searchInput').value
+                        .trim(); // Lấy giá trị tìm kiếm và loại bỏ khoảng trắng đầu cuối
+
+                    // Nếu searchText không rỗng
+                    if (searchText !== '') {
+                        var found = false;
+
+                        // Tìm kiếm trong nội dung cần kiểm tra (ví dụ: trong table)
+                        var rows = document.querySelectorAll('#sampleTable tbody tr');
+                        rows.forEach(function(row) {
+                            var cells = row.querySelectorAll('td');
+                            cells.forEach(function(cell) {
+                                if (cell.innerText.toLowerCase().includes(searchText.toLowerCase())) {
+                                    row.style.display = '';
+                                    found = true;
+                                } else {
+                                    row.style.display = 'none'; // Ẩn dòng không tìm thấy
+                                }
+                            });
+                        });
+
+                        if (!found) {
+                            alert('Không tìm thấy sản phẩm phù hợp.');
+                        }
+                    } else {
+                        alert('Vui lòng nhập từ khóa tìm kiếm.');
+                    }
+                }
+            }
+        </script> --}}
     </main>
 @endsection

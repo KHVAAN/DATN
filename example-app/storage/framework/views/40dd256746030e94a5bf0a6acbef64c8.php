@@ -6,6 +6,11 @@
         td {
             text-align: center;
         }
+
+        .tfoot-left td {
+            text-align: left;
+            font-weight: bold;
+        }
     </style>
     <main class="app-content">
         <div class="row element-button">
@@ -87,7 +92,11 @@
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
+
                         </table>
+                    </div>
+                    <div class="tile-footer">
+                        <h6>Tổng cộng: <?php echo e($brand->count()); ?></h6>
                     </div>
                 </div>
             </div>
@@ -155,6 +164,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="tile-footer">
+                        <h6>Tổng cộng: <?php echo e($size->count()); ?></h6>
+                    </div>
                 </div>
             </div>
         </div>
@@ -218,6 +230,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="tile-footer">
+                        <h6>Tổng cộng: <?php echo e($color->count()); ?></h6>
+                    </div>
                 </div>
             </div>
         </div>
@@ -279,6 +294,9 @@
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="tile-footer">
+                        <h6>Tổng cộng: <?php echo e($category->count()); ?></h6>
                     </div>
                 </div>
             </div>

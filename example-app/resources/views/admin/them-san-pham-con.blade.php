@@ -63,7 +63,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <button class="btn btn-save" type="submit">Lưu lại</button>
-                                <a class="btn btn-cancel" href="{{ url('/them-san-pham') }}">Hủy bỏ</a>
+                                <a class="btn btn-cancel" href="{{ url('/quan-li-san-pham') }}">Hủy bỏ</a>
                             </div>
                         </form>
                     </div>

@@ -13,8 +13,16 @@ class ChungController extends Controller
 {
     public function index()
     {
-        $brand = Brand::all();
         $size = Size::all();
+
+        // Định nghĩa thứ tự sắp xếp
+        $order = ['S', 'M', 'L', 'XL', '2XL'];
+
+        // Sắp xếp mảng $sizes theo thứ tự trong mảng $order
+        $size = $size->sort(function ($a, $b) use ($order) {
+            return array_search($a->tensize, $order) - array_search($b->tensize, $order);
+        });
+        $brand = Brand::all();
         $color = Color::all();
         $category = Category::all();
         return view('admin.danh-sach-chung', compact('brand', 'size', 'color', 'category'));

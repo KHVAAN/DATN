@@ -5,6 +5,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChungController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\HomeController;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -32,26 +33,21 @@ Route::get('/login', function () {
     return view('login');
 })->name('dang-nhap');
 
-Route::post('/login', [LoginController::class, 'login'])->name('xu-li-dang-nhap');
-/**
- * đăng xuất
- */
+// Route cho trang chủ khách hàng
 Route::get('/', function () {
     return view('user.index');
-})->name('home');
+});
 
-Route::post('/logout', function () {
-    if (Auth::user()->phanquyen == 1) {
-        Auth::logout();
-        session()->flush();
-        return redirect()->route('dang-nhap');
-    } else {
-        Auth::logout();
-        session()->flush();
-        return redirect()->route('home');
-    }
-})->name('dang-xuat');
+// Route cho trang quản trị
+Route::get('/trang-chu', function () {
+    return view('admin.trang-chu');
+})->name('trang-chu');
 
+// Route cho đăng nhập
+Route::post('/login', [LoginController::class, 'login'])->name('xu-li-dang-nhap');
+
+// Route cho đăng xuất
+Route::post('/logout', [LoginController::class, 'logout'])->name('dang-xuat');
 
 Route::get('/register', function () {
     return view('register');
@@ -62,15 +58,15 @@ Route::post('/register', [LoginController::class, 'register'])->name('xu-li-dang
 
 Route::get('/', [ProductController::class, 'index_user'])->name('trang-chu-user');
 Route::get('/search', [ProductController::class, 'search'])->name('tim-kiem');
-Route::get('/detail/{id}', [ProductController::class, 'detail'])->name('detail');
+Route::get('/detail/{id}', [ProductController::class, 'detail'])->name('chi-tiet-san-pham-user');
 
 Route::get('/shop', function () {
     return view('user.shop');
 });
 
-Route::get('/detail', function () {
-    return view('user.detail');
-});
+// Route::get('/detail', function () {
+//     return view('user.detail');
+// });
 
 Route::get('/cart', function () {
     return view('user.cart');
@@ -89,9 +85,6 @@ Route::get('/intro', function () {
 });
 
 // Admin (9)
-Route::get('/trang-chu', function () {
-    return view('admin.trang-chu');
-});
 
 Route::get('/quan-li-nhan-vien', function () {
     return view('admin.quan-li-nhan-vien');
@@ -131,9 +124,6 @@ Route::get('/danh-sach-chung', function () {
     return view('admin.danh-sach-chung');
 });
 
-Route::get('/trang-chu', function () {
-    return view('admin.trang-chu');
-})->name('trang-chu');
 
 Route::get('/quan-li-san-pham', [ProductController::class, 'index_ad'])->name('quan-li-san-pham');
 Route::get('/them-san-pham', [ProductController::class, 'create'])->name('them-san-pham');
@@ -172,7 +162,10 @@ Route::post('/cap-nhat-loai/{id}', [CategoryController::class, 'update'])->name(
 Route::delete('/xoa-loai/{id}', [CategoryController::class, 'destroy'])->name('xoa-loai');
 
 
+Route::get('/trang-chu', [AdminController::class, 'home'])->name('trang-chu');
 Route::get('/quan-li-nhan-vien', [AdminController::class, 'index'])->name('quan-li-nhan-vien');
+
+
 Route::get('/them-admin', [AdminController::class, 'create'])->name('them-admin');
 Route::post('/them-admin', [AdminController::class, 'store'])->name('xu-li-them-admin');
 Route::get('/chi-tiet-admin/{id}', [AdminController::class, 'show'])->name('chi-tiet-admin');
@@ -181,7 +174,6 @@ Route::post('/cap-nhat-admin/{id}', [AdminController::class, 'update'])->name('c
 Route::delete('/xoa-admin/{id}', [AdminController::class, 'destroy'])->name('xoa-admin');
 
 
+
 Route::get('/quan-li-khach-hang', [UserController::class, 'index'])->name('quan-li-khach-hang');
-// Route::get('/them-khach-hang', [UserController::class, 'create'])->name('them-khach-hang');
-// Route::post('/them-khach-hang', [UserController::class, 'store'])->name('xu-li-them-khach-hang');
-Route::get('/chi-tiet-khach-hang/{id}', [AdminController::class, 'show'])->name('chi-tiet-khach-hang');
+Route::get('/chi-tiet-user/{id}', [UserController::class, 'show'])->name('chi-tiet-user');

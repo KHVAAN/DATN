@@ -5,15 +5,29 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        $admin = User::where('phanquyen', 1)->get();
+        $admin = User::where('phanquyen', 1)->paginate(10);
         return view('admin.quan-li-nhan-vien', compact('admin'));
     }
+
+    public function home()
+    {
+        $users = User::where('phanquyen', '<>', 1) // Loại bỏ những người dùng có phân quyền là 1 (admin)
+            ->latest() // Sắp xếp theo thời gian từ mới nhất đến cũ nhất
+            ->take(5) // Giới hạn lấy chỉ 5 bản ghi
+            ->get(); // Lấy dữ liệu
+        $count = User::where('phanquyen', '<>', 1)->count(); // Loại bỏ người dùng là admin
+        $count_product = Product::All()->count();
+        $product_stt = Product::where('soluong', '<', 5)->count(); // Đếm số lượng sản phẩm sắp hết hàng (ví dụ stock < 5)
+        return view('admin.trang-chu', compact('users', 'count', 'count_product', 'product_stt'));
+    }
+
 
     public function create()
     {
@@ -143,4 +157,10 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
+    public function user()
+    {
+        $users = User::latest()->take(5)->get(); // Lấy danh sách 5 người dùng mới nhất
+
+        return view('admin.trang-chu', compact('users')); // Trả về view 'home' với dữ liệu người dùng
+    }
 }

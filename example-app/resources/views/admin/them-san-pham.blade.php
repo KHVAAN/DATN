@@ -138,22 +138,10 @@
                                 <input type="number" name="giamgia" class="form-control" placeholder="Giảm giá">
                                 <div class="error-message">{{ $errors->first('giamgia') }}</div>
                             </div>
-                            <div class="form-group col-md-12">
-                                <label class="control-label">Ảnh sản phẩm</label>
-                                <div id="myfileupload">
-                                    <input type="file" id="uploadfile" name="image[]" onchange="readURL(this);"
-                                        multiple />
-                                </div>
-                                <div id="thumbbox">
-                                    <img height="200" width="150" alt="Thumb image" id="thumbimage"
-                                        style="display: none" />
-                                    <a class="removeimg" href="javascript:"></a>
-                                </div>
-                                <div id="boxchoice">
-                                    <a href="javascript:" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn
-                                        ảnh</a>
-                                    <p style="clear:both"></p>
-                                </div>
+                            <div class="form-group col-md-4">
+                                <label for="#">Ảnh sản phẩm</label>
+                                <input type="file" name="images[]" id="images" multiple accept="image/*">
+                                <div id="preview-container"></div>
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label">Mô tả sản phẩm</label>
@@ -174,3 +162,28 @@
         </div>
     </main>
 @endsection
+<script>
+    $(document).ready(function() {
+        $('#images').on('change', function() {
+            previewImages(this);
+        });
+
+        function previewImages(input) {
+            var previewContainer = $('#preview-container');
+            previewContainer.empty();
+
+            if (input.files && input.files.length > 0) {
+                for (var i = 0; i < input.files.length; i++) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        var img = $('<img>').attr('src', e.target.result).addClass('preview-image');
+                        previewContainer.append(img);
+                    };
+
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+        }
+    });
+</script>

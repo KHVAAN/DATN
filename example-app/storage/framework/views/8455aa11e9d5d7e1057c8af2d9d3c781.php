@@ -168,6 +168,16 @@
             if (url.includes('chi-tiet-san-pham')) {
                 $('.app-menu a[href*="quan-li-san-pham"]').addClass('active');
             }
+
+            // Giữ "Quản lí nhân viên" active khi ở trang "Chi tiết qtv"
+            if (url.includes('chi-tiet-admin')) {
+                $('.app-menu a[href*="quan-li-nhan-vien"]').addClass('active');
+            }
+
+            // Giữ "Quản lí khách hàng" active khi ở trang "Chi tiết qtv"
+            if (url.includes('chi-tiet-user')) {
+                $('.app-menu a[href*="quan-li-khach-hang"]').addClass('active');
+            }
         });
     </script>
 

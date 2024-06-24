@@ -50,7 +50,7 @@ class loginController extends Controller
             } elseif ($chuyenDoi == 2 && $ttt == 0) {
                 // Sử dụng ProductController để gọi hàm index_user
                 $productController = new ProductController();
-                return $productController->index_user();
+                return redirect()->route('trang-chu-user'); 
             }
         } else {
             alert()->error('Đăng nhập không thành công', 'Tài khoản hoặc mật khẩu không chính xác!');

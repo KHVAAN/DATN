@@ -1,6 +1,15 @@
 <?php $__env->startSection('title', 'Trang Chủ'); ?>
 
 <?php $__env->startSection('content'); ?>
+    <style>
+        .product-img img {
+            width: 100%;
+            height: 400px;
+            /* Chiều cao cố định cho hình ảnh */
+            object-fit: cover;
+            /* Đảm bảo hình ảnh được cắt đúng kích thước mà không bị méo */
+        }
+    </style>
     <!-- Slideshow Start-->
     <div id="header-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
@@ -73,40 +82,7 @@
 
 
     <!-- Categories Start -->
-    <div class="container-fluid pt-5">
-        <div class="row px-xl-5 pb-3">
-            <!-- Đồ nam -->
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Sản Phẩm</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="img/cat-1.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Đồ Nam</h5>
-                </div>
-            </div>
-            <!-- Đồ nữ -->
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="img/cat-2.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Đồ Nữ</h5>
-                </div>
-            </div>
-            <!-- Đồ phụ kiện -->
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="img/cat-3.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Phụ Kiện</h5>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- Categories End -->
 
 
@@ -137,7 +113,6 @@
     </div>
     <!-- Offer End -->
 
-
     <!-- Sản phẩm phân theo brand start -->
     <div class="container-fluid pt-5">
         <?php $__currentLoopData = $brands; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $brand): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -146,17 +121,22 @@
             </div>
             <div class="row px-xl-5 pb-3">
                 <?php
-                    $brand_detail = $brand_detail->where('nh_id', $brand->id);
+                    $brand_products = $products->where('nh_id', $brand->id);
                 ?>
-                <?php if($brand_detail->count() > 0): ?>
-                    <?php $__currentLoopData = $brand_detail; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if($brand_products->count() > 0): ?>
+                    <?php $__currentLoopData = $brand_products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php
+                            $firstImage = $item->image->first();
+                        ?>
                         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                             <div class="card product-item border-0 mb-4">
-                                <div
-                                    class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                    <img class="img-fluid w-100" src="<?php echo e(asset($item->image->first()->tenimage)); ?>"
-                                        alt="<?php echo e($item->tensanpham); ?>">
-                                </div>
+                                <?php if($firstImage): ?>
+                                    <div
+                                        class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                        <img class="img-fluid w-100" src="<?php echo e(asset('storage/' . $firstImage->tenimage)); ?>"
+                                            alt="<?php echo e($item->tensanpham); ?>">
+                                    </div>
+                                <?php endif; ?>
                                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                                     <h6 class="text-truncate mb-3"><?php echo e($item->tensanpham); ?></h6>
                                     <div class="d-flex justify-content-center">
@@ -172,8 +152,9 @@
                                     <a href="<?php echo e(url('/detail', ['id' => $item->id])); ?>"
                                         class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Xem
                                         Chi Tiết</a>
-                                    <form action="" method="POST">
+                                    <form action="<?php echo e(url('/them-gio-hang')); ?>" method="POST">
                                         <?php echo csrf_field(); ?>
+                                        <input type="hidden" name="product_id" value="<?php echo e($item->id); ?>">
                                         <button type="submit" class="btn btn-sm text-dark p-0"><i
                                                 class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ
                                             Hàng</button>
@@ -185,10 +166,13 @@
                 <?php else: ?>
                     <p>Không tìm thấy sản phẩm cho nhãn hiệu <?php echo e($brand->tennhanhieu); ?>.</p>
                 <?php endif; ?>
+                
             </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
+
     <!-- Sản phẩm phân theo brand end -->
+
 
 
     <!-- Subscribe Start -->
@@ -219,6 +203,7 @@
 
 
     <!-- Sản Phẩm mới start-->
+
     <div class="container-fluid pt-5">
         <div class="text-center mb-4">
             <h2 class="section-title px-5"><span class="px-2">Sản Phẩm Mới</span></h2>
@@ -228,19 +213,27 @@
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                     <div class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            <?php if($product->image->count() > 0): ?>
-                                <img class="img-fluid w-100" src="<?php echo e(asset($product->image->first()->tenimage)); ?>"
+                            <?php
+                                $firstImage = $product->image->first(); // Giả sử $product có mối quan hệ 'image'
+                            ?>
+                            <?php if($firstImage): ?>
+                                <img class="img-fluid" src="<?php echo e(asset('storage/' . $firstImage->tenimage)); ?>"
                                     alt="<?php echo e($product->tensanpham); ?>">
                             <?php else: ?>
-                                <img class="img-fluid w-100" src="<?php echo e(asset('placeholder.jpg')); ?>" alt="Placeholder">
+                                <img class="img-fluid" src="<?php echo e(asset('storage/default.jpg')); ?>"
+                                    alt="<?php echo e($product->tensanpham); ?>">
                             <?php endif; ?>
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <!-- Hiển thị tên sản phẩm -->
                             <h6 class="text-truncate mb-3"><?php echo e($product->tensanpham); ?></h6>
                             <div class="d-flex justify-content-center">
-                                <!-- Hiển thị đơn giá và giảm giá (nếu có) -->
-                                <h6><?php echo e(number_format($product->dongia * (1 - $product->giamgia / 100))); ?> ₫</h6>
+                                <!-- Hiển thị giá bán -->
+                                <?php
+                                    $finalPrice = $product->dongia * (1 - $product->giamgia / 100);
+                                ?>
+                                <h6><?php echo e(number_format($finalPrice)); ?> ₫</h6>
+                                <!-- Hiển thị giá gốc (nếu có giảm giá) -->
                                 <?php if($product->giamgia > 0): ?>
                                     <h6 class="text-muted ml-2">
                                         <del><?php echo e(number_format($product->dongia)); ?> ₫</del>
@@ -249,11 +242,12 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i
-                                    class="fas fa-eye text-primary mr-1"></i>Xem Chi Tiết</a>
-                            <!-- Thêm sản phẩm vào giỏ hàng -->
-                            <form action="" method="POST">
+                            <a href="<?php echo e(url('/detail', ['id' => $item->id])); ?>" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-eye text-primary mr-1"></i>Xem
+                                Chi Tiết</a>
+                            <form action="<?php echo e(url('/them-gio-hang')); ?>" method="POST">
                                 <?php echo csrf_field(); ?>
+                                <input type="hidden" name="product_id" value="<?php echo e($item->id); ?>">
                                 <button type="submit" class="btn btn-sm text-dark p-0"><i
                                         class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ
                                     Hàng</button>
@@ -264,6 +258,8 @@
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
     </div>
+
+
     <!-- Sản phẩm mới end -->
 
 
@@ -291,6 +287,32 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            // Xử lý khi nhấn nút Trước
+            $('.prev-btn').click(function() {
+                var target = $($(this).data('target')).find('.product-slide.active');
+                var prev = target.prev();
+                if (prev.length === 0) {
+                    prev = target.siblings().last();
+                }
+                target.removeClass('active');
+                prev.addClass('active');
+            });
+
+            // Xử lý khi nhấn nút Tiếp
+            $('.next-btn').click(function() {
+                var target = $($(this).data('target')).find('.product-slide.active');
+                var next = target.next();
+                if (next.length === 0) {
+                    next = target.siblings().first();
+                }
+                target.removeClass('active');
+                next.addClass('active');
+            });
+        });
+    </script>
     <!-- Vendor End -->
 <?php $__env->stopSection(); ?>
 

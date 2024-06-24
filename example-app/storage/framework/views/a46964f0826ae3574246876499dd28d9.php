@@ -151,10 +151,11 @@
                                 <div id="thumbbox">
                                     <?php $__currentLoopData = $image; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div class="form-group col-md-6">
-                                            <img src="<?php echo e(asset($item->tenimage)); ?>" alt="Product Image" class="img-fluid"
-                                                style="height: 100px;">
+                                            <img src="<?php echo e(asset('storage/' . $item->tenimage)); ?>" alt="Product Image"
+                                                class="img-fluid" style="height: 100px;">
                                         </div>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
                                     <a class="removeimg" href="javascript:"></a>
                                 </div>
 

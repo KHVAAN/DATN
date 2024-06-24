@@ -181,7 +181,7 @@
                         <div class="row mt-3">
                             <div class="col-sm-12 col-md-5">
                                 <div class="dataTables_info" id="sampleTable_info" role="status" aria-live="polite">
-                                    Có {{ $user->total() }} thông tin được tìm thấy
+                                    <h6>Có {{ $user->total() }} thông tin được tìm thấy</h6>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-7">
@@ -197,7 +197,7 @@
         </div>
     </main>
 
-    <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
+    {{-- <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -212,7 +212,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     {{-- <script>
         // JavaScript for handling search

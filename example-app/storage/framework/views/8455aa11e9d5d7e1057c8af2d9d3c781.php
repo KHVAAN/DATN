@@ -178,6 +178,11 @@
             if (url.includes('chi-tiet-user')) {
                 $('.app-menu a[href*="quan-li-khach-hang"]').addClass('active');
             }
+
+            // Giữ "Danh sách chung" active khi ở trang "Chỉnh sửa nhãn hiệu"
+            if (url.includes('chinh-sua-nhan-hieu')) {
+                $('.app-menu a[href*="danh-sach-chung"]').addClass('active');
+            }
         });
     </script>
 

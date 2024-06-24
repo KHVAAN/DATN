@@ -3,9 +3,9 @@
 <?php $__env->startSection('content'); ?>
     <style>
         /* .text-align-center th,
-                td {
-                    text-align: center;
-                } */
+                    td {
+                        text-align: center;
+                    } */
 
         .bg-gray {
             background-color: #f2f2f2;
@@ -170,7 +170,7 @@
                         <div class="row mt-3">
                             <div class="col-sm-12 col-md-5">
                                 <div class="dataTables_info" id="sampleTable_info" role="status" aria-live="polite">
-                                    Có <?php echo e($product->total()); ?> thông tin được tìm thấy
+                                    <h6>Có <?php echo e($product->total()); ?> thông tin được tìm thấy</h6>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-7">

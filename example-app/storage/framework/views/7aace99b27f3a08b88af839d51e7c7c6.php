@@ -177,7 +177,7 @@
                         <div class="row mt-3">
                             <div class="col-sm-12 col-md-5">
                                 <div class="dataTables_info" id="sampleTable_info" role="status" aria-live="polite">
-                                    Có <?php echo e($user->total()); ?> thông tin được tìm thấy
+                                    <h6>Có <?php echo e($user->total()); ?> thông tin được tìm thấy</h6>
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-7">
@@ -194,22 +194,7 @@
         </div>
     </main>
 
-    <div class="modal fade" id="confirmDeleteModal-<?php echo e($item->id); ?>" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
-                    <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
-                    <div class="form-group mt-4">
-                        <button id="confirmDeleteBtn-<?php echo e($item->id); ?>" class="btn btn-primary mr-2">Xác
-                            nhận</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     
 

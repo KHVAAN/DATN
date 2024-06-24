@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Image;
@@ -11,6 +11,7 @@ use App\Models\Size;
 use App\Models\Color;
 use App\Models\Brand;
 use App\Models\Product_detail;
+use App\Models\Cart;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,17 +26,28 @@ class ProductController extends Controller
     }
     public function index_user()
     {
-        $name_brand = ['Yame', 'Ben & Tod', 'Chuottrang', 'SomeHow', 'Uniqlo'];
+        $name_brand = ['Yame', 'Ben&Tod', 'Chuottrang', 'SomeHow', 'Uniqlo'];
+
         // Lấy thông tin về các nhãn hiệu
         $brands = Brand::whereIn('tennhanhieu', $name_brand)->get();
+
         // Lấy các sản phẩm thuộc các nhãn hiệu trên
-        $brand_detail = Product::whereIn('nh_id', $brands->pluck('id'))->get();
-        $products = Product::where('trangthai', 1) // Lọc sản phẩm có trạng thái = 1 (hoặc có thể lọc theo điều kiện khác)
-            ->orderByDesc('created_at') // Sắp xếp theo thời gian tạo mới nhất
-            ->with('image') // Load các hình ảnh liên kết
-            ->get(); // Lấy danh sách các sản phẩm
+        $brand_ids = $brands->pluck('id');
+        $brand_detail = Product::whereIn('nh_id', $brand_ids)->get();
+
+        // Lấy danh sách các sản phẩm chính
+        $products = Product::where('trangthai', 0)
+            ->whereIn('nh_id', $brand_ids)
+            ->orderByDesc('created_at')
+            ->with('image') // Load các ảnh liên kết
+            ->get();
+
+        // Tính toán số lượng sản phẩm trong giỏ hàng cho người dùng hiện tại
+        // $count = Auth::check() ? Cart::where('user_id', Auth::id())->count() : 0;
+
         return view('user.index', compact('brand_detail', 'brands', 'products'));
     }
+
 
     public function create()
     {
@@ -86,18 +98,34 @@ class ProductController extends Controller
         $product->trangthai = $request->input('trangthai', '0');
         $product->save();
 
+        // if ($request->hasFile('image')) {
+        //     foreach ($request->file('image') as $image) {
+        //         $filename = $image->getClientOriginalName();
+        //         $path = $image->storeAs('public/upload', $filename); // Lưu ảnh vào thư mục public/upload
+        //         $hinhAnh = new Image;
+        //         $hinhAnh->sp_id = $product->id;
+        //         $hinhAnh->tenimage = 'upload/' . $filename; // Lưu đường dẫn ảnh vào cơ sở dữ liệu
+        //         $hinhAnh->save();
+        //     }
+        // }
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $image) {
-                $filename = $image->getClientOriginalName();
-                $path = $image->storeAs('public/upload', $filename); // Lưu ảnh vào thư mục public/upload
+                $filenameWithExt = $image->getClientOriginalName(); // Lấy tên file gốc với đuôi mở rộng
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME); // Lấy tên file không có đuôi mở rộng
+                $extension = $image->getClientOriginalExtension(); // Lấy đuôi mở rộng của file
+                $fileNameToStore = $filename . '_' . time() . '.' . $extension; // Tên file mới
+                $path = $image->storeAs('public/upload', $fileNameToStore); // Lưu ảnh vào thư mục public/upload
+
+                // Lưu đường dẫn ảnh vào cơ sở dữ liệu
                 $hinhAnh = new Image;
                 $hinhAnh->sp_id = $product->id;
-                $hinhAnh->tenimage = 'upload/' . $filename; // Lưu đường dẫn ảnh vào cơ sở dữ liệu
+                $hinhAnh->tenimage = 'upload/' . $fileNameToStore;
                 $hinhAnh->save();
             }
+
+            Alert()->success('Thành công', 'Thêm sản phẩm thành công');
+            return redirect()->back();
         }
-        Alert()->success('Thành công', 'Thêm sản phẩm thành công');
-        return redirect()->back();
     }
 
 
@@ -107,7 +135,6 @@ class ProductController extends Controller
         $brand = Brand::where('trangthai', 0)->get();
         $product = Product::find($id); // Lấy sản phẩm được chọn
         $image = Image::where('sp_id', $id)->get();
-        // $sanphamcon = ChiTietSanPham::where('sanpham_id', $id)->get();
         return view('admin.chi-tiet-san-pham', compact('product', 'category', 'brand', 'image'));
     }
 
@@ -163,56 +190,61 @@ class ProductController extends Controller
     }
     public function edit($id)
     {
-        $product = Product::with('image')->findOrFail($id);
+        $product = Product::findOrFail($id);
         $category = Category::all();
         $brand = Brand::all();
-
-        return view('admin.chinh-sua-san-pham', compact('product', 'category', 'brand'));
+        $image = Image::where('sp_id', $id)->get();
+        return view('admin.chinh-sua-san-pham', compact('product', 'category', 'brand', 'image'));
     }
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'dongia' => 'required|numeric|min:1',
-            'giamgia' => 'required|numeric|max:100',
-            'tensanpham' => 'required|unique:product,tensanpham,' . $id,
-            'loaisp_id' => 'required',
-            'nhanhieu_id' => 'required',
-            'mota' => 'required',
-            'soluong' => 'required|integer|min:0',
-        ], [
-            'giamgia.max' => 'Không được quá 100',
-            'giamgia.required' => 'Không được để trống',
-            'giamgia.numeric' => 'Phải là một số',
-            'dongia.min' => 'Phải lớn hơn 0',
-            'dongia.required' => 'Không được để trống',
-            'loaisp_id.required' => 'Không được để trống',
-            'nhanhieu_id.required' => 'Không được để trống',
-            'mota.required' => 'Không được để trống',
-            'tensanpham.required' => 'Không được để trống',
-            'tensanpham.unique' => 'Tên sản phẩm đã tồn tại',
-            'soluong.required' => 'Không được để trống',
-            'soluong.integer' => 'Phải là số nguyên',
-            'soluong.min' => 'Không được nhỏ hơn 0',
-        ]);
+        //dd($request->all()); // In ra để kiểm tra dữ liệu gửi đi từ form
+
+        $request->validate(
+            [
+                'dongia' => 'required|numeric|min:1',
+                'giamgia' => 'required|numeric|max:100',
+                'tensanpham' => 'required|unique:product,tensanpham,' . $id,
+                'loaisp_id' => 'required',
+                'nhanhieu_id' => 'required',
+                'mota' => 'required',
+                'soluong' => 'required|integer|min:0',
+            ],
+            [
+                'giamgia.max' => 'Không được quá 100',
+                'giamgia.required' => 'Không được để trống',
+                'giamgia.numeric' => 'Phải là một số',
+                'dongia.min' => 'Phải lớn hơn 0',
+                'dongia.required' => 'Không được để trống',
+                'loaisp_id.required' => 'Không được để trống',
+                'nhanhieu_id.required' => 'Không được để trống',
+                'mota.required' => 'Không được để trống',
+                'tensanpham.required' => 'Không được để trống',
+                'tensanpham.unique' => 'Tên sản phẩm đã tồn tại',
+                'soluong.required' => 'Không được để trống',
+                'soluong.integer' => 'Phải là số nguyên',
+                'soluong.min' => 'Không được nhỏ hơn 0',
+            ]
+        );
 
         $product = Product::findOrFail($id);
-        $product->tensanpham = $request->input('tensanpham');
-        $product->loaisp_id = $request->input('loaisp_id');
-        $product->nh_id = $request->input('nhanhieu_id');
-        $product->mota = $request->input('mota');
-        $product->dongia = $request->input('dongia');
-        $product->giamgia = $request->input('giamgia');
-        $product->soluong = $request->input('soluong');
+        $product->fill($request->all());
         $product->trangthai = $request->input('trangthai', '0');
         $product->save();
 
+        // Xóa hình ảnh cũ của sản phẩm (nếu cần thiết)
+        //$product->image()->delete();
+
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $image) {
-                $filename = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('upload'), $filename);
+                $filenameWithExt = $image->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $image->getClientOriginalExtension();
+                $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+                $path = $image->storeAs('public/upload', $fileNameToStore);
                 $hinhAnh = new Image;
                 $hinhAnh->sp_id = $product->id;
-                $hinhAnh->tenimage = 'upload/' . $filename;
+                $hinhAnh->tenimage = 'upload/' . $fileNameToStore;
                 $hinhAnh->save();
             }
         }
@@ -220,6 +252,8 @@ class ProductController extends Controller
         Alert()->success('Thành công', 'Cập nhật sản phẩm thành công');
         return redirect()->back();
     }
+
+
 
     public function destroy(Request $request, $id)
     {
@@ -247,11 +281,13 @@ class ProductController extends Controller
             abort(404); // Xử lý khi không tìm thấy sản phẩm
         }
 
-        // Lấy các chi tiết sản phẩm duy nhất theo màu và kích thước
-        $uniqueDetails = Product_detail::where('sanpham_id', $id)->get()->unique('mau_id', 'size_id');
-
         // Lấy tất cả các chi tiết sản phẩm
         $allDetails = Product_detail::where('sanpham_id', $id)->get();
+
+        // Lấy các chi tiết sản phẩm duy nhất theo màu và kích thước
+        $uniqueDetails = $allDetails->unique(function ($item) {
+            return $item->mau_id . '-' . $item->size_id;
+        });
 
         // Lấy màu và kích thước mặc định từ chi tiết sản phẩm đầu tiên (nếu có)
         $defaultDetail = $allDetails->first();
@@ -274,12 +310,16 @@ class ProductController extends Controller
         $productDetail = Product_detail::where('sanpham_id', $id)
             ->where('mau_id', $defaultColor)
             ->where('size_id', $defaultSize)->first();
-        $quantity = $productDetail ? $productDetail->soluong : null;
 
         // Lấy các hình ảnh của sản phẩm
         $image = Image::where('sp_id', $id)->get();
 
-        // Trả về view 'user.detail' với các dữ liệu cần thiết
+        // Lấy chi tiết sản phẩm mặc định
+        $quantity = $productDetail ? $productDetail->soluong : null;
+
+        // Tính tổng số lượng sản phẩm
+        $product->totalStock = $allDetails->sum('soluong');
+
         return view('user.detail', compact('quantity', 'sizeName', 'colorName', 'productDetail', 'image', 'product', 'availableSizes', 'availableColors', 'uniqueDetails'));
     }
 }

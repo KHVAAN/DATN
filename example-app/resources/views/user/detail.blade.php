@@ -3,7 +3,18 @@
 @section('title', 'Chi Tiết Sản Phẩm')
 
 @section('content')
+    <style>
+        .preserve-format {
+            white-space: pre-wrap;
+        }
 
+        .btn-disabled {
+            opacity: 0.5;
+            /* Reduce opacity to indicate disabled state */
+            pointer-events: none;
+            /* Disable pointer events */
+        }
+    </style>
     <!-- Page Header Start -->
     <div class="container-fluid mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
@@ -17,18 +28,21 @@
         <div class="row px-xl-5">
             <div class="col-lg-5 pb-5">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner border">
+                    <div class="carousel-inner">
                         @foreach ($image as $index => $img)
                             <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                <img class="w-100 h-100" src="{{ asset($img->path) }}" alt="Image">
+                                <img class="d-block w-100" src="{{ asset('storage/' . $img->tenimage) }}"
+                                    alt="Product Image">
                             </div>
                         @endforeach
                     </div>
-                    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                        <i class="fa fa-2x fa-angle-left text-dark"></i>
+                    <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
                     </a>
-                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                        <i class="fa fa-2x fa-angle-right text-dark"></i>
+                    <a class="carousel-control-next" href="#product-carousel" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
                     </a>
                 </div>
             </div>
@@ -50,29 +64,44 @@
                     </del>
                 </h3>
                 @if (isset($uniqueDetails))
+                    @php
+                        $usedSizes = [];
+                    @endphp
+
                     <div class="d-flex mb-4">
                         <p class="text-dark font-weight-medium mb-0 mr-3">Màu sắc</p>
                         <form>
                             @foreach ($uniqueDetails as $detail)
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-{{ $detail->mau_id }}"
-                                        name="color" value="{{ $detail->mau_id }}">
-                                    <label class="custom-control-label"
-                                        for="color-{{ $detail->mau_id }}">{{ $detail->color->tenmau }}</label>
-                                </div>
+                                @if (!in_array($detail->color->tenmau, $usedSizes))
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="color-{{ $detail->mau_id }}"
+                                            name="color" value="{{ $detail->mau_id }}">
+                                        <label class="custom-control-label"
+                                            for="color-{{ $detail->mau_id }}">{{ $detail->color->tenmau }}</label>
+                                    </div>
+                                    @php
+                                        $usedSizes[] = $detail->color->tenmau;
+                                    @endphp
+                                @endif
                             @endforeach
                         </form>
                     </div>
+
                     <div class="d-flex mb-4">
                         <p class="text-dark font-weight-medium mb-0 mr-3">Kích thước</p>
                         <form>
                             @foreach ($uniqueDetails as $detail)
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-{{ $detail->size_id }}"
-                                        name="size" value="{{ $detail->size_id }}">
-                                    <label class="custom-control-label"
-                                        for="size-{{ $detail->size_id }}">{{ $detail->size->tensize }}</label>
-                                </div>
+                                @if (!in_array($detail->size->tensize, $usedSizes))
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" class="custom-control-input" id="size-{{ $detail->size_id }}"
+                                            name="size" value="{{ $detail->size_id }}">
+                                        <label class="custom-control-label"
+                                            for="size-{{ $detail->size_id }}">{{ $detail->size->tensize }}</label>
+                                    </div>
+                                    @php
+                                        $usedSizes[] = $detail->size->tensize;
+                                    @endphp
+                                @endif
                             @endforeach
                         </form>
                     </div>
@@ -86,41 +115,33 @@
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary text-center" value="1">
+                        <input type="text" class="form-control bg-secondary text-center" name="quantity" value="1">
                         <div class="input-group-btn">
                             <button class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
                     </div>
+                    <span class="ml-2" id="stock-quantity">{{ $product->totalStock }} sản phẩm có sẵn</span>
                 </div>
 
                 <div class="d-flex align-items-center mb-4 pt-2">
-                    <button class="btn btn-primary px-3 mr-2"><i class="fa fa-shopping-cart mr-1"></i>Thêm Vào Giỏ
-                        Hàng</button>
-                    <button class="btn btn-primary px-3">Mua Ngay</button>
+                    <form action="{{ route('them-gio-hang') }}" method="POST" id="add-to-cart-form">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="size_id" id="selectedSizeId" value="">
+                        <input type="hidden" name="mau_id" id="selectedColorId" value="">
+                        <input type="hidden" name="soluong" id="selectedQuantity" value="1">
+                        <button type="submit" class="btn btn-primary px-3 mr-2" id="btn-add-to-cart">
+                            <i class="fa fa-shopping-cart mr-1"></i> Thêm Vào Giỏ Hàng
+                        </button>
+                    </form>
+                    <a href="" class="btn btn-primary px-3">Mua Ngay</a>
                 </div>
-
-                {{-- <div class="d-flex pt-2">
-                    <p class="text-dark font-weight-medium mb-0 mr-2">Chia sẻ</p>
-                    <div class="d-inline-flex">
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a class="text-dark px-2" href="">
-                            <i class="fab fa-pinterest"></i>
-                        </a>
-                    </div>
-                </div> --}}
             </div>
         </div>
     </div>
+
     <div class="row px-xl-5">
         <div class="col">
             <div class="nav nav-tabs justify-content-center border-secondary mb-4">
@@ -131,33 +152,16 @@
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="tab-pane-1">
                     <h4 class="mb-3">Mô tả sản phẩm</h4>
-                    <p>{{ $product->mota }}</p>
+                    <p class="preserve-format">{{ $product->mota }}</p>
                 </div>
                 <div class="tab-pane fade" id="tab-pane-3">
                     <div class="row">
                         <div class="col-md-6">
                             <h4 class="mb-4">{{ $product->reviews_count }} bình luận cho sản phẩm
                                 "{{ $product->tensanpham }}"</h4>
-                            {{-- @foreach ($product->reviews as $review)
-                                <div class="media mb-4">
-                                    <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1"
-                                        style="width: 45px;">
-                                    <div class="media-body">
-                                        <h6>{{ $review->user->name }}<small> -
-                                                <i>{{ $review->created_at->format('d-m-Y') }}</i></small></h6>
-                                        <div class="text-primary mb-2">
-                                            @for ($i = 0; $i < 5; $i++)
-                                                <i class="fas fa-star{{ $i < $review->rating ? '' : '-half-alt' }}"></i>
-                                            @endfor
-                                        </div>
-                                        <p>{{ $review->comment }}</p>
-                                    </div>
-                                </div>
-                            @endforeach --}}
                             <div class="col-md-6">
                                 <h4 class="mb-4">Bình luận</h4>
-                                <small>Địa chỉ email của bạn sẽ được bảo mật. Các trường bắt buộc được đánh dấu
-                                    *</small>
+                                <small>Địa chỉ email của bạn sẽ được bảo mật. Các trường bắt buộc được đánh dấu *</small>
                                 <div class="d-flex my-3">
                                     <p class="mb-0 mr-2">Đánh giá sao * :</p>
                                     <div class="text-primary">
@@ -192,33 +196,96 @@
             </div>
         </div>
     </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- Đoạn mã JavaScript -->
     <script>
-    $(document).ready(function() {
-        // Xử lý khi nhấn nút +
-        $('.btn-plus').click(function(e) {
-            e.preventDefault();
-            var quantityInput = $(this).closest('.input-group').find('input[type="text"]');
-            var currentValue = parseInt(quantityInput.val());
-            if (!isNaN(currentValue)) {
-                quantityInput.val(currentValue + 1);
+        $(document).ready(function() {
+            // Xử lý khi nhấn nút +
+            $('.btn-plus').click(function(e) {
+                e.preventDefault();
+                var quantityInput = $(this).closest('.input-group').find('input[name="quantity"]');
+                var currentValue = parseInt(quantityInput.val());
+                if (!isNaN(currentValue)) {
+                    quantityInput.val(currentValue + 1);
+                    updateSelectedQuantity(currentValue + 1);
+                }
+            });
+
+            // Xử lý khi nhấn nút -
+            $('.btn-minus').click(function(e) {
+                e.preventDefault();
+                var quantityInput = $(this).closest('.input-group').find('input[name="quantity"]');
+                var currentValue = parseInt(quantityInput.val());
+                if (!isNaN(currentValue) && currentValue > 1) {
+                    quantityInput.val(currentValue - 1);
+                    updateSelectedQuantity(currentValue - 1);
+                }
+            });
+
+            // Xử lý khi thay đổi màu sắc
+            $('input[name="color"]').change(function() {
+                var selectedColor = $(this).val();
+                updateSelectedColor(selectedColor);
+                updateAddToCartButton();
+            });
+
+            // Xử lý khi thay đổi kích thước
+            $('input[name="size"]').change(function() {
+                var selectedSize = $(this).val();
+                updateSelectedSize(selectedSize);
+                updateAddToCartButton();
+            });
+
+            // Hàm cập nhật size đã chọn
+            function updateSelectedSize(sizeId) {
+                $('#selectedSizeId').val(sizeId);
             }
-        });
 
-        // Xử lý khi nhấn nút -
-        $('.btn-minus').click(function(e) {
-            e.preventDefault();
-            var quantityInput = $(this).closest('.input-group').find('input[type="text"]');
-            var currentValue = parseInt(quantityInput.val());
-            if (!isNaN(currentValue) && currentValue > 1) {
-                quantityInput.val(currentValue - 1);
+            // Hàm cập nhật màu đã chọn
+            function updateSelectedColor(colorId) {
+                $('#selectedColorId').val(colorId);
             }
+
+            // Hàm cập nhật số lượng đã chọn
+            function updateSelectedQuantity(quantity) {
+                $('#selectedQuantity').val(quantity);
+            }
+
+            // Hàm cập nhật nút Thêm vào Giỏ Hàng và Mua Ngay
+            function updateAddToCartButton() {
+                var selectedColor = $('input[name="color"]:checked').val();
+                var selectedSize = $('input[name="size"]:checked').val();
+                if (selectedColor && selectedSize) {
+                    // Lọc chi tiết sản phẩm dựa trên màu và kích thước
+                    var filteredDetail = @json($uniqueDetails).filter(detail => detail.mau_id ==
+                        selectedColor && detail.size_id == selectedSize);
+                    if (filteredDetail.length > 0) {
+                        // Cập nhật số lượng tồn kho
+                        var stockQuantity = filteredDetail[0].soluong;
+                        $('#stock-quantity').text(stockQuantity + ' sản phẩm có sẵn').css('color', '');
+                        // Enable nút Thêm vào Giỏ Hàng và Mua Ngay và cập nhật dữ liệu
+                        $('#btn-add-to-cart').removeClass('btn-disabled').prop('disabled', false);
+                        $('a.btn-primary').removeClass('btn-disabled').prop('disabled', false);
+                    } else {
+                        // Nếu không tìm thấy chi tiết sản phẩm phù hợp
+                        $('#stock-quantity').text('Hết hàng').css('color', 'red');
+                        // Disable nút Thêm vào Giỏ Hàng và Mua Ngay
+                        $('#btn-add-to-cart').addClass('btn-disabled').prop('disabled', true);
+                        $('a.btn-primary').addClass('btn-disabled').prop('disabled', true);
+                    }
+                } else {
+                    // Nếu chưa chọn màu sắc hoặc kích thước
+                    $('#stock-quantity').text('{{ $product->totalStock }} sản phẩm có sẵn').css('color', '');
+                    // Disable nút Thêm vào Giỏ Hàng và Mua Ngay
+                    $('#btn-add-to-cart').addClass('btn-disabled').prop('disabled', true);
+                    $('a.btn-primary').addClass('btn-disabled').prop('disabled', true);
+                }
+            }
+
+            // Gọi hàm cập nhật nút khi trang được tải lần đầu
+            updateAddToCartButton();
         });
-    });
-</script>
-
-
+    </script>
 
 @endsection

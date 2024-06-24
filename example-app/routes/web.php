@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Models\Brand;
 use App\Models\Product;
@@ -59,6 +60,11 @@ Route::post('/register', [LoginController::class, 'register'])->name('xu-li-dang
 Route::get('/', [ProductController::class, 'index_user'])->name('trang-chu-user');
 Route::get('/search', [ProductController::class, 'search'])->name('tim-kiem');
 Route::get('/detail/{id}', [ProductController::class, 'detail'])->name('chi-tiet-san-pham-user');
+Route::get('/cart', [CartController::class, 'index'])->name('gio-hang');
+Route::post('/cart/add', [CartController::class, 'add'])->name('them-gio-hang');
+
+// Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+// Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 
 Route::get('/shop', function () {
     return view('user.shop');
@@ -68,9 +74,7 @@ Route::get('/shop', function () {
 //     return view('user.detail');
 // });
 
-Route::get('/cart', function () {
-    return view('user.cart');
-});
+
 
 Route::get('/checkout', function () {
     return view('user.checkout');
@@ -136,6 +140,7 @@ Route::post('/them-san-pham', [ProductController::class, 'store'])->name('xu-li-
 Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'show'])->name('chi-tiet-san-pham');
 Route::get('/chinh-sua-san-pham/{id}', [ProductController::class, 'edit'])->name('chinh-sua-san-pham');
 Route::put('cap-nhat-san-pham/{id}', [ProductController::class, 'update'])->name('cap-nhat-san-pham');
+
 Route::delete('/xoa-san-pham/{id}', [ProductController::class, 'destroy'])->name('xoa-san-pham');
 
 Route::get('/danh-sach-chung', [ChungController::class, 'index'])->name('danh-sach-chung');

@@ -90,9 +90,9 @@
                 <i class="fas fa-heart text-primary"></i>
                 <span class="badge">0</span>
             </a>
-            <a href="" class="btn border">
+            <a href="<?php echo e(url('/cart')); ?>" class="btn border">
                 <i class="fas fa-shopping-cart text-primary"></i>
-                <span class="badge">0</span>
+                <span class="badge"></span>
             </a>
         </div>
     </div>
@@ -139,14 +139,8 @@
                     <div class="navbar-nav mr-auto py-0">
                         <a href="<?php echo e(url('/')); ?>" class="nav-item nav-link">Trang Chủ</a>
                         <a href="<?php echo e(url('/shop')); ?>" class="nav-item nav-link">Sản Phẩm</a>
-                        <a href="<?php echo e(url('/detail')); ?>" class="nav-item nav-link">Cart</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Trang</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="<?php echo e(url('/cart')); ?>" class="dropdown-item">Giỏ Hàng</a>
-                                <a href="<?php echo e(url('/checkout')); ?>" class="dropdown-item">Thanh Toán</a>
-                            </div>
-                        </div>
+                        
+                        
                         <a href="<?php echo e(url('/intro')); ?>" class="nav-item nav-link">Giới Thiệu</a>
                         <a href="<?php echo e(url('/contact')); ?>" class="nav-item nav-link">Liên Hệ</a>
                     </div>

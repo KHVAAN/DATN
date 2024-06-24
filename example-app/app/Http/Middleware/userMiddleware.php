@@ -25,7 +25,7 @@ class userMiddleware
                 return redirect()->back();
             } else {
                 Alert::error('Đăng nhập không thành công', 'Tài khoản hoặc mật khẩu không chính xác! ');
-                return redirect() - back();
+                return redirect()->back();
             }
         } else {
             return \redirect()->route('dang-nhap');

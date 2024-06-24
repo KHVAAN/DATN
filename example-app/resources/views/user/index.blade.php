@@ -3,6 +3,15 @@
 @section('title', 'Trang Chủ')
 
 @section('content')
+    <style>
+        .product-img img {
+            width: 100%;
+            height: 400px;
+            /* Chiều cao cố định cho hình ảnh */
+            object-fit: cover;
+            /* Đảm bảo hình ảnh được cắt đúng kích thước mà không bị méo */
+        }
+    </style>
     <!-- Slideshow Start-->
     <div id="header-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
@@ -75,7 +84,7 @@
 
 
     <!-- Categories Start -->
-    <div class="container-fluid pt-5">
+    {{-- <div class="container-fluid pt-5">
         <div class="row px-xl-5 pb-3">
             <!-- Đồ nam -->
             <div class="col-lg-4 col-md-6 pb-1">
@@ -108,7 +117,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Categories End -->
 
 
@@ -139,7 +148,6 @@
     </div>
     <!-- Offer End -->
 
-
     <!-- Sản phẩm phân theo brand start -->
     <div class="container-fluid pt-5">
         @foreach ($brands as $brand)
@@ -148,17 +156,22 @@
             </div>
             <div class="row px-xl-5 pb-3">
                 @php
-                    $brand_detail = $brand_detail->where('nh_id', $brand->id);
+                    $brand_products = $products->where('nh_id', $brand->id);
                 @endphp
-                @if ($brand_detail->count() > 0)
-                    @foreach ($brand_detail as $item)
+                @if ($brand_products->count() > 0)
+                    @foreach ($brand_products as $item)
+                        @php
+                            $firstImage = $item->image->first();
+                        @endphp
                         <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                             <div class="card product-item border-0 mb-4">
-                                <div
-                                    class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                    <img class="img-fluid w-100" src="{{ asset($item->image->first()->tenimage) }}"
-                                        alt="{{ $item->tensanpham }}">
-                                </div>
+                                @if ($firstImage)
+                                    <div
+                                        class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                        <img class="img-fluid w-100" src="{{ asset('storage/' . $firstImage->tenimage) }}"
+                                            alt="{{ $item->tensanpham }}">
+                                    </div>
+                                @endif
                                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                                     <h6 class="text-truncate mb-3">{{ $item->tensanpham }}</h6>
                                     <div class="d-flex justify-content-center">
@@ -174,8 +187,9 @@
                                     <a href="{{ url('/detail', ['id' => $item->id]) }}"
                                         class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Xem
                                         Chi Tiết</a>
-                                    <form action="" method="POST">
+                                    <form action="{{ url('/them-gio-hang') }}" method="POST">
                                         @csrf
+                                        <input type="hidden" name="product_id" value="{{ $item->id }}">
                                         <button type="submit" class="btn btn-sm text-dark p-0"><i
                                                 class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ
                                             Hàng</button>
@@ -187,10 +201,16 @@
                 @else
                     <p>Không tìm thấy sản phẩm cho nhãn hiệu {{ $brand->tennhanhieu }}.</p>
                 @endif
+                {{-- <div class="text-center mt-3">
+                    <button class="btn btn-primary prev-btn" data-target="#carousel-{{ $brand->id }}">Trước</button>
+                    <button class="btn btn-primary next-btn" data-target="#carousel-{{ $brand->id }}">Tiếp</button>
+                </div> --}}
             </div>
         @endforeach
     </div>
+
     <!-- Sản phẩm phân theo brand end -->
+
 
 
     <!-- Subscribe Start -->
@@ -221,6 +241,7 @@
 
 
     <!-- Sản Phẩm mới start-->
+
     <div class="container-fluid pt-5">
         <div class="text-center mb-4">
             <h2 class="section-title px-5"><span class="px-2">Sản Phẩm Mới</span></h2>
@@ -230,19 +251,27 @@
                 <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                     <div class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            @if ($product->image->count() > 0)
-                                <img class="img-fluid w-100" src="{{ asset($product->image->first()->tenimage) }}"
+                            @php
+                                $firstImage = $product->image->first(); // Giả sử $product có mối quan hệ 'image'
+                            @endphp
+                            @if ($firstImage)
+                                <img class="img-fluid" src="{{ asset('storage/' . $firstImage->tenimage) }}"
                                     alt="{{ $product->tensanpham }}">
                             @else
-                                <img class="img-fluid w-100" src="{{ asset('placeholder.jpg') }}" alt="Placeholder">
+                                <img class="img-fluid" src="{{ asset('storage/default.jpg') }}"
+                                    alt="{{ $product->tensanpham }}">
                             @endif
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <!-- Hiển thị tên sản phẩm -->
                             <h6 class="text-truncate mb-3">{{ $product->tensanpham }}</h6>
                             <div class="d-flex justify-content-center">
-                                <!-- Hiển thị đơn giá và giảm giá (nếu có) -->
-                                <h6>{{ number_format($product->dongia * (1 - $product->giamgia / 100)) }} ₫</h6>
+                                <!-- Hiển thị giá bán -->
+                                @php
+                                    $finalPrice = $product->dongia * (1 - $product->giamgia / 100);
+                                @endphp
+                                <h6>{{ number_format($finalPrice) }} ₫</h6>
+                                <!-- Hiển thị giá gốc (nếu có giảm giá) -->
                                 @if ($product->giamgia > 0)
                                     <h6 class="text-muted ml-2">
                                         <del>{{ number_format($product->dongia) }} ₫</del>
@@ -251,11 +280,12 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="" class="btn btn-sm text-dark p-0"><i
-                                    class="fas fa-eye text-primary mr-1"></i>Xem Chi Tiết</a>
-                            <!-- Thêm sản phẩm vào giỏ hàng -->
-                            <form action="" method="POST">
+                            <a href="{{ url('/detail', ['id' => $item->id]) }}" class="btn btn-sm text-dark p-0"><i
+                                    class="fas fa-eye text-primary mr-1"></i>Xem
+                                Chi Tiết</a>
+                            <form action="{{ url('/them-gio-hang') }}" method="POST">
                                 @csrf
+                                <input type="hidden" name="product_id" value="{{ $item->id }}">
                                 <button type="submit" class="btn btn-sm text-dark p-0"><i
                                         class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ
                                     Hàng</button>
@@ -266,6 +296,8 @@
             @endforeach
         </div>
     </div>
+
+
     <!-- Sản phẩm mới end -->
 
 
@@ -293,5 +325,31 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            // Xử lý khi nhấn nút Trước
+            $('.prev-btn').click(function() {
+                var target = $($(this).data('target')).find('.product-slide.active');
+                var prev = target.prev();
+                if (prev.length === 0) {
+                    prev = target.siblings().last();
+                }
+                target.removeClass('active');
+                prev.addClass('active');
+            });
+
+            // Xử lý khi nhấn nút Tiếp
+            $('.next-btn').click(function() {
+                var target = $($(this).data('target')).find('.product-slide.active');
+                var next = target.next();
+                if (next.length === 0) {
+                    next = target.siblings().first();
+                }
+                target.removeClass('active');
+                next.addClass('active');
+            });
+        });
+    </script>
     <!-- Vendor End -->
 @endsection

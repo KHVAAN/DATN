@@ -151,10 +151,11 @@
                                 <div id="thumbbox">
                                     @foreach ($image as $item)
                                         <div class="form-group col-md-6">
-                                            <img src="{{ asset($item->tenimage) }}" alt="Product Image" class="img-fluid"
-                                                style="height: 100px;">
+                                            <img src="{{ asset('storage/' . $item->tenimage) }}" alt="Product Image"
+                                                class="img-fluid" style="height: 100px;">
                                         </div>
                                     @endforeach
+
                                     <a class="removeimg" href="javascript:"></a>
                                 </div>
 

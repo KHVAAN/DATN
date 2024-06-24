@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('sp_id');
             $table->string('tenimage');
             $table->timestamps();
-            
+
             $table->foreign('sp_id')->references('id')->on('product');
         });
     }

@@ -34,6 +34,14 @@
             margin-bottom: 20px;
         }
 
+        .thumbimage {
+            height: 200px;
+            width: 150px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
         .removeimg {
             height: 25px;
             position: absolute;
@@ -47,28 +55,24 @@
 
         }
 
-        .removeimg::before {
-            -webkit-box-sizing: border-box;
+        .removeimg::before,
+        .removeimg::after {
             box-sizing: border-box;
             content: '';
-            border: 1px solid red;
+            position: absolute;
+            width: 100%;
+            height: 2px;
             background: red;
-            text-align: center;
-            display: block;
-            margin-top: 11px;
+            top: 50%;
+            left: 0;
+        }
+
+        .removeimg::before {
             transform: rotate(45deg);
         }
 
         .removeimg::after {
-            /* color: #FFF; */
-            /* background-color: #DC403B; */
-            content: '';
-            background: red;
-            border: 1px solid red;
-            text-align: center;
-            display: block;
             transform: rotate(-45deg);
-            margin-top: -2px;
         }
     </style>
     <main class="app-content">
@@ -86,10 +90,7 @@
                         <form class="row" action="<?php echo e(route('xu-li-them-san-pham')); ?>" method="POST"
                             enctype="multipart/form-data">
                             <?php echo csrf_field(); ?>
-                            <div class="form-group col-md-3">
-                                <label class="control-label">Mã sản phẩm </label>
-                                <input class="form-control" type="text" name="masanpham" placeholder="Mã sản phẩm">
-                            </div>
+                            
                             <div class="form-group col-md-3">
                                 <label class="control-label">Tên sản phẩm</label>
                                 <input type="text" name="tensanpham" class="form-control" placeholder="Tên sản phẩm">
@@ -136,10 +137,26 @@
                                 <input type="number" name="giamgia" class="form-control" placeholder="Giảm giá">
                                 <div class="error-message"><?php echo e($errors->first('giamgia')); ?></div>
                             </div>
-                            <div class="form-group col-md-4">
-                                <label for="#">Ảnh sản phẩm</label>
-                                <input type="file" name="images[]" id="images" multiple accept="image/*">
-                                <div id="preview-container"></div>
+                            <div class="form-group col-md-12">
+                                <label class="control-label">Ảnh sản phẩm</label>
+                                <div id="thumbbox">
+                                    <!-- Khu vực hiển thị ảnh thumbnail trước khi upload -->
+                                    <img height="200" width="150" alt="Thumbnail" id="thumbimage"
+                                        style="display: none;" />
+                                    <a class="removeimg" href="javascript:">
+                                        <!-- Đường dẫn xóa ảnh thumbnail nếu cần -->
+                                    </a>
+                                </div>
+                                <div id="boxchoice">
+                                    <!-- Button chọn ảnh từ máy tính -->
+                                    <label for="uploadfile" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn
+                                        ảnh</label>
+                                    <!-- Input hidden để chọn file -->
+                                    <input type="file" id="uploadfile" name="image[]" onchange="previewImages(this);"
+                                        multiple style="display: none;" />
+                                    <!-- Thông báo lựa chọn ảnh -->
+                                    <p style="clear:both"></p>
+                                </div>
                             </div>
                             <div class="form-group col-md-12">
                                 <label class="control-label">Mô tả sản phẩm</label>
@@ -154,36 +171,57 @@
                                 <a class="btn btn-cancel" href="<?php echo e(url('/them-san-pham')); ?>">Hủy bỏ</a>
                             </div>
                         </form>
+
                     </div>
+
                 </div>
             </div>
         </div>
     </main>
-<?php $__env->stopSection(); ?>
-<script>
-    $(document).ready(function() {
-        $('#images').on('change', function() {
-            previewImages(this);
-        });
 
+    <!-- Đoạn js hiển thị nhiều ảnh khi tạo sản phẩm -->
+    <script>
         function previewImages(input) {
-            var previewContainer = $('#preview-container');
-            previewContainer.empty();
+            var preview = document.querySelector('#thumbbox');
+            preview.innerHTML = ''; // Xóa các ảnh trước đó trong khu vực hiển thị
 
-            if (input.files && input.files.length > 0) {
-                for (var i = 0; i < input.files.length; i++) {
+            if (input.files) {
+                var filesAmount = input.files.length;
+
+                for (var i = 0; i < filesAmount; i++) {
                     var reader = new FileReader();
+                    reader.onload = function(event) {
+                        var imgElement = document.createElement('img');
+                        imgElement.setAttribute('src', event.target.result);
+                        imgElement.setAttribute('height', '200');
+                        imgElement.setAttribute('width', '150');
+                        imgElement.classList.add('thumbimage');
 
-                    reader.onload = function(e) {
-                        var img = $('<img>').attr('src', e.target.result).addClass('preview-image');
-                        previewContainer.append(img);
-                    };
+                        var removeImgElement = document.createElement('a');
+                        removeImgElement.classList.add('removeimg');
+                        removeImgElement.setAttribute('href', 'javascript:');
 
+                        removeImgElement.onclick = function() {
+                            imgElement.remove();
+                            removeImgElement.remove();
+                        };
+
+                        var container = document.createElement('div');
+                        container.style.position = 'relative';
+                        container.style.display = 'inline-block';
+                        container.appendChild(imgElement);
+                        container.appendChild(removeImgElement);
+
+                        preview.appendChild(container);
+                    }
                     reader.readAsDataURL(input.files[i]);
                 }
             }
         }
-    });
-</script>
+    </script>
+
+
+
+<?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layout.master_ad', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\ADMIN\Desktop\DATN\example-app\resources\views/admin/them-san-pham.blade.php ENDPATH**/ ?>

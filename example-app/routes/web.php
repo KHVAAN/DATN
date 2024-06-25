@@ -12,8 +12,10 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Models\Brand;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -62,9 +64,10 @@ Route::get('/search', [ProductController::class, 'search'])->name('tim-kiem');
 Route::get('/detail/{id}', [ProductController::class, 'detail'])->name('chi-tiet-san-pham-user');
 Route::get('/cart', [CartController::class, 'index'])->name('gio-hang');
 Route::post('/cart/add', [CartController::class, 'add'])->name('them-gio-hang');
+Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('xoa-gio-hang');
+Route::post('/update-cart/{id}', [CartController::class, 'update'])->name('cap-nhat-so-luong');
 
-// Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
-// Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/checkout', [OrderController::class, 'buy'])->name('mua-ngay');
 
 Route::get('/shop', function () {
     return view('user.shop');

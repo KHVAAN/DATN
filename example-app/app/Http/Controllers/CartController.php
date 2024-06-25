@@ -8,13 +8,28 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Product_detail;
 use App\Models\Image;
+
 class CartController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+        // $cartItems = $request->input('cart_items');
+
+        // foreach ($cartItems as $itemId => $checked) {
+        //     $cartItem = Cart::find($itemId);
+        //     if ($cartItem) {
+        //         $cartItem->checked = $checked == 'true'; // Convert 'true'/'false' string to boolean
+        //         $cartItem->save();
+        //     }
+        // }
+
+        $user = Auth::user();
         if ($user) {
-            $giohang = Cart::with('productDetail')->where('user_id', $user->id)->get();
+            $giohang = Cart::with('productDetail')
+                ->where('user_id', $user->id)
+                ->orderBy('created_at', 'desc') // Sắp xếp theo thứ tự giảm dần của thời gian thêm vào
+                ->get();
             $tong = 0;
 
             foreach ($giohang as $item) {
@@ -96,4 +111,25 @@ class CartController extends Controller
         alert()->success('Thành công', 'Sản phẩm đã được thêm vào giỏ hàng');
         return redirect()->back();
     }
+    public function destroy($id)
+    {
+        // Tìm sản phẩm trong giỏ hàng theo ID
+        $cart = Cart::findOrFail($id);
+        $cart->delete();
+        alert()->success('Thành công', 'Sản phẩm đã được xóa khỏi giỏ hàng');
+        return redirect()->back();
+    }
+
+    public function update(Request $request, $id)
+    {
+        $cartItem = Cart::find($id);
+        if ($cartItem) {
+            $cartItem->soluong = $request->input('soluong');
+            $cartItem->save();
+
+            return response()->json(['success' => true, 'total' => $cartItem->dongia * $cartItem->soluong]);
+        }
+        return response()->json(['success' => false, 'message' => 'Item not found'], 404);
+    }
+
 }

@@ -173,7 +173,9 @@
                                     </div>
                                 @endif
                                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                    <h6 class="text-truncate mb-3">{{ $item->tensanpham }}</h6>
+                                    <h6 class="text-truncate mb-3">
+                                        <a href="{{ url('/detail', ['id' => $item->id]) }}">{{ $item->tensanpham }}</a>
+                                    </h6>
                                     <div class="d-flex justify-content-center">
                                         <h6>{{ number_format($item->dongia * (1 - $item->giamgia / 100)) }} ₫</h6>
                                         @if ($item->giamgia > 0)
@@ -264,7 +266,9 @@
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <!-- Hiển thị tên sản phẩm -->
-                            <h6 class="text-truncate mb-3">{{ $product->tensanpham }}</h6>
+                            <h6 class="text-truncate mb-3">
+                                <a href="{{ url('/detail', ['id' => $item->id]) }}">{{ $item->tensanpham }}</a>
+                            </h6>
                             <div class="d-flex justify-content-center">
                                 <!-- Hiển thị giá bán -->
                                 @php

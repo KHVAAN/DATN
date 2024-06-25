@@ -28,6 +28,6 @@ class Order_detail extends Model
     }
     public function ordertail()
     {
-        return $this->belongsTo(Order_detail::class, 'chitietietsp_id', 'id');
+        return $this->belongsTo(Order_detail::class, 'chitietsp_id', 'id');
     }
 }

@@ -102,7 +102,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::cVwRrIuzp9KzgYSf',
+            '_route' => 'generated::8pOMHss2OILzJ7Mh',
           ),
           1 => NULL,
           2 => 
@@ -306,13 +306,29 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/shop' => 
+      '/checkout' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::6mK1qWzMHF0l0bZP',
+            '_route' => 'mua-ngay',
+          ),
+          1 => NULL,
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+        1 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'generated::hWpM0ZjiLoaRgiQI',
           ),
           1 => NULL,
           2 => 
@@ -326,13 +342,13 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      '/checkout' => 
+      '/shop' => 
       array (
         0 => 
         array (
           0 => 
           array (
-            '_route' => 'generated::sxcULUP0obi09Cqh',
+            '_route' => 'generated::1k44tExKVGs1gNe1',
           ),
           1 => NULL,
           2 => 
@@ -352,7 +368,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::bETAd0XFV9LIghXj',
+            '_route' => 'generated::u6VSgdTJkN81Ox71',
           ),
           1 => NULL,
           2 => 
@@ -372,7 +388,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::CEqUZ9HeORNGYavn',
+            '_route' => 'generated::hbqYdVw1yicScPPo',
           ),
           1 => NULL,
           2 => 
@@ -432,7 +448,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::w8kTGzt7KNkKMl8x',
+            '_route' => 'generated::QtNFibVEtRzur3bb',
           ),
           1 => NULL,
           2 => 
@@ -472,7 +488,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::QxemYr2qOm9noIf7',
+            '_route' => 'generated::qowjGFjzVnN0KUIJ',
           ),
           1 => NULL,
           2 => 
@@ -528,7 +544,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::4TSMm6dlu7QVChB9',
+            '_route' => 'generated::7g54oa5l67tn1PP0',
           ),
           1 => NULL,
           2 => 
@@ -548,7 +564,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::yJpP1zKR73KAlb0c',
+            '_route' => 'generated::x1zDfYUjZKR3SJHP',
           ),
           1 => NULL,
           2 => 
@@ -697,7 +713,7 @@ app('router')->setCompiledRoutes(
     ),
     2 => 
     array (
-      0 => '{^(?|/detail/([^/]++)(*:23)|/them\\-san\\-pham\\-con/([^/]++)(?|(*:63))|/xoa\\-(?|san\\-pham(?|\\-con/([^/]++)(*:106)|/([^/]++)(*:123))|nhan\\-hieu/([^/]++)(*:151)|kich\\-thuoc/([^/]++)(*:179)|mau\\-sac/([^/]++)(*:204)|loai/([^/]++)(*:225)|admin/([^/]++)(*:247))|/c(?|hi(?|\\-tiet\\-(?|san\\-pham/([^/]++)(*:295)|admin/([^/]++)(*:317)|user/([^/]++)(*:338))|nh\\-sua\\-(?|san\\-pham/([^/]++)(*:377)|nhan\\-hieu/([^/]++)(*:404)|kich\\-thuoc/([^/]++)(*:432)|mau\\-sac/([^/]++)(*:457)|loai/([^/]++)(*:478)|tai\\-khoan/([^/]++)(*:505)))|ap\\-nhat\\-(?|san\\-pham/([^/]++)(*:546)|nhan\\-hieu/([^/]++)(*:573)|kich\\-thuoc/([^/]++)(*:601)|mau\\-sac/([^/]++)(*:626)|loai/([^/]++)(*:647)|admin/([^/]++)(*:669))))/?$}sDu',
+      0 => '{^(?|/detail/([^/]++)(*:23)|/c(?|a(?|rt/([^/]++)(*:50)|p\\-nhat\\-(?|san\\-pham/([^/]++)(*:87)|nhan\\-hieu/([^/]++)(*:113)|kich\\-thuoc/([^/]++)(*:141)|mau\\-sac/([^/]++)(*:166)|loai/([^/]++)(*:187)|admin/([^/]++)(*:209)))|hi(?|\\-tiet\\-(?|san\\-pham/([^/]++)(*:253)|admin/([^/]++)(*:275)|user/([^/]++)(*:296))|nh\\-sua\\-(?|san\\-pham/([^/]++)(*:335)|nhan\\-hieu/([^/]++)(*:362)|kich\\-thuoc/([^/]++)(*:390)|mau\\-sac/([^/]++)(*:415)|loai/([^/]++)(*:436)|tai\\-khoan/([^/]++)(*:463))))|/update\\-cart/([^/]++)(*:496)|/them\\-san\\-pham\\-con/([^/]++)(?|(*:537))|/xoa\\-(?|san\\-pham(?|\\-con/([^/]++)(*:581)|/([^/]++)(*:598))|nhan\\-hieu/([^/]++)(*:626)|kich\\-thuoc/([^/]++)(*:654)|mau\\-sac/([^/]++)(*:679)|loai/([^/]++)(*:700)|admin/([^/]++)(*:722)))/?$}sDu',
     ),
     3 => 
     array (
@@ -724,7 +740,390 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      63 => 
+      50 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'xoa-gio-hang',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'DELETE' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      87 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cap-nhat-san-pham',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'PUT' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      113 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cap-nhat-nhan-hieu',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      141 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cap-nhat-kich-thuoc',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      166 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cap-nhat-mau-sac',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      187 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cap-nhat-loai',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      209 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cap-nhat-admin',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      253 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'chi-tiet-san-pham',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      275 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'chi-tiet-admin',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      296 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'chi-tiet-user',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      335 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'chinh-sua-san-pham',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      362 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'chinh-sua-nhan-hieu',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      390 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'chinh-sua-kich-thuoc',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      415 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'chinh-sua-mau-sac',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      436 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'chinh-sua-loai',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      463 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'chinh-sua-tai-khoan',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      496 => 
+      array (
+        0 => 
+        array (
+          0 => 
+          array (
+            '_route' => 'cap-nhat-so-luong',
+          ),
+          1 => 
+          array (
+            0 => 'id',
+          ),
+          2 => 
+          array (
+            'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => true,
+          6 => NULL,
+        ),
+      ),
+      537 => 
       array (
         0 => 
         array (
@@ -766,7 +1165,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      106 => 
+      581 => 
       array (
         0 => 
         array (
@@ -788,7 +1187,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      123 => 
+      598 => 
       array (
         0 => 
         array (
@@ -810,7 +1209,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      151 => 
+      626 => 
       array (
         0 => 
         array (
@@ -832,7 +1231,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      179 => 
+      654 => 
       array (
         0 => 
         array (
@@ -854,7 +1253,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      204 => 
+      679 => 
       array (
         0 => 
         array (
@@ -876,7 +1275,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      225 => 
+      700 => 
       array (
         0 => 
         array (
@@ -898,7 +1297,7 @@ app('router')->setCompiledRoutes(
           6 => NULL,
         ),
       ),
-      247 => 
+      722 => 
       array (
         0 => 
         array (
@@ -913,345 +1312,6 @@ app('router')->setCompiledRoutes(
           2 => 
           array (
             'DELETE' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      295 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'chi-tiet-san-pham',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      317 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'chi-tiet-admin',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      338 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'chi-tiet-user',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      377 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'chinh-sua-san-pham',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      404 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'chinh-sua-nhan-hieu',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      432 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'chinh-sua-kich-thuoc',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      457 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'chinh-sua-mau-sac',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      478 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'chinh-sua-loai',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      505 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'chinh-sua-tai-khoan',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'GET' => 0,
-            'HEAD' => 1,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      546 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'cap-nhat-san-pham',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'PUT' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      573 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'cap-nhat-nhan-hieu',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      601 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'cap-nhat-kich-thuoc',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      626 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'cap-nhat-mau-sac',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      647 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'cap-nhat-loai',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
-          ),
-          3 => NULL,
-          4 => false,
-          5 => true,
-          6 => NULL,
-        ),
-      ),
-      669 => 
-      array (
-        0 => 
-        array (
-          0 => 
-          array (
-            '_route' => 'cap-nhat-admin',
-          ),
-          1 => 
-          array (
-            0 => 'id',
-          ),
-          2 => 
-          array (
-            'POST' => 0,
           ),
           3 => NULL,
           4 => false,
@@ -1420,7 +1480,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::cVwRrIuzp9KzgYSf' => 
+    'generated::8pOMHss2OILzJ7Mh' => 
     array (
       'methods' => 
       array (
@@ -1443,7 +1503,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::cVwRrIuzp9KzgYSf',
+        'as' => 'generated::8pOMHss2OILzJ7Mh',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1864,7 +1924,115 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::6mK1qWzMHF0l0bZP' => 
+    'xoa-gio-hang' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'DELETE',
+      ),
+      'uri' => 'cart/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\CartController@destroy',
+        'controller' => 'App\\Http\\Controllers\\CartController@destroy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'xoa-gio-hang',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'cap-nhat-so-luong' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'update-cart/{id}',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\CartController@update',
+        'controller' => 'App\\Http\\Controllers\\CartController@update',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'cap-nhat-so-luong',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'mua-ngay' => 
+    array (
+      'methods' => 
+      array (
+        0 => 'POST',
+      ),
+      'uri' => 'checkout',
+      'action' => 
+      array (
+        'middleware' => 
+        array (
+          0 => 'web',
+        ),
+        'uses' => 'App\\Http\\Controllers\\OrderController@buy',
+        'controller' => 'App\\Http\\Controllers\\OrderController@buy',
+        'namespace' => NULL,
+        'prefix' => '',
+        'where' => 
+        array (
+        ),
+        'as' => 'mua-ngay',
+      ),
+      'fallback' => false,
+      'defaults' => 
+      array (
+      ),
+      'wheres' => 
+      array (
+      ),
+      'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'generated::1k44tExKVGs1gNe1' => 
     array (
       'methods' => 
       array (
@@ -1880,13 +2048,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:46:"function () {
     return \\view(\'user.shop\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003710000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003740000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::6mK1qWzMHF0l0bZP',
+        'as' => 'generated::1k44tExKVGs1gNe1',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1902,7 +2070,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::sxcULUP0obi09Cqh' => 
+    'generated::hWpM0ZjiLoaRgiQI' => 
     array (
       'methods' => 
       array (
@@ -1918,13 +2086,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:50:"function () {
     return \\view(\'user.checkout\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003730000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003760000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::sxcULUP0obi09Cqh',
+        'as' => 'generated::hWpM0ZjiLoaRgiQI',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1940,7 +2108,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::bETAd0XFV9LIghXj' => 
+    'generated::u6VSgdTJkN81Ox71' => 
     array (
       'methods' => 
       array (
@@ -1956,13 +2124,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:49:"function () {
     return \\view(\'user.contact\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003750000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003780000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::bETAd0XFV9LIghXj',
+        'as' => 'generated::u6VSgdTJkN81Ox71',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1978,7 +2146,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::CEqUZ9HeORNGYavn' => 
+    'generated::hbqYdVw1yicScPPo' => 
     array (
       'methods' => 
       array (
@@ -1994,13 +2162,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:47:"function () {
     return \\view(\'user.intro\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003770000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000037a0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::CEqUZ9HeORNGYavn',
+        'as' => 'generated::hbqYdVw1yicScPPo',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2090,7 +2258,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::w8kTGzt7KNkKMl8x' => 
+    'generated::QtNFibVEtRzur3bb' => 
     array (
       'methods' => 
       array (
@@ -2106,13 +2274,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:59:"function () {
     return \\view(\'admin.quan-li-don-hang\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000037d0000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003800000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::w8kTGzt7KNkKMl8x',
+        'as' => 'generated::QtNFibVEtRzur3bb',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2165,7 +2333,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::QxemYr2qOm9noIf7' => 
+    'generated::qowjGFjzVnN0KUIJ' => 
     array (
       'methods' => 
       array (
@@ -2181,13 +2349,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:52:"function () {
     return \\view(\'admin.doanh-thu\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003810000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003840000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::QxemYr2qOm9noIf7',
+        'as' => 'generated::qowjGFjzVnN0KUIJ',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2240,7 +2408,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::4TSMm6dlu7QVChB9' => 
+    'generated::7g54oa5l67tn1PP0' => 
     array (
       'methods' => 
       array (
@@ -2256,13 +2424,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:56:"function () {
     return \\view(\'admin.them-don-hang\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003850000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003880000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::4TSMm6dlu7QVChB9',
+        'as' => 'generated::7g54oa5l67tn1PP0',
       ),
       'fallback' => false,
       'defaults' => 
@@ -2278,7 +2446,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::yJpP1zKR73KAlb0c' => 
+    'generated::x1zDfYUjZKR3SJHP' => 
     array (
       'methods' => 
       array (
@@ -2294,13 +2462,13 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:57:"function () {
     return \\view(\'admin.them-nhan-vien\');
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003870000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"000000000000038a0000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
         array (
         ),
-        'as' => 'generated::yJpP1zKR73KAlb0c',
+        'as' => 'generated::x1zDfYUjZKR3SJHP',
       ),
       'fallback' => false,
       'defaults' => 

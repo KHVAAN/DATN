@@ -138,7 +138,9 @@
                                     </div>
                                 <?php endif; ?>
                                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                    <h6 class="text-truncate mb-3"><?php echo e($item->tensanpham); ?></h6>
+                                    <h6 class="text-truncate mb-3">
+                                        <a href="<?php echo e(url('/detail', ['id' => $item->id])); ?>"><?php echo e($item->tensanpham); ?></a>
+                                    </h6>
                                     <div class="d-flex justify-content-center">
                                         <h6><?php echo e(number_format($item->dongia * (1 - $item->giamgia / 100))); ?> ₫</h6>
                                         <?php if($item->giamgia > 0): ?>
@@ -226,7 +228,9 @@
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <!-- Hiển thị tên sản phẩm -->
-                            <h6 class="text-truncate mb-3"><?php echo e($product->tensanpham); ?></h6>
+                            <h6 class="text-truncate mb-3">
+                                <a href="<?php echo e(url('/detail', ['id' => $item->id])); ?>"><?php echo e($item->tensanpham); ?></a>
+                            </h6>
                             <div class="d-flex justify-content-center">
                                 <!-- Hiển thị giá bán -->
                                 <?php

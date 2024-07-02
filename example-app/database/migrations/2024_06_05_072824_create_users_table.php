@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('user', function (Blueprint $table) {
             $table->id();
+            $table->string('hovaten');
             $table->string('sdt')->nullable();
             $table->string('password');
-            $table->string('hovaten');
             $table->string('email')->unique();;
             $table->string('diachi')->nullable();
             $table->tinyInteger('phanquyen')->default('2');

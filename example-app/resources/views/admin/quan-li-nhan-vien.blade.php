@@ -5,9 +5,9 @@
 @section('content')
     <style>
         /* .text-align-center th,
-                    td {
-                        text-align: center;
-                    } */
+                                    td {
+                                        text-align: center;
+                                    } */
 
         .bg-gray {
             background-color: #f2f2f2;
@@ -97,27 +97,19 @@
                                     <i class="fas fa-file-pdf"></i> Xuất PDF
                                 </a>
                             </div>
+                            <div class="ml-auto">
+                                <form action="{{ url('/quan-li-nhan-vien') }}" method="GET"
+                                    class="d-flex align-items-center">
+                                    <input type="search" id="searchInput" name="search"
+                                        class="form-control form-control-sm mr-2" style="width: 200px; height: 40px;"
+                                        placeholder="Nhập từ khóa tìm kiếm..." aria-controls="sampleTable"
+                                        value="{{ request('search') }}">
+                                    <button type="submit" class="btn btn-primary btn-sm"><i
+                                            class="fas fa-search"></i></button>
+                                </form>
+                            </div>
                         </div>
 
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div class="d-flex align-items-center">
-                                <label class="mr-2 mb-0">Hiển thị
-                                    <select name="sampleTable_length" aria-controls="sampleTable"
-                                        class="form-control form-control-sm d-inline-block">
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="50">50</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <label class="mr-2 mb-0">Tìm kiếm:</label>
-                                <input type="search" id="searchInput" class="form-control form-control-sm mr-2"
-                                    style="width: 200px; height: 40px;" placeholder="Nhập từ khóa tìm kiếm..."
-                                    aria-controls="sampleTable" onkeydown="handleSearch(event)">
-                            </div>
-                        </div>
 
                         <table class="table table-hover table-bordered mt-3" id="sampleTable">
                             <thead class="text-align-center">
@@ -134,14 +126,18 @@
                                 </tr>
                             </thead>
                             <tbody class="text-align-center">
+                                @php
+                                    $currentPage = $admin->currentPage();
+                                    $perPage = $admin->perPage();
+                                @endphp
                                 @foreach ($admin as $index => $item)
                                     <tr>
-                                        <td>{{ $index + 1 }}</td> <!-- STT -->
+                                        <td>{{ ($currentPage - 1) * $perPage + $index + 1 }}</td>
                                         <td>{{ $item->hovaten }}</td>
                                         <td>{{ $item->diachi }}</td>
                                         <td>{{ $item->sdt }}</td>
                                         <td>
-                                            @if ($item->gioitinh === 'Nam')
+                                            @if ($item->gioitinh === 'male')
                                                 Nam
                                             @else
                                                 Nữ
@@ -175,7 +171,7 @@
                                                     class="btn btn-primary btn-sm edit" type="button" title="Sửa">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                <button class="btn btn-primary btn-sm trash" type="submit" title="Xóa"
                                                     data-toggle="modal"
                                                     data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
@@ -195,7 +191,35 @@
                             </div>
                             <div class="col-sm-12 col-md-7">
                                 <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
-                                    {{ $admin->links() }}
+                                    <ul class="pagination">
+                                        {{-- Link đến trang trước --}}
+                                        @if ($admin->onFirstPage())
+                                            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                        @else
+                                            <li class="page-item"><a class="page-link"
+                                                    href="{{ $admin->previousPageUrl() }}" rel="prev">&laquo;</a>
+                                            </li>
+                                        @endif
+
+                                        {{-- Các trang phân trang --}}
+                                        @foreach ($admin->getUrlRange(1, $admin->lastPage()) as $page => $url)
+                                            @if ($page == $admin->currentPage())
+                                                <li class="page-item active"><span
+                                                        class="page-link">{{ $page }}</span></li>
+                                            @else
+                                                <li class="page-item"><a class="page-link"
+                                                        href="{{ $url }}">{{ $page }}</a></li>
+                                            @endif
+                                        @endforeach
+
+                                        {{-- Link đến trang tiếp theo --}}
+                                        @if ($admin->hasMorePages())
+                                            <li class="page-item"><a class="page-link" href="{{ $admin->nextPageUrl() }}"
+                                                    rel="next">&raquo;</a></li>
+                                        @else
+                                            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                        @endif
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -205,7 +229,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
+        {{-- <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -226,42 +250,7 @@
             document.getElementById('confirmDeleteBtn-{{ $item->id }}').addEventListener('click', function() {
                 document.getElementById('deleteForm-{{ $item->id }}').submit();
             });
-        </script>
-        {{-- xử lí nút search --}}
-        {{-- <script>
-            function handleSearch(event) {
-                if (event.keyCode === 13) { // Kiểm tra nếu nhấn phím Enter
-                    event.preventDefault(); // Ngăn không cho form submit mặc định
-
-                    var searchText = document.getElementById('searchInput').value
-                        .trim(); // Lấy giá trị tìm kiếm và loại bỏ khoảng trắng đầu cuối
-
-                    // Nếu searchText không rỗng
-                    if (searchText !== '') {
-                        var found = false;
-
-                        // Tìm kiếm trong nội dung cần kiểm tra (ví dụ: trong table)
-                        var rows = document.querySelectorAll('#sampleTable tbody tr');
-                        rows.forEach(function(row) {
-                            var cells = row.querySelectorAll('td');
-                            cells.forEach(function(cell) {
-                                if (cell.innerText.toLowerCase().includes(searchText.toLowerCase())) {
-                                    row.style.display = '';
-                                    found = true;
-                                } else {
-                                    row.style.display = 'none'; // Ẩn dòng không tìm thấy
-                                }
-                            });
-                        });
-
-                        if (!found) {
-                            alert('Không tìm thấy sản phẩm phù hợp.');
-                        }
-                    } else {
-                        alert('Vui lòng nhập từ khóa tìm kiếm.');
-                    }
-                }
-            }
         </script> --}}
+
     </main>
 @endsection

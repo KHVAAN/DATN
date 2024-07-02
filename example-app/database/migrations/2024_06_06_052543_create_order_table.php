@@ -20,7 +20,7 @@ return new class extends Migration
             $table->tinyInteger('ttvanchuyen')->default('0');
             $table->tinyInteger('trangthai')->default('0');
             $table->timestamps();
-            
+
             $table->foreign('ma_kh')->references('id')->on('user');
         });
     }

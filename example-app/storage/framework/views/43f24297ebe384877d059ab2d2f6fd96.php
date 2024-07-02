@@ -56,9 +56,9 @@
                     <small class="pt-1">(<?php echo e($product->reviews_count); ?> Đánh giá)</small>
                 </div>
                 <h3 class="font-weight-semi-bold mb-4">
-                    <?php echo e(number_format($product->dongia - ($product->dongia * $product->giamgia) / 100, 0, ',', '.')); ?> ₫
+                    <?php echo e(number_format($product->dongia - ($product->dongia * $product->giamgia) / 100, 0, '.', '.')); ?> ₫
                     <del style="font-size: 16px;">
-                        <?php echo e(number_format($product->dongia, 0, ',', '.')); ?> ₫
+                        <?php echo e(number_format($product->dongia, 0, '.', '.')); ?> ₫
                     </del>
                 </h3>
                 <?php if(isset($uniqueDetails)): ?>
@@ -134,12 +134,12 @@
                             <i class="fa fa-shopping-cart mr-1"></i> Thêm Vào Giỏ Hàng
                         </button>
                     </form>
-                    <form action="<?php echo e(route('mua-ngay')); ?>" method="POST" id="buy-now-form">
+                    <form action="<?php echo e(route('thanh-toan')); ?>" method="POST" id="buy-now-form">
                         <?php echo csrf_field(); ?>
                         <input type="hidden" name="product_id" value="<?php echo e($product->id); ?>">
-                        <input type="hidden" name="size_id" id="selectedSizeId" value="">
-                        <input type="hidden" name="mau_id" id="selectedColorId" value="">
-                        <input type="hidden" name="soluong" id="selectedQuantity" value="1">
+                        <input type="hidden" name="size_id" id="selectedSize" value="">
+                        <input type="hidden" name="mau_id" id="selectedColor" value="">
+                        <input type="hidden" name="soluong" id="selectedQuantityId" value="1">
                         <button type="submit" class="btn btn-primary px-3 mr-2" id="btn-buy">
                             <i class="fa fa-shopping-cart mr-1"></i> Mua Ngay
                         </button>
@@ -235,7 +235,6 @@
                 var selectedColor = $(this).val();
                 updateSelectedColor(selectedColor);
                 updateAddToCartButton();
-                updateBuyNowButton(); // Thêm dòng này để cập nhật nút Mua Ngay khi thay đổi màu sắc
             });
 
             // Xử lý khi thay đổi kích thước
@@ -243,25 +242,27 @@
                 var selectedSize = $(this).val();
                 updateSelectedSize(selectedSize);
                 updateAddToCartButton();
-                updateBuyNowButton(); // Thêm dòng này để cập nhật nút Mua Ngay khi thay đổi kích thước
             });
 
             // Hàm cập nhật size đã chọn
             function updateSelectedSize(sizeId) {
                 $('#selectedSizeId').val(sizeId);
+                $('#selectedSize').val(sizeId); // Cập nhật size cho form Mua Ngay
             }
 
             // Hàm cập nhật màu đã chọn
             function updateSelectedColor(colorId) {
                 $('#selectedColorId').val(colorId);
+                $('#selectedColor').val(colorId); // Cập nhật màu cho form Mua Ngay
             }
 
             // Hàm cập nhật số lượng đã chọn
             function updateSelectedQuantity(quantity) {
                 $('#selectedQuantity').val(quantity);
+                $('#selectedQuantityId').val(quantity); // Cập nhật số lượng cho form Mua Ngay
             }
 
-            // Hàm cập nhật nút Thêm vào Giỏ Hàng 
+            // Hàm cập nhật nút Thêm vào Giỏ Hàng và Mua Ngay
             function updateAddToCartButton() {
                 var selectedColor = $('input[name="color"]:checked').val();
                 var selectedSize = $('input[name="size"]:checked').val();
@@ -275,55 +276,24 @@
                         $('#stock-quantity').text(stockQuantity + ' sản phẩm có sẵn').css('color', '');
                         // Enable nút Thêm vào Giỏ Hàng và Mua Ngay và cập nhật dữ liệu
                         $('#btn-add-to-cart').removeClass('btn-disabled').prop('disabled', false);
-                        $('#btn-buy').removeClass('btn-disabled').prop('disabled', false);
+                        $('#btn-buy').removeClass('btn-disabled').prop('disabled', false); // Kích hoạt nút Mua Ngay
                     } else {
                         // Nếu không tìm thấy chi tiết sản phẩm phù hợp
                         $('#stock-quantity').text('Hết hàng').css('color', 'red');
                         // Disable nút Thêm vào Giỏ Hàng và Mua Ngay
                         $('#btn-add-to-cart').addClass('btn-disabled').prop('disabled', true);
-                        $('#btn-buy').addClass('btn-disabled').prop('disabled', true);
+                        $('#btn-buy').addClass('btn-disabled').prop('disabled', true); // Vô hiệu hóa nút Mua Ngay
                     }
                 } else {
                     // Nếu chưa chọn màu sắc hoặc kích thước
                     $('#stock-quantity').text('<?php echo e($product->totalStock); ?> sản phẩm có sẵn').css('color', '');
                     // Disable nút Thêm vào Giỏ Hàng và Mua Ngay
                     $('#btn-add-to-cart').addClass('btn-disabled').prop('disabled', true);
-                    $('#btn-buy').addClass('btn-disabled').prop('disabled', true);
+                    $('#btn-buy').addClass('btn-disabled').prop('disabled', true); // Vô hiệu hóa nút Mua Ngay
                 }
             }
-
-            // Hàm cập nhật nút Mua Ngay
-            function updateBuyNowButton() {
-                var selectedColor = $('input[name="color"]:checked').val();
-                var selectedSize = $('input[name="size"]:checked').val();
-                if (selectedColor && selectedSize) {
-                    // Lọc chi tiết sản phẩm dựa trên màu và kích thước
-                    var filteredDetail = <?php echo json_encode($uniqueDetails, 15, 512) ?>.filter(detail => detail.mau_id ==
-                        selectedColor && detail.size_id == selectedSize);
-                    if (filteredDetail.length > 0) {
-                        // Cập nhật số lượng tồn kho
-                        var stockQuantity = filteredDetail[0].soluong;
-                        $('#stock-quantity').text(stockQuantity + ' sản phẩm có sẵn').css('color', '');
-                        // Enable nút Mua Ngay và cập nhật dữ liệu
-                        $('#btn-buy').removeClass('btn-disabled').prop('disabled', false);
-                    } else {
-                        // Nếu không tìm thấy chi tiết sản phẩm phù hợp
-                        $('#stock-quantity').text('Hết hàng').css('color', 'red');
-                        // Disable nút Mua Ngay
-                        $('#btn-buy').addClass('btn-disabled').prop('disabled', true);
-                    }
-                } else {
-                    // Nếu chưa chọn màu sắc hoặc kích thước
-                    $('#stock-quantity').text('<?php echo e($product->totalStock); ?> sản phẩm có sẵn').css('color', '');
-                    // Disable nút Mua Ngay
-                    $('#btn-buy').addClass('btn-disabled').prop('disabled', true);
-                }
-            }
-
             // Gọi hàm cập nhật nút khi trang được tải lần đầu
             updateAddToCartButton();
-            updateBuyNowButton(); // Thêm dòng này để cập nhật nút Mua Ngay khi trang được tải lần đầu
-
         });
     </script>
 

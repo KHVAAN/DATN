@@ -12,6 +12,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use App\Models\Brand;
@@ -60,28 +61,28 @@ Route::post('/register', [LoginController::class, 'register'])->name('xu-li-dang
 
 
 Route::get('/', [ProductController::class, 'index_user'])->name('trang-chu-user');
-Route::get('/search', [ProductController::class, 'search'])->name('tim-kiem');
 Route::get('/detail/{id}', [ProductController::class, 'detail'])->name('chi-tiet-san-pham-user');
+Route::get('/shop', [ProductController::class, 'shop'])->name('trang-san-pham');
+Route::get('/shop/search', [ProductController::class, 'search'])->name('tim-kiem');
+Route::get('/shop/sort', [ProductController::class, 'sort'])->name('sap-xep');
+Route::get('/shop/filter', [ProductController::class, 'filterByPrice'])->name('loc-gia');
+
 Route::get('/cart', [CartController::class, 'index'])->name('gio-hang');
 Route::post('/cart/add', [CartController::class, 'add'])->name('them-gio-hang');
 Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('xoa-gio-hang');
 Route::post('/update-cart/{id}', [CartController::class, 'update'])->name('cap-nhat-so-luong');
+Route::post('/checkout-cart', [CartController::class, 'buy'])->name('thanh-toan-gio-hang');
 
-Route::post('/checkout', [OrderController::class, 'buy'])->name('mua-ngay');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('trang-thanh-toan');
+Route::post('/checkout-pay', [CheckoutController::class, 'create'])->name('thanh-toan');
+Route::post('/payment', [CheckoutController::class, 'payment'])->name('xu-li-thanh-toan');
 
-Route::get('/shop', function () {
-    return view('user.shop');
-});
+Route::get('/order', [OrderController::class, 'index'])->name('trang-don-hang');
 
-// Route::get('/detail', function () {
-//     return view('user.detail');
+// Route::get('/order', function () {
+//     return view('user.order');
 // });
 
-
-
-Route::get('/checkout', function () {
-    return view('user.checkout');
-});
 
 Route::get('/contact', function () {
     return view('user.contact');
@@ -172,6 +173,7 @@ Route::delete('/xoa-loai/{id}', [CategoryController::class, 'destroy'])->name('x
 
 Route::get('/trang-chu', [AdminController::class, 'home'])->name('trang-chu');
 Route::get('/quan-li-nhan-vien', [AdminController::class, 'index'])->name('quan-li-nhan-vien');
+Route::get('/doanh-thu', [AdminController::class, 'sale'])->name('doanh-thu');
 
 
 Route::get('/them-admin', [AdminController::class, 'create'])->name('them-admin');

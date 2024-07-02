@@ -8,22 +8,14 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Product_detail;
 use App\Models\Image;
+use App\Models\Order;
+use App\Models\Order_detail;
+use Carbon\Carbon;
 
 class CartController extends Controller
 {
     public function index(Request $request)
     {
-        $user = Auth::user();
-        // $cartItems = $request->input('cart_items');
-
-        // foreach ($cartItems as $itemId => $checked) {
-        //     $cartItem = Cart::find($itemId);
-        //     if ($cartItem) {
-        //         $cartItem->checked = $checked == 'true'; // Convert 'true'/'false' string to boolean
-        //         $cartItem->save();
-        //     }
-        // }
-
         $user = Auth::user();
         if ($user) {
             $giohang = Cart::with('productDetail')
@@ -47,6 +39,7 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
+        //dd($request->all());
         // Kiểm tra người dùng đã đăng nhập hay chưa
         if (!Auth::check()) {
             return redirect()->route('dang-nhap');
@@ -116,6 +109,7 @@ class CartController extends Controller
         // Tìm sản phẩm trong giỏ hàng theo ID
         $cart = Cart::findOrFail($id);
         $cart->delete();
+
         alert()->success('Thành công', 'Sản phẩm đã được xóa khỏi giỏ hàng');
         return redirect()->back();
     }
@@ -131,5 +125,4 @@ class CartController extends Controller
         }
         return response()->json(['success' => false, 'message' => 'Item not found'], 404);
     }
-
 }

@@ -105,7 +105,7 @@
                                                 action="{{ route('delete_child', ['id' => $item->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                <button class="btn btn-primary btn-sm trash" type="submit" title="Xóa"
                                                     data-toggle="modal"
                                                     data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
@@ -123,7 +123,8 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
+        {{-- form xóa có thông báo --}}
+        {{-- <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -139,12 +140,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <script>
+        {{-- <script>
             document.getElementById('confirmDeleteBtn-{{ $item->id }}').addEventListener('click', function() {
                 document.getElementById('deleteForm-{{ $item->id }}').submit();
             });
-        </script>
+        </script> --}}
     </main>
 @endsection

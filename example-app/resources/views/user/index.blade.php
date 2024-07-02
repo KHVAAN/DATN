@@ -122,7 +122,7 @@
 
 
     <!-- Offer Start -->
-    <div class="container-fluid offer pt-5">
+    {{-- <div class="container-fluid offer pt-5">
         <div class="row px-xl-5">
             <div class="col-md-6 pb-4">
                 <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
@@ -145,7 +145,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Offer End -->
 
     <!-- Sản phẩm phân theo brand start -->
@@ -186,16 +186,16 @@
                                     </div>
                                 </div>
                                 <div class="card-footer d-flex justify-content-between bg-light border">
-                                    <a href="{{ url('/detail', ['id' => $item->id]) }}"
-                                        class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Xem
+                                    <a href="{{ url('/detail', ['id' => $item->id]) }}" class="btn btn-sm text-dark p-0"><i
+                                            class="fas fa-eye text-primary mr-1"></i>Xem
                                         Chi Tiết</a>
-                                    <form action="{{ url('/them-gio-hang') }}" method="POST">
+                                    {{-- <form action="{{ url('/them-gio-hang') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $item->id }}">
                                         <button type="submit" class="btn btn-sm text-dark p-0"><i
                                                 class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ
                                             Hàng</button>
-                                    </form>
+                                    </form> --}}
                                 </div>
                             </div>
                         </div>
@@ -254,20 +254,20 @@
                     <div class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                             @php
-                                $firstImage = $product->image->first(); // Giả sử $product có mối quan hệ 'image'
+                                $firstImage = $product->image->first();
                             @endphp
                             @if ($firstImage)
-                                <img class="img-fluid" src="{{ asset('storage/' . $firstImage->tenimage) }}"
-                                    alt="{{ $product->tensanpham }}">
-                            @else
-                                <img class="img-fluid" src="{{ asset('storage/default.jpg') }}"
-                                    alt="{{ $product->tensanpham }}">
+                                <div
+                                    class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                    <img class="img-fluid w-100" src="{{ asset('storage/' . $firstImage->tenimage) }}"
+                                        alt="{{ $product->tensanpham }}">
+                                </div>
                             @endif
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <!-- Hiển thị tên sản phẩm -->
                             <h6 class="text-truncate mb-3">
-                                <a href="{{ url('/detail', ['id' => $item->id]) }}">{{ $item->tensanpham }}</a>
+                                <a href="{{ url('/detail', ['id' => $product->id]) }}">{{ $product->tensanpham }}</a>
                             </h6>
                             <div class="d-flex justify-content-center">
                                 <!-- Hiển thị giá bán -->
@@ -287,13 +287,13 @@
                             <a href="{{ url('/detail', ['id' => $item->id]) }}" class="btn btn-sm text-dark p-0"><i
                                     class="fas fa-eye text-primary mr-1"></i>Xem
                                 Chi Tiết</a>
-                            <form action="{{ url('/them-gio-hang') }}" method="POST">
+                            {{-- <form action="{{ url('/them-gio-hang') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $item->id }}">
                                 <button type="submit" class="btn btn-sm text-dark p-0"><i
                                         class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ
                                     Hàng</button>
-                            </form>
+                            </form> --}}
                         </div>
                     </div>
                 </div>

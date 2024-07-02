@@ -16,10 +16,8 @@
                         <h5 class="font-weight-bold text-dark mb-4">Shopping</h5>
                         <div class="d-flex flex-column justify-content-start">
                             <a class="text-dark mb-2" href="{{ url('/') }}"><i class="fa fa-angle-right mr-2"></i>Trang Chủ</a>
-                            <a class="text-dark mb-2" href="{{ url('/shop') }}"><i class="fa fa-angle-right mr-2"></i>Tất cả</a>
-                            <a class="text-dark mb-2" href="{{ url('/detail') }}"><i class="fa fa-angle-right mr-2"></i>Sản Phẩm</a>
-                            <a class="text-dark mb-2" href="{{ url('/cart') }}"><i class="fa fa-angle-right mr-2"></i>Giỏ Hàng</a>
-                            <a class="text-dark mb-2" href="{{ url('/checkout') }}"><i class="fa fa-angle-right mr-2"></i>Thanh Toán</a>
+                            <a class="text-dark mb-2" href="{{ url('/shop') }}"><i class="fa fa-angle-right mr-2"></i>Sản Phẩm</a>
+                            <a class="text-dark mb-2" href="{{ url('/intro') }}"><i class="fa fa-angle-right mr-2"></i>Giới Thiệu</a>
                             <a class="text-dark" href="{{ url('/contact') }}"><i class="fa fa-angle-right mr-2"></i>Liên Hệ</a>
                         </div>
                     </div>

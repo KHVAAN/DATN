@@ -4,11 +4,6 @@
 
 @section('content')
     <style>
-        /* .text-align-center th,
-                    td {
-                        text-align: center;
-                    } */
-
         .bg-gray {
             background-color: #f2f2f2;
             /* Màu nền xám */
@@ -69,29 +64,46 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body">
-                        <div class="row element-button">
+                        <div class="row element-button align-items-center">
                             <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" href="{{ url('/them-san-pham') }}" title="Thêm"><i
-                                        class="fas fa-plus"></i> Tạo mới sản phẩm</a>
+                                <a class="btn btn-add btn-sm" href="{{ url('/them-san-pham') }}" title="Thêm">
+                                    <i class="fas fa-plus"></i> Tạo mới sản phẩm
+                                </a>
                             </div>
 
                             <div class="col-sm-2">
                                 <a class="btn btn-delete btn-sm print-file" type="button" title="In"
-                                    onclick="myApp.printTable()"><i class="fas fa-print"></i> In dữ liệu</a>
+                                    onclick="myApp.printTable()">
+                                    <i class="fas fa-print"></i> In dữ liệu
+                                </a>
                             </div>
 
                             <div class="col-sm-2">
-                                <a class="btn btn-excel btn-sm" href="" title="In"><i
-                                        class="fas fa-file-excel"></i> Xuất Excel</a>
+                                <a class="btn btn-excel btn-sm" href="" title="In">
+                                    <i class="fas fa-file-excel"></i> Xuất Excel
+                                </a>
                             </div>
+
                             <div class="col-sm-2">
                                 <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
-                                    onclick="myFunction(this)"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
+                                    onclick="myFunction(this)">
+                                    <i class="fas fa-file-pdf"></i> Xuất PDF
+                                </a>
                             </div>
 
+                            <div class="ml-auto">
+                                <form action="{{ url('/quan-li-san-pham') }}" method="GET"
+                                    class="d-flex align-items-center">
+                                    <input type="search" id="searchInput" name="search"
+                                        class="form-control form-control-sm mr-2" style="width: 200px; height: 40px;"
+                                        placeholder="Nhập từ khóa tìm kiếm..." aria-controls="sampleTable"
+                                        value="{{ request('search') }}">
+                                    <button type="submit" class="btn btn-primary btn-sm"><i
+                                            class="fas fa-search"></i></button>
+                                </form>
+                            </div>
                         </div>
-
-                        <div class="d-flex justify-content-between align-items-center mt-3">
+                        {{-- <div class="d-flex justify-content-between align-items-center mt-3">
                             <div class="d-flex align-items-center">
                                 <label class="mr-2 mb-0">Hiển thị
                                     <select name="sampleTable_length" aria-controls="sampleTable"
@@ -103,13 +115,7 @@
                                     </select>
                                 </label>
                             </div>
-                            <div class="d-flex align-items-center">
-                                <label class="mr-2 mb-0">Tìm kiếm:</label>
-                                <input type="search" id="searchInput" class="form-control form-control-sm mr-2"
-                                    style="width: 200px; height: 40px;" placeholder="Nhập từ khóa tìm kiếm..."
-                                    aria-controls="sampleTable" onkeydown="handleSearch(event)">
-                            </div>
-                        </div>
+                        </div> --}}
 
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead class="text-align-center">
@@ -125,9 +131,13 @@
                                 </tr>
                             </thead>
                             <tbody class="text-align-center">
+                                @php
+                                    $currentPage = $product->currentPage();
+                                    $perPage = $product->perPage();
+                                @endphp
                                 @foreach ($product as $index => $item)
                                     <tr>
-                                        <td>{{ $index + 1 }}</td> <!-- Chỉnh sửa chỉ số -->
+                                        <td>{{ ($currentPage - 1) * $perPage + $index + 1 }}</td>
                                         <td>{{ $item->tensanpham }}</td>
                                         <td>{{ $item->soluong }}</td>
                                         <td>{{ $item->dongia }}</td>
@@ -154,15 +164,16 @@
                                                     <i class="far fa-eye"></i>
                                                 </a>
                                                 <a href="{{ url('/chinh-sua-san-pham', ['id' => $item->id]) }}"
-                                                    class="btn btn-primary btn-sm edit" type="button" title="Sửa">
+                                                    class="btn btn-primary btn-sm edit" title="Sửa">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
+                                                <button class="btn btn-primary btn-sm trash" type="submit" title="Xóa"
                                                     data-toggle="modal"
                                                     data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -177,16 +188,44 @@
                             </div>
                             <div class="col-sm-12 col-md-7">
                                 <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
-                                    {{ $product->links() }}
+                                    <ul class="pagination">
+                                        {{-- Link đến trang trước --}}
+                                        @if ($product->onFirstPage())
+                                            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                        @else
+                                            <li class="page-item"><a class="page-link"
+                                                    href="{{ $product->previousPageUrl() }}" rel="prev">&laquo;</a>
+                                            </li>
+                                        @endif
+
+                                        {{-- Các trang phân trang --}}
+                                        @foreach ($product->getUrlRange(1, $product->lastPage()) as $page => $url)
+                                            @if ($page == $product->currentPage())
+                                                <li class="page-item active"><span
+                                                        class="page-link">{{ $page }}</span></li>
+                                            @else
+                                                <li class="page-item"><a class="page-link"
+                                                        href="{{ $url }}">{{ $page }}</a></li>
+                                            @endif
+                                        @endforeach
+
+                                        {{-- Link đến trang tiếp theo --}}
+                                        @if ($product->hasMorePages())
+                                            <li class="page-item"><a class="page-link" href="{{ $product->nextPageUrl() }}"
+                                                    rel="next">&raquo;</a></li>
+                                        @else
+                                            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                        @endif
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
+
+        {{-- <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
             aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -207,6 +246,6 @@
             document.getElementById('confirmDeleteBtn-{{ $item->id }}').addEventListener('click', function() {
                 document.getElementById('deleteForm-{{ $item->id }}').submit();
             });
-        </script>
+        </script> --}}
     </main>
 @endsection

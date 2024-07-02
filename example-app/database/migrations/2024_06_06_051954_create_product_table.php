@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('dongia');
             $table->integer('giamgia');
             $table->tinyInteger('trangthai');
+            $table->integer('soluong')->default(0); // Thêm cột soluong với giá trị mặc định là 0
             $table->timestamps();
 
             $table->unsignedBigInteger('loaisp_id');

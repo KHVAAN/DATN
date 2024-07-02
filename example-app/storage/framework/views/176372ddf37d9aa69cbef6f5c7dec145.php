@@ -87,30 +87,7 @@
 
 
     <!-- Offer Start -->
-    <div class="container-fluid offer pt-5">
-        <div class="row px-xl-5">
-            <div class="col-md-6 pb-4">
-                <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
-                    <img src="img/offer-1.png" alt="">
-                    <div class="position-relative" style="z-index: 1;">
-                        <h5 class="text-uppercase text-primary mb-3">Giảm giá 20% cho tất cả đơn hàng</h5>
-                        <h1 class="mb-4 font-weight-semi-bold">BTS Mùa Xuân</h1>
-                        <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Mua ngay</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 pb-4">
-                <div class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
-                    <img src="img/offer-2.png" alt="">
-                    <div class="position-relative" style="z-index: 1;">
-                        <h5 class="text-uppercase text-primary mb-3">Giảm giá 20% cho tất cả đơn hàng</h5>
-                        <h1 class="mb-4 font-weight-semi-bold">BTS Mùa Đông</h1>
-                        <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Mua ngay</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- Offer End -->
 
     <!-- Sản phẩm phân theo brand start -->
@@ -151,16 +128,10 @@
                                     </div>
                                 </div>
                                 <div class="card-footer d-flex justify-content-between bg-light border">
-                                    <a href="<?php echo e(url('/detail', ['id' => $item->id])); ?>"
-                                        class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>Xem
+                                    <a href="<?php echo e(url('/detail', ['id' => $item->id])); ?>" class="btn btn-sm text-dark p-0"><i
+                                            class="fas fa-eye text-primary mr-1"></i>Xem
                                         Chi Tiết</a>
-                                    <form action="<?php echo e(url('/them-gio-hang')); ?>" method="POST">
-                                        <?php echo csrf_field(); ?>
-                                        <input type="hidden" name="product_id" value="<?php echo e($item->id); ?>">
-                                        <button type="submit" class="btn btn-sm text-dark p-0"><i
-                                                class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ
-                                            Hàng</button>
-                                    </form>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -216,20 +187,20 @@
                     <div class="card product-item border-0 mb-4">
                         <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
                             <?php
-                                $firstImage = $product->image->first(); // Giả sử $product có mối quan hệ 'image'
+                                $firstImage = $product->image->first();
                             ?>
                             <?php if($firstImage): ?>
-                                <img class="img-fluid" src="<?php echo e(asset('storage/' . $firstImage->tenimage)); ?>"
-                                    alt="<?php echo e($product->tensanpham); ?>">
-                            <?php else: ?>
-                                <img class="img-fluid" src="<?php echo e(asset('storage/default.jpg')); ?>"
-                                    alt="<?php echo e($product->tensanpham); ?>">
+                                <div
+                                    class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                    <img class="img-fluid w-100" src="<?php echo e(asset('storage/' . $firstImage->tenimage)); ?>"
+                                        alt="<?php echo e($product->tensanpham); ?>">
+                                </div>
                             <?php endif; ?>
                         </div>
                         <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                             <!-- Hiển thị tên sản phẩm -->
                             <h6 class="text-truncate mb-3">
-                                <a href="<?php echo e(url('/detail', ['id' => $item->id])); ?>"><?php echo e($item->tensanpham); ?></a>
+                                <a href="<?php echo e(url('/detail', ['id' => $product->id])); ?>"><?php echo e($product->tensanpham); ?></a>
                             </h6>
                             <div class="d-flex justify-content-center">
                                 <!-- Hiển thị giá bán -->
@@ -249,13 +220,7 @@
                             <a href="<?php echo e(url('/detail', ['id' => $item->id])); ?>" class="btn btn-sm text-dark p-0"><i
                                     class="fas fa-eye text-primary mr-1"></i>Xem
                                 Chi Tiết</a>
-                            <form action="<?php echo e(url('/them-gio-hang')); ?>" method="POST">
-                                <?php echo csrf_field(); ?>
-                                <input type="hidden" name="product_id" value="<?php echo e($item->id); ?>">
-                                <button type="submit" class="btn btn-sm text-dark p-0"><i
-                                        class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ
-                                    Hàng</button>
-                            </form>
+                            
                         </div>
                     </div>
                 </div>

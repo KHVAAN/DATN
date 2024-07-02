@@ -7,9 +7,21 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = User::where('phanquyen', 2)->paginate(10);
+        $query = User::where('phanquyen', 2);
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('hovaten', 'like', '%' . $search . '%')
+                    ->orWhere('sdt', 'like', '%' . $search . '%')
+                    ->orWhere('ngaysinh', 'like', '%' . $search . '%')
+                    ->orWhere('diachi', 'like', '%' . $search . '%');
+            });
+        }
+
+        $user = $query->paginate(10);
         return view('admin.quan-li-khach-hang', compact('user'));
     }
 
@@ -18,5 +30,4 @@ class UserController extends Controller
         $user = User::where('id', $id)->first();
         return view('admin.chi-tiet-user', compact('user'));
     }
-
 }

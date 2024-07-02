@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -10,11 +11,25 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $admin = User::where('phanquyen', 1)->paginate(10);
+        $query = User::where('phanquyen', 1);
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('hovaten', 'like', '%' . $search . '%')
+                    ->orWhere('sdt', 'like', '%' . $search . '%')
+                    ->orWhere('ngaysinh', 'like', '%' . $search . '%')
+                    ->orWhere('diachi', 'like', '%' . $search . '%');
+            });
+        }
+
+        $admin = $query->paginate(10); // Sử dụng paginate() thay vì get()
+
         return view('admin.quan-li-nhan-vien', compact('admin'));
     }
+
 
     public function home()
     {
@@ -22,13 +37,21 @@ class AdminController extends Controller
             ->latest() // Sắp xếp theo thời gian từ mới nhất đến cũ nhất
             ->take(5) // Giới hạn lấy chỉ 5 bản ghi
             ->get(); // Lấy dữ liệu
+        $count_order = Order::All()->count();
         $count = User::where('phanquyen', '<>', 1)->count(); // Loại bỏ người dùng là admin
         $count_product = Product::All()->count();
         $product_stt = Product::where('soluong', '<', 5)->count(); // Đếm số lượng sản phẩm sắp hết hàng (ví dụ stock < 5)
-        return view('admin.trang-chu', compact('users', 'count', 'count_product', 'product_stt'));
+        return view('admin.trang-chu', compact('users', 'count', 'count_product', 'product_stt', 'count_order'));
     }
 
-
+    public function sale()
+    {
+        $count_order = Order::All()->count();
+        $count_product = Product::All()->count();
+        $product_stt = Product::where('soluong', '<', 1)->count(); // Đếm số lượng sản phẩm sắp hết hàng (ví dụ stock < 5)
+        $out_of_stock_products = Product::where('soluong', '<', 1)->get(); // Lấy danh sách các sản phẩm hết hàng
+        return view('admin.doanh-thu', compact('count_order', 'count_product', 'product_stt', 'out_of_stock_products'));
+    }
     public function create()
     {
         $admin = User::where('trangthai', 0)->get();
@@ -129,25 +152,31 @@ class AdminController extends Controller
             'ngaysinh.date' => 'Ngày sinh không hợp lệ',
         ]);
 
-        $user = User::find($id);
-        $user->hovaten = $request->input('hovaten') ?? $user->hovaten;
-        $user->sdt = $request->input('sdt') ?? $user->sdt;
-        $user->diachi = $request->input('diachi') ?? $user->diachi;
-        $user->phanquyen = $request->input('phanquyen') ?? $user->phanquyen;
-        $user->email = $request->input('email') ?? $user->email;
-        $user->gioitinh = $request->input('gioitinh') ?? $user->gioitinh;
-        $user->ngaysinh = $request->input('ngaysinh') ?? $user->ngaysinh;
+        try {
+            $user = User::findOrFail($id);
+            $user->hovaten = $request->input('hovaten') ?? $user->hovaten;
+            $user->sdt = $request->input('sdt') ?? $user->sdt;
+            $user->diachi = $request->input('diachi') ?? $user->diachi;
+            $user->phanquyen = $request->input('phanquyen') ?? $user->phanquyen;
+            $user->email = $request->input('email') ?? $user->email;
+            $user->gioitinh = $request->input('gioitinh') ?? $user->gioitinh;
+            $user->ngaysinh = $request->input('ngaysinh') ?? $user->ngaysinh;
 
-        // Cập nhật mật khẩu nếu được cung cấp
-        if ($request->has('password')) {
-            $user->password = Hash::make($request->input('password'));
+            // Cập nhật mật khẩu nếu được cung cấp
+            if ($request->has('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
+
+            $user->save();
+
+            Alert()->success('Thành công', 'Cập nhật tài khoản quản trị viên thành công.');
+        } catch (\Exception $e) {
+            Alert()->error('Lỗi', 'Có lỗi xảy ra trong quá trình cập nhật. Vui lòng thử lại sau.');
         }
 
-        $user->save();
-
-        Alert()->success('Thành công', 'Cập nhật tài khoản quản trị viên thành công.');
         return redirect()->back();
     }
+
 
     public function destroy(Request $request, $id)
     {

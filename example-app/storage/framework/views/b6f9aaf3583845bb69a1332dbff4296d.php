@@ -151,7 +151,7 @@
                                 <span class="user-name"><?php echo e(Auth::user()->hovaten); ?></span>
                                 <div class="user-menu-items">
                                     <a class="nav-item" href="">Tài khoản của tôi</a>
-                                    <a class="nav-item" href="">Đơn mua</a>
+                                    <a class="nav-item" href="<?php echo e(url('/order')); ?>">Đơn mua</a>
                                     <a class="nav-item" href="<?php echo e(route('dang-xuat')); ?>"
                                         onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">

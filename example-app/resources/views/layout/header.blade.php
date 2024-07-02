@@ -157,7 +157,7 @@
                                 <span class="user-name">{{ Auth::user()->hovaten }}</span>
                                 <div class="user-menu-items">
                                     <a class="nav-item" href="">Tài khoản của tôi</a>
-                                    <a class="nav-item" href="">Đơn mua</a>
+                                    <a class="nav-item" href="{{ url('/order') }}">Đơn mua</a>
                                     <a class="nav-item" href="{{ route('dang-xuat') }}"
                                         onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();">

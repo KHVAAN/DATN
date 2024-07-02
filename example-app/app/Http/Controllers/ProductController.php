@@ -18,9 +18,24 @@ class ProductController extends Controller
 {
 
 
-    public function index_ad()
+    public function index_ad(Request $request)
     {
-        $product = Product::with(['category', 'brand'])->paginate(10); // Lấy tất cả sản phẩm kèm theo loại sản phẩm và nhãn hiệu
+        $query = Product::with(['category', 'brand']);
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('tensanpham', 'like', '%' . $search . '%')
+                    ->orWhereHas('category', function ($q) use ($search) {
+                        $q->where('tenloaisp', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('brand', function ($q) use ($search) {
+                        $q->where('tennhanhieu', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        $product = $query->paginate(10);
         return view('admin.quan-li-san-pham', compact('product')); // Truyền biến product tới view
     }
     public function index_user()
@@ -254,24 +269,18 @@ class ProductController extends Controller
 
 
 
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
         $product = Product::findOrFail($id);
-        Image::where('sp_id', $product->id)->delete();
+        $product->image()->delete();
+        $product->productDetails()->delete();
         $product->delete();
         alert()->success('Thành công', 'Xóa sản phẩm thành công');
         return redirect()->back();
     }
 
-    public function search(Request $request)
-    {
-        $search = $request->input('search');
 
-        // Thực hiện tìm kiếm trong cơ sở dữ liệu
-        $product = Product::where('tensanpham', 'like', '%' . $search . '%')->get();
 
-        return view('user.tim-kiem', compact('product'));
-    }
 
     public function detail($id)
     {
@@ -322,4 +331,67 @@ class ProductController extends Controller
         return view('user.detail', compact('quantity', 'sizeName', 'colorName', 'productDetail', 'image', 'product', 'availableSizes', 'availableColors', 'uniqueDetails'));
     }
 
+    public function shop()
+    {
+        // Lấy danh sách các sản phẩm chính
+
+        $products = Product::where('trangthai', 0)
+            ->with('image') // Load các ảnh liên kết
+            ->paginate(9); // Giới hạn 9 sản phẩm mỗi trang
+        return view('user.shop', compact('products'));
+    }
+
+    public function search(Request $request)
+    {
+        $searchTerm = $request->input('search');
+        $products = Product::where('tensanpham', 'like', "%$searchTerm%")
+            ->where('trangthai', 0)
+            ->paginate(9);
+
+        return view('user.shop', compact('products'));
+    }
+
+    public function sort(Request $request)
+    {
+
+        $products = Product::query();
+
+        // Xử lý sắp xếp theo giá
+        if ($request->has('sort')) {
+            if ($request->sort == 'gia-asc') {
+                $products->orderBy('dongia', 'asc');
+            } elseif ($request->sort == 'gia-desc') {
+                $products->orderBy('dongia', 'desc');
+            }
+        }
+
+        $products = $products->paginate(9); // hoặc bất kỳ phương thức lấy dữ liệu nào khác của bạn
+
+        return view('user.shop', compact('products'));
+    }
+    public function filterByPrice(Request $request)
+    {
+        $query = Product::query();
+
+        // Xử lý lọc theo giá dựa trên dữ liệu từ form
+        if ($request->has('price_all')) {
+            // Lọc tất cả sản phẩm (không áp dụng filter giá)
+        } else {
+            // Xử lý các khoảng giá được chọn
+            $priceRanges = $request->input('price_range');
+
+            foreach ($priceRanges as $range) {
+                if ($range == 2) {
+                    $query->orWhereBetween('dongia', [0, 500000]);
+                } elseif ($range == 3) {
+                    $query->orWhereBetween('dongia', [500001, 1000000]);
+                }
+                // Thêm các khoảng giá khác tương tự
+            }
+        }
+
+        $products = $query->paginate(9); // Số sản phẩm trên mỗi trang
+
+        return view('user.shop', compact('products'));
+    }
 }

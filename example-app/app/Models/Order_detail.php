@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Order_detail extends Model
 {
     use HasFactory;
-    protected $table = 'oder_detail';
+    protected $table = 'order_detail';
     protected $fillable = [
         'ma_hd',
         'sp_id',
-        'chitietsp_id',
+        'mau_id',
+        'size_id',
         'soluong',
         'giaohang',
         'thanhtien',
@@ -26,8 +27,13 @@ class Order_detail extends Model
     {
         return $this->hasMany(Order::class, 'id', 'ma_hd');
     }
-    public function ordertail()
+    public function color()
     {
-        return $this->belongsTo(Order_detail::class, 'chitietsp_id', 'id');
+        return $this->belongsTo(Color::class, 'mau_id', 'id');
+    }
+
+    public function size()
+    {
+        return $this->belongsTo(Size::class, 'size_id', 'id');
     }
 }

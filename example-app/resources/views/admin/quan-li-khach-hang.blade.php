@@ -3,11 +3,11 @@
 @section('title', 'Quản lí khách hàng | Quản trị viên')
 
 @section('content')
-<style>
+    <style>
         /* .text-align-center th,
-            td {
-                text-align: center;
-            } */
+                        td {
+                            text-align: center;
+                        } */
 
         .bg-gray {
             background-color: #f2f2f2;
@@ -86,29 +86,18 @@
                                 <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
                                     onclick="myFunction(this)"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
                             </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div class="d-flex align-items-center">
-                                <label class="mr-2 mb-0">Hiển thị
-                                    <select name="sampleTable_length" aria-controls="sampleTable"
-                                        class="form-control form-control-sm d-inline-block">
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="50">50</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <label class="mr-2 mb-0">Tìm kiếm:</label>
-                                <input type="search" id="searchInput" class="form-control form-control-sm mr-2"
-                                    style="width: 200px; height: 40px;" placeholder="Nhập từ khóa tìm kiếm..."
-                                    aria-controls="sampleTable" onkeydown="handleSearch(event)">
+                            <div class="ml-auto">
+                                <form action="{{ url('/quan-li-khach-hang') }}" method="GET"
+                                    class="d-flex align-items-center">
+                                    <input type="search" id="searchInput" name="search"
+                                        class="form-control form-control-sm mr-2" style="width: 200px; height: 40px;"
+                                        placeholder="Nhập từ khóa tìm kiếm..." aria-controls="sampleTable"
+                                        value="{{ request('search') }}">
+                                    <button type="submit" class="btn btn-primary btn-sm"><i
+                                            class="fas fa-search"></i></button>
+                                </form>
                             </div>
                         </div>
-
-
 
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead class="text-align-center">
@@ -125,9 +114,13 @@
                                 </tr>
                             </thead>
                             <tbody class="text-align-center">
+                                @php
+                                    $currentPage = $user->currentPage();
+                                    $perPage = $user->perPage();
+                                @endphp
                                 @foreach ($user as $index => $item)
                                     <tr>
-                                        <td>{{ $index + 1 }}</td> <!-- STT -->
+                                        <td>{{ ($currentPage - 1) * $perPage + $index + 1 }}</td>
                                         <td>{{ $item->hovaten }}</td>
                                         <td>{{ $item->diachi }}</td>
                                         <td>{{ $item->sdt }}</td>
@@ -186,7 +179,35 @@
                             </div>
                             <div class="col-sm-12 col-md-7">
                                 <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
-                                    {{ $user->links() }}
+                                    <ul class="pagination">
+                                        {{-- Link đến trang trước --}}
+                                        @if ($user->onFirstPage())
+                                            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                        @else
+                                            <li class="page-item"><a class="page-link"
+                                                    href="{{ $user->previousPageUrl() }}" rel="prev">&laquo;</a>
+                                            </li>
+                                        @endif
+
+                                        {{-- Các trang phân trang --}}
+                                        @foreach ($user->getUrlRange(1, $user->lastPage()) as $page => $url)
+                                            @if ($page == $user->currentPage())
+                                                <li class="page-item active"><span
+                                                        class="page-link">{{ $page }}</span></li>
+                                            @else
+                                                <li class="page-item"><a class="page-link"
+                                                        href="{{ $url }}">{{ $page }}</a></li>
+                                            @endif
+                                        @endforeach
+
+                                        {{-- Link đến trang tiếp theo --}}
+                                        @if ($user->hasMorePages())
+                                            <li class="page-item"><a class="page-link" href="{{ $user->nextPageUrl() }}"
+                                                    rel="next">&raquo;</a></li>
+                                        @else
+                                            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                        @endif
+                                    </ul>
                                 </div>
                             </div>
                         </div>

@@ -112,8 +112,8 @@
                             <div class="form-group col-md-6">
                                 <label class="control-label">Giới tính</label>
                                 <select class="form-control" name="gioitinh" required>
-                                    <option value="Nam" {{ $user->gioitinh == 'Nam' ? 'selected' : '' }}>Nam</option>
-                                    <option value="Nữ" {{ $user->gioitinh == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+                                    <option value="male" {{ $user->gioitinh == 'male' ? 'selected' : '' }}>Nam</option>
+                                    <option value="female" {{ $user->gioitinh == 'female' ? 'selected' : '' }}>Nữ</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">

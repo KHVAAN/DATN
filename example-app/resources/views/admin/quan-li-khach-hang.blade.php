@@ -5,9 +5,9 @@
 @section('content')
     <style>
         /* .text-align-center th,
-                        td {
-                            text-align: center;
-                        } */
+                                td {
+                                    text-align: center;
+                                } */
 
         .bg-gray {
             background-color: #f2f2f2;
@@ -73,19 +73,7 @@
                 <div class="tile">
                     <div class="tile-body">
                         <div class="row element-button">
-                            <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm print-file" type="button" title="In"
-                                    onclick="myApp.printTable()"><i class="fas fa-print"></i> In dữ liệu</a>
-                            </div>
 
-                            <div class="col-sm-2">
-                                <a class="btn btn-excel btn-sm" href="" title="In"><i
-                                        class="fas fa-file-excel"></i> Xuất Excel</a>
-                            </div>
-                            <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
-                                    onclick="myFunction(this)"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
-                            </div>
                             <div class="ml-auto">
                                 <form action="{{ url('/quan-li-khach-hang') }}" method="GET"
                                     class="d-flex align-items-center">
@@ -134,7 +122,7 @@
                                         <td>{{ $item->ngaysinh }}</td>
                                         <td>
                                             @if ($item->phanquyen === 2)
-                                                User
+                                                Khách hàng
                                             @else
                                                 {{ $item->phanquyen }}
                                             @endif
@@ -164,6 +152,25 @@
                                                     data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
+
+                                                <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                    data-backdrop="static" data-keyboard="false">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body text-center">
+                                                                <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
+                                                                <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
+                                                                <div class="form-group mt-4">
+                                                                    <button class="btn btn-primary mr-2"
+                                                                        onclick="submitDeleteForm({{ $item->id }})">Xóa</button>
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Hủy bỏ</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </form>
                                         </td>
                                     </tr>
@@ -236,52 +243,9 @@
     </div> --}}
 
     {{-- <script>
-        // JavaScript for handling search
-        function handleSearch(event) {
-            if (event.keyCode === 13) { // Check if Enter key is pressed
-                event.preventDefault(); // Prevent default form submission
-                performSearch();
-            }
+        function submitDeleteForm(itemId) {
+            document.getElementById('deleteForm-' + itemId).submit();
         }
-
-        // Handle search button click
-        function handleSearchButton() {
-            performSearch();
-        }
-
-        // Function to perform search
-        function performSearch() {
-            var searchText = document.getElementById('searchInput').value.trim().toLowerCase(); // Get search input value
-
-            // Perform search
-            var rows = document.querySelectorAll('#sampleTable tbody tr');
-            var found = false;
-            rows.forEach(function(row) {
-                var cells = row.querySelectorAll('td');
-                var foundInRow = false;
-                cells.forEach(function(cell) {
-                    var text = cell.innerText.toLowerCase();
-                    if (text.includes(searchText)) {
-                        row.style.display = '';
-                        found = true;
-                        foundInRow = true;
-                    }
-                });
-                if (!foundInRow) {
-                    row.style.display = 'none';
-                }
-            });
-
-            // Show alert if no results found
-            if (!found) {
-                alert('Không tìm thấy sản phẩm phù hợp.');
-            }
-        }
-
-        // Submit delete form on confirmation
-        document.getElementById('confirmDeleteBtn-{{ $item->id }}').addEventListener('click', function() {
-            document.getElementById('deleteForm-{{ $item->id }}').submit();
-        });
     </script> --}}
 
 @endsection

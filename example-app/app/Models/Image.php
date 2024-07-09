@@ -17,4 +17,9 @@ class Image extends Model
     {
         return $this->belongsTo(Product::class, 'sp_id', 'id');
     }
+
+    public function cart()
+    {
+        return $this->hasMany(Cart::class, 'sp_id', 'product_id');
+    }
 }

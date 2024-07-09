@@ -148,23 +148,22 @@
 
                             <div class="form-group col-md-12">
                                 <label class="control-label">Ảnh sản phẩm</label>
-                                <div id="thumbbox">
+                                <div class="row">
                                     @foreach ($image as $item)
-                                        <div class="form-group col-md-6">
+                                        <div class="col-md-2 mb-3">
                                             <img src="{{ asset('storage/' . $item->tenimage) }}" alt="Product Image"
-                                                class="img-fluid" style="height: 100px;">
+                                                class="img-fluid">
                                         </div>
                                     @endforeach
-
-                                    <a class="removeimg" href="javascript:"></a>
                                 </div>
 
-                                <div id="boxchoice">
+                                {{-- <div id="boxchoice">
                                     <a href="javascript:" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn
                                         ảnh</a>
                                     <p style="clear:both"></p>
-                                </div>
+                                </div> --}}
                             </div>
+
                             <div class="form-group col-md-12">
                                 <label class="control-label">Mô tả sản phẩm</label>
                                 <textarea class="form-control" name="mota" id="mota">{{ $product->mota }}</textarea>

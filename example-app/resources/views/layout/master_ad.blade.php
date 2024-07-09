@@ -14,10 +14,13 @@
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css"
         href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/sweetalert2.min.css') }}">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
 </head>
 
 <body onload="time()" class="app sidebar-mini rtl">
@@ -45,36 +48,59 @@
     <!--===============================================================================================-->
     <script type="text/javascript" src="/js_ad/js/plugins/chart.js"></script>
     <!--===============================================================================================-->
-    <script type="text/javascript">
-        var data = {
-            labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6"],
-            datasets: [{
-                    label: "Dữ liệu đầu tiên",
-                    fillColor: "rgba(255, 213, 59, 0.767), 212, 59)",
-                    strokeColor: "rgb(255, 212, 59)",
-                    pointColor: "rgb(255, 212, 59)",
-                    pointStrokeColor: "rgb(255, 212, 59)",
-                    pointHighlightFill: "rgb(255, 212, 59)",
-                    pointHighlightStroke: "rgb(255, 212, 59)",
-                    data: [20, 59, 90, 51, 56, 100]
-                },
-                {
-                    label: "Dữ liệu kế tiếp",
-                    fillColor: "rgba(9, 109, 239, 0.651)  ",
-                    pointColor: "rgb(9, 109, 239)",
-                    strokeColor: "rgb(9, 109, 239)",
-                    pointStrokeColor: "rgb(9, 109, 239)",
-                    pointHighlightFill: "rgb(9, 109, 239)",
-                    pointHighlightStroke: "rgb(9, 109, 239)",
-                    data: [48, 48, 49, 39, 86, 10]
-                }
-            ]
-        };
-        var ctxl = $("#lineChartDemo").get(0).getContext("2d");
-        var lineChart = new Chart(ctxl).Line(data);
+    <script>
+        $(document).ready(function() {
+            // Lấy dữ liệu từ server
+            $.ajax({
+                url: "{{ route('fetch.data') }}",
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    console.log(response); // In ra toàn bộ dữ liệu response từ server
+                    console.log(response.data); // In ra dữ liệu cụ thể (nếu có) từ response
 
-        var ctxb = $("#barChartDemo").get(0).getContext("2d");
-        var barChart = new Chart(ctxb).Bar(data);
+                    // Tiếp tục xử lý dữ liệu và cập nhật biểu đồ
+                    var data = {
+                        labels: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
+                            "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+                        ],
+                        datasets: [{
+                                label: "Sản phẩm nhập",
+                                fillColor: "rgba(255, 213, 59, 0.767)",
+                                strokeColor: "rgb(255, 212, 59)",
+                                pointColor: "rgb(255, 212, 59)",
+                                pointStrokeColor: "rgb(255, 212, 59)",
+                                pointHighlightFill: "rgb(255, 212, 59)",
+                                pointHighlightStroke: "rgb(255, 212, 59)",
+                                data: Object.values(response
+                                    .sanPhamNhapData) // Dữ liệu sản phẩm nhập từ Ajax
+                            },
+                            {
+                                label: "Sản phẩm xuất",
+                                fillColor: "rgba(9, 109, 239, 0.651)",
+                                strokeColor: "rgb(9, 109, 239)",
+                                pointColor: "rgb(9, 109, 239)",
+                                pointStrokeColor: "rgb(9, 109, 239)",
+                                pointHighlightFill: "rgb(9, 109, 239)",
+                                pointHighlightStroke: "rgb(9, 109, 239)",
+                                data: Object.values(response
+                                    .sanPhamXuatData) // Dữ liệu sản phẩm xuất từ Ajax
+                            }
+                        ]
+                    };
+
+                    // Cập nhật biểu đồ
+                    var ctxl = $("#lineChartDemo").get(0).getContext("2d");
+                    var lineChart = new Chart(ctxl).Line(data);
+
+                    var ctxb = $("#barChartDemo").get(0).getContext("2d");
+                    var barChart = new Chart(ctxb).Bar(data);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error fetching data:", error);
+                }
+            });
+        });
     </script>
 
     <script type="text/javascript">
@@ -183,6 +209,26 @@
             if (url.includes('chinh-sua-nhan-hieu')) {
                 $('.app-menu a[href*="danh-sach-chung"]').addClass('active');
             }
+            // Giữ "Quản lí đơn hàng" active khi ở trang "tạo mới đơn hàng"
+            if (url.includes('them-don-hang')) {
+                $('.app-menu a[href*="quan-li-don-hang"]').addClass('active');
+            }
+            // Giữ "Quản lí đơn hàng" active khi ở trang "CHỈNH SỬA"
+            if (url.includes('get-order-details')) {
+                $('.app-menu a[href*="quan-li-don-hang"]').addClass('active');
+            }
+            // Giữ
+            if (url.includes('chinh-sua-kich-thuoc')) {
+                $('.app-menu a[href*="danh-sach-chung"]').addClass('active');
+            }
+            //
+            if (url.includes('chinh-sua-mau')) {
+                $('.app-menu a[href*="danh-sach-chung"]').addClass('active');
+            }
+             //
+            if (url.includes('chinh-sua-loai')) {
+                $('.app-menu a[href*="danh-sach-chung"]').addClass('active');
+            }
         });
     </script>
 
@@ -252,6 +298,14 @@
                 $(".filename").text("");
             });
         })
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $("#datepicker").datepicker();
+        });
     </script>
 
 </body>

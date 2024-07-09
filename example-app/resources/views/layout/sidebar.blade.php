@@ -1,6 +1,6 @@
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/img/no_image.png" width="50px"
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/img/user.jpg" width="50px"
             alt="User Image">
         <div>
             <p class="app-sidebar__user-name"><b>Gia Huy</b></p>
@@ -32,6 +32,9 @@
         <li><a class="app-menu__item" href="{{ url('/doanh-thu') }}"><i
                     class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Báo cáo doanh
                     thu</span></a>
+        </li>
+        <li><a class="app-menu__item" href="{{ url('/nhap-xuat') }}"><i
+                    class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Xuất nhập sản phẩm</span></a>
         </li>
 
     </ul>

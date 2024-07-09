@@ -344,7 +344,7 @@
                 <div class="error-message">{{ $errors->first('email') }}</div>
                 <input type="password" name="password" placeholder="Mật khẩu" />
                 <div class="error-message">{{ $errors->first('password') }}</div>
-                <a href="#">Quên mật khẩu?</a>
+                <a href="/forgot-password">Quên mật khẩu?</a>
                 <button type="submit">Đăng nhập</button>
             </form>
         </div>

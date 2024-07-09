@@ -2,15 +2,32 @@
 
 @section('title', 'Doanh thu | Quản trị viên')
 
+
 @section('content')
     <main class="app-content">
+
         <div class="row">
             <div class="col-md-12">
                 <div class="app-title">
                     <ul class="app-breadcrumb breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('/doanh-thu') }}"><b>Báo cáo doanh thu </b></a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/doanh-thu') }}"><b>Báo cáo doanh thu</b></a></li>
                     </ul>
                     <div id="clock"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-6 d-flex align-items-center">
+                <form action="{{ route('doanh-thu') }}" method="GET" class="d-flex align-items-center">
+                    <label for="datepicker" class="me-2">Chọn Ngày:</label>
+                    <input type="text" id="datepicker" name="ngay" class="form-control me-2" style="width: 150px;">
+                    <div class="col-sm-2">
+                        <button type="submit" class="btn btn-primary">Lọc</button>
+                    </div>
+                </form>
+                <div class="col-sm-2">
+                    <a id="doanhthuPdfBtn" class="btn btn-delete btn-sm pdf-file" href="#" title="In"><i
+                            class="fas fa-file-pdf"></i> Xuất PDF</a>
                 </div>
             </div>
         </div>
@@ -19,7 +36,7 @@
                 <div class="widget-small info coloured-icon"><i class='icon bx bxs-purchase-tag-alt fa-3x'></i>
                     <div class="info">
                         <h4>Tổng sản phẩm</h4>
-                        <p><b>{{ $count_product }} sản phẩm</b></p>
+                        <p><b>{{ $totalSanPham }} sản phẩm</b></p>
                     </div>
                 </div>
             </div>
@@ -27,7 +44,7 @@
                 <div class="widget-small warning coloured-icon"><i class='icon fa-3x bx bxs-shopping-bag-alt'></i>
                     <div class="info">
                         <h4>Tổng đơn hàng</h4>
-                        <p><b>{{ $count_order }} đơn hàng</b></p>
+                        <p><b>{{ $totalDonHang }} đơn hàng</b></p>
                     </div>
                 </div>
             </div>
@@ -35,7 +52,7 @@
                 <div class="widget-small primary coloured-icon"><i class='icon fa-3x bx bxs-chart'></i>
                     <div class="info">
                         <h4>Tổng thu nhập</h4>
-                        <p><b>104.890.000 đ</b></p>
+                        <p><b>{{ number_format($totalThuNhap, 0, ',', '.') }} VND</b></p>
                     </div>
                 </div>
             </div>
@@ -43,11 +60,12 @@
                 <div class="widget-small warning coloured-icon"><i class='icon fa-3x bx bxs-tag-x'></i>
                     <div class="info">
                         <h4>Hết hàng</h4>
-                        <p><b>{{ $product_stt }} sản phẩm</b></p>
+                        <p><b>{{ $SanPhamDaHet }} đơn hàng</b></p>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="tile">
@@ -58,19 +76,24 @@
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                                 <tr>
-                                    <th>Mã sản phẩm</th>
+                                    <th>STT</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Giá tiền</th>
                                     <th>Danh mục</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>71309005</td>
-                                    <td>Bàn ăn gỗ Theresa</td>
-                                    <td>5.600.000 đ</td>
-                                    <td>Bàn ăn</td>
-                                </tr>
+                                @php
+                                    $index = 0;
+                                @endphp
+                                @foreach ($tongDonHang as $item)
+                                    <tr>
+                                        <td>{{ ++$index }}</td>
+                                        <td>{{ $item->orderdetail[0]->product->tensanpham }}</td>
+                                        <td>{{ $item->ttthanhtoan }} đ</td>
+                                        <td>{{ $item->orderdetail[0]->product->category->tenloaisp }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -87,7 +110,7 @@
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                                 <tr>
-                                    <th>ID đơn hàng</th>
+                                    <th>STT</th>
                                     <th>Khách hàng</th>
                                     <th>Đơn hàng</th>
                                     <th>Số lượng</th>
@@ -95,20 +118,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>MD0837</td>
-                                    <td>Triệu Thanh Phú</td>
-                                    <td>Ghế làm việc Zuno, Bàn ăn gỗ Theresa</td>
-                                    <td>2 sản phẩm</td>
-                                    <td>9.400.000 đ</td>
-                                </tr>
-
-                                <tr>
-                                    <th colspan="4">Tổng cộng:</th>
-                                    <td>104.890.000 đ</td>
-                                </tr>
+                                @php
+                                    $index = 0;
+                                @endphp
+                                @foreach ($tongDonHang as $item)
+                                    <tr>
+                                        <td>{{ ++$index }}</td>
+                                        <td>{{ $item->khachangorder->hovaten }}</td>
+                                        <td>{{ $item->orderdetail[0]->product->tensanpham }}</td>
+                                        <td>{{ $item->orderdetail[0]->soluong }} sản phẩm</td>
+                                        <td>{{ number_format($item->ttthanhtoan, 0, ',', '.') }} đ</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
@@ -123,43 +147,51 @@
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead>
                                 <tr>
-                                    <th>Mã sản phẩm</th>
+                                    <th>STT</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Ảnh</th>
-                                    <th>Số lượng</th>
+                                    <th>Size</th>
+                                    <th>Màu</th>
                                     <th>Tình trạng</th>
                                     <th>Giá tiền</th>
                                     <th>Danh mục</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($out_of_stock_products as $product)
+                                @php
+                                    $index = 0;
+                                @endphp
+                                @foreach ($totalSanPhamDaHet as $sanPhamDaHet)
                                     <tr>
-                                        <td>{{ $product->id }}</td>
-                                        <td>{{ $product->tensanpham }}</td>
+                                        <td>{{ ++$index }}</td>
+                                        <td>{{ $sanPhamDaHet->product->tensanpham }}</td>
                                         <td>
-                                            @if ($product->image->first())
-                                                <img src="{{ asset('storage/' . $product->image->first()->filename) }}"
-                                                    alt="" width="100px;">
-                                            @else
-                                                Không có ảnh
-                                            @endif
+                                            <img class="d-block w-100"
+                                                src="{{ asset('storage/' . $sanPhamDaHet->firstImage->tenimage) }}"
+                                                alt="Product Image" style="width: 40px; height: 40px; object-fit: contain;">
                                         </td>
-                                        <td>{{ $product->soluong }}</td>
+                                        <td>{{ $sanPhamDaHet->size->tensize }} </td>
+                                        <td>{{ $sanPhamDaHet->color->tenmau }} </td>
                                         <td><span class="badge bg-danger">Hết hàng</span></td>
-                                        <td>{{ number_format($product->dongia, 0, ',', '.') }} đ</td>
-                                        <td>{{ $product->category->tenloaisp }}</td>
+                                        <td>{{ $sanPhamDaHet->product->dongia }}</td>
+                                        <td>{{ $sanPhamDaHet->product->brand->tennhanhieu }}</td>
                                     </tr>
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="row">
+            <div class="col-md-6">
+                <div class="tile">
+                    <h3 class="tile-title">DỮ LIỆU HÀNG THÁNG</h3>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="tile">
                     <h3 class="tile-title">THỐNG KÊ DOANH SỐ</h3>
@@ -172,4 +204,29 @@
 
 
     </main>
+
+
+    <script>
+        // Function to extract query parameter from URL
+        function getQueryParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Wait for document to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get ngay value from URL
+            var ngay = getQueryParameter('ngay');
+
+            // Update href of export PDF button with ngay parameter
+            var doanhthuPdfBtn = document.getElementById('doanhthuPdfBtn');
+            if (doanhthuPdfBtn) {
+                doanhthuPdfBtn.href = "{{ route('doanh-thu-pdf') }}?ngay=" + ngay;
+            }
+        });
+    </script>
+
+
 @endsection

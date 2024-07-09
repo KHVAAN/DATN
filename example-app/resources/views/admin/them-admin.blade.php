@@ -110,8 +110,8 @@
                                 <label class="control-label">Giới tính</label>
                                 <select class="form-control" name="gioitinh" required>
                                     <option value="">-- Chọn giới tính --</option>
-                                    <option value="male">Nam</option>
-                                    <option value="female">Nữ</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Nữ">Nữ</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">

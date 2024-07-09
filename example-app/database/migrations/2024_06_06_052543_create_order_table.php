@@ -16,11 +16,11 @@ return new class extends Migration
             $table->unsignedBigInteger('ma_kh');
             $table->datetime('ngay_lap_hoa_don')->default(now());
             $table->dateTime('ngay_nhan_hang')->nullable();
-            $table->tinyInteger('ttthanhtoan')->default('0');
+            $table->integer('ttthanhtoan')->default('0');
             $table->tinyInteger('ttvanchuyen')->default('0');
-            $table->tinyInteger('trangthai')->default('0');
+            $table->unsignedBigInteger('trangthai');
             $table->timestamps();
-
+            
             $table->foreign('ma_kh')->references('id')->on('user');
         });
     }

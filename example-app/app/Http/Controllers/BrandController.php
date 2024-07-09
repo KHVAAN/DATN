@@ -41,6 +41,7 @@ class BrandController extends Controller
     }
     public function destroy(Request $request, $id)
     {
+        //dd($request->all());
         $brand = Brand::findOrFail($id);
         $brand->delete();
         alert()->success('Thành công', 'Xóa nhãn hiệu thành công');

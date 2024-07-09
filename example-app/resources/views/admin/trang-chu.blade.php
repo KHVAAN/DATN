@@ -43,7 +43,7 @@
                         <div class="widget-small warning coloured-icon"><i class='icon bx bxs-shopping-bags fa-3x'></i>
                             <div class="info">
                                 <h4>Tổng đơn hàng</h4>
-                                <p><b>{{$count_order}} đơn hàng</b></p>
+                                <p><b>{{ $completedOrdersCount }} đơn hàng</b></p>
                                 <p class="info-tong">Tổng số hóa đơn bán hàng trong tháng.</p>
                             </div>
                         </div>
@@ -61,7 +61,11 @@
                     <!-- col-12 -->
                     <div class="col-md-12">
                         <div class="tile">
-                            <h3 class="tile-title">Tình trạng đơn hàng</h3>
+                            <h4 class="tile-title">Tình Trạng Đơn Hàng
+                                <div class="float-right">
+                                    <a href="{{ url('/quan-li-don-hang') }}" class="btn btn-sm btn-primary">Xem thêm >></a>
+                                </div>
+                            </h4>
                             <div>
                                 <table class="table table-bordered">
                                     <thead>
@@ -73,38 +77,51 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>AL3947</td>
-                                            <td>Phạm Thị Ngọc</td>
-                                            <td>
-                                                19.770.000 đ
-                                            </td>
-                                            <td><span class="badge bg-info">Chờ xử lý</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>ER3835</td>
-                                            <td>Nguyễn Thị Mỹ Yến</td>
-                                            <td>
-                                                16.770.000 đ
-                                            </td>
-                                            <td><span class="badge bg-warning">Đang vận chuyển</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>MD0837</td>
-                                            <td>Triệu Thanh Phú</td>
-                                            <td>
-                                                9.400.000 đ
-                                            </td>
-                                            <td><span class="badge bg-success">Đã hoàn thành</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>MT9835</td>
-                                            <td>Đặng Hoàng Phúc </td>
-                                            <td>
-                                                40.650.000 đ
-                                            </td>
-                                            <td><span class="badge bg-danger">Đã hủy </span></td>
-                                        </tr>
+                                        @foreach ($orders as $order)
+                                            <tr>
+                                                <td>{{ $order->id }}</td>
+                                                <td>{{ $order->khachangorder->hovaten }}</td>
+                                                <td>
+                                                    @php
+                                                        $totalAmount = 0;
+                                                        foreach ($order->orderdetail as $item) {
+                                                            $totalAmount += $item->thanhtien;
+                                                        }
+                                                    @endphp
+                                                    {{ number_format($totalAmount) }} đ
+                                                </td>
+                                                <td>
+                                                    @php
+                                                        $statusBadgeClass = '';
+                                                        $statusText = '';
+
+                                                        switch ($order->trangthai) {
+                                                            case 1:
+                                                                $statusBadgeClass = 'bg-info'; // Chờ xử lý
+                                                                $statusText = 'Chờ xử lý';
+                                                                break;
+                                                            case 2:
+                                                                $statusBadgeClass = 'bg-warning'; // Đang vận chuyển
+                                                                $statusText = 'Đang vận chuyển';
+                                                                break;
+                                                            case 3:
+                                                                $statusBadgeClass = 'bg-success'; // Đã hoàn thành
+                                                                $statusText = 'Đã hoàn thành';
+                                                                break;
+                                                            case 4:
+                                                                $statusBadgeClass = 'bg-danger'; // Đã hủy
+                                                                $statusText = 'Đã hủy';
+                                                                break;
+                                                            default:
+                                                                $statusBadgeClass = 'bg-secondary'; // Trạng thái khác
+                                                                $statusText = 'Không xác định';
+                                                                break;
+                                                        }
+                                                    @endphp
+                                                    <span class="badge {{ $statusBadgeClass }}">{{ $statusText }}</span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -115,7 +132,12 @@
                     <!-- col-12 -->
                     <div class="col-md-12">
                         <div class="tile">
-                            <h3 class="tile-title">Khách hàng mới</h3>
+                            <h4 class="tile-title">Khách Hàng Mới
+                                <div class="float-right">
+                                    <a href="{{ url('/quan-li-khach-hang') }}" class="btn btn-sm btn-primary">Xem thêm
+                                        >></a>
+                                </div>
+                            </h4>
                             <div>
                                 <table class="table table-hover">
                                     <thead>
@@ -149,7 +171,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="tile">
-                            <h3 class="tile-title">Dữ liệu 6 tháng đầu vào</h3>
+                            <h3 class="tile-title">Dữ liệu 12 tháng đầu vào</h3>
                             <div class="embed-responsive embed-responsive-16by9">
                                 <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
                             </div>
@@ -157,7 +179,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="tile">
-                            <h3 class="tile-title">Thống kê 6 tháng doanh thu</h3>
+                            <h3 class="tile-title">Thống kê 12 tháng doanh thu</h3>
                             <div class="embed-responsive embed-responsive-16by9">
                                 <canvas class="embed-responsive-item" id="barChartDemo"></canvas>
                             </div>

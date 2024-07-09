@@ -19,10 +19,22 @@ class Product_detail extends Model
         'giamgia',
         'trangthai',
     ];
+
+     public function images()
+    {
+        return $this->hasMany(Image::class, 'sp_id', 'sanpham_id');
+    }
+
+    public function firstImage()
+    {
+        return $this->hasOne(Image::class, 'sp_id', 'sanpham_id')->oldestOfMany();
+    }
+
     public function product()
     {
-        return $this->hasOne(Product::class, 'id', 'sanpham_id');
+        return $this->belongsTo(Product::class, 'sanpham_id', 'id');
     }
+
     public function color()
     {
         return $this->belongsTo(Color::class, 'mau_id', 'id');
@@ -31,4 +43,5 @@ class Product_detail extends Model
     {
         return $this->belongsTo(Size::class, 'size_id', 'id');
     }
+
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChungController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\HomeController;
+use Egulias\EmailValidator\Result\Reason\DomainHyphened;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
@@ -13,7 +14,12 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SizeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\DoanhThuController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\NhapXuatController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserController;
 use App\Models\Brand;
 use App\Models\Order;
@@ -40,7 +46,7 @@ Route::get('/login', function () {
 // Route cho trang chủ khách hàng
 Route::get('/', function () {
     return view('user.index');
-});
+})->name('trang-chu-user');
 
 // Route cho trang quản trị
 Route::get('/trang-chu', function () {
@@ -50,6 +56,15 @@ Route::get('/trang-chu', function () {
 // Route cho đăng nhập
 Route::post('/login', [LoginController::class, 'login'])->name('xu-li-dang-nhap');
 
+//Route profile
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::post('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+});
+//Route bill
+Route::get('/bill', [UserController::class, 'billUser'])->name('billUser');
+Route::get('/get-bill-user/{id}', [UserController::class, 'billShow'])->name('billShow');
+Route::put('/update-bill-user/{id}', [UserController::class, 'billUpdate'])->name('billUpdate');
 // Route cho đăng xuất
 Route::post('/logout', [LoginController::class, 'logout'])->name('dang-xuat');
 
@@ -61,31 +76,48 @@ Route::post('/register', [LoginController::class, 'register'])->name('xu-li-dang
 
 
 Route::get('/', [ProductController::class, 'index_user'])->name('trang-chu-user');
+Route::get('/search', [ProductController::class, 'index_user'])->name('tim-kiem-user');
 Route::get('/detail/{id}', [ProductController::class, 'detail'])->name('chi-tiet-san-pham-user');
 Route::get('/shop', [ProductController::class, 'shop'])->name('trang-san-pham');
+Route::get('/brand/{id}', [ProductController::class, 'brand'])->name('trang-nhan-hieu');
+Route::get('/category/{id}', [ProductController::class, 'category'])->name('trang-loai');
+Route::get('/search', [ProductController::class, 'search_user'])->name('tim-kiem-khach-hang');
+
 Route::get('/shop/search', [ProductController::class, 'search'])->name('tim-kiem');
-Route::get('/shop/sort', [ProductController::class, 'sort'])->name('sap-xep');
-Route::get('/shop/filter', [ProductController::class, 'filterByPrice'])->name('loc-gia');
+Route::get('/getrating/{product_id}', [RatingController::class, 'getRating'])->name('xem-danh-gia-san-pham');
+Route::post('/rating', [RatingController::class, 'postRating'])->name('danh-gia-san-pham');
 
 Route::get('/cart', [CartController::class, 'index'])->name('gio-hang');
 Route::post('/cart/add', [CartController::class, 'add'])->name('them-gio-hang');
+Route::post('/mua-ngay', [CartController::class, 'buyNow'])->name('mua-ngay');
 Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('xoa-gio-hang');
 Route::post('/update-cart/{id}', [CartController::class, 'update'])->name('cap-nhat-so-luong');
-Route::post('/checkout-cart', [CartController::class, 'buy'])->name('thanh-toan-gio-hang');
 
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('trang-thanh-toan');
-Route::post('/checkout-pay', [CheckoutController::class, 'create'])->name('thanh-toan');
-Route::post('/payment', [CheckoutController::class, 'payment'])->name('xu-li-thanh-toan');
 
-Route::get('/order', [OrderController::class, 'index'])->name('trang-don-hang');
+Route::get('/checkout-cart', [CartController::class, 'checkout'])->name('checkout');
+Route::post('/create-order', [CartController::class, 'storeOrder'])->name('tao-hoa-don');
 
-// Route::get('/order', function () {
-//     return view('user.order');
+// Route::get('/checkout', [CheckoutController::class, 'create'])->name('thanh-toan');
+
+// Route::post('/checkout/payment', [CheckoutController::class, 'payment'])->name('xu-li-thanh-toan');
+// Route::post('/dat-hang', [CheckoutController::class, 'placeOrder'])->name('dat-hang');
+
+Route::post('/mua-hang-test', [CheckoutController::class, 'placeOrder'])->name('mua-hang-test');
+Route::get('/order', function () {
+    return view('user.order');
+});
+
+
+
+// Route::get('/checkout', function () {
+//     return view('user.checkout');
 // });
-
 
 Route::get('/contact', function () {
     return view('user.contact');
+});
+Route::get('/intro/brand', function () {
+    return view('user.doi-tac');
 });
 
 Route::get('/intro', function () {
@@ -106,6 +138,14 @@ Route::get('/quan-li-don-hang', function () {
     return view('admin.quan-li-don-hang');
 });
 
+
+
+Route::get('/quan-li-don-hang', [OrderController::class, 'getorder'])->name('quan-li-don-hang');
+Route::get('/get-order-details/{id}', [OrderController::class, 'show'])->name('chinh-sua-don-hang');
+Route::put('/update-status/{id}', [OrderController::class, 'update'])->name('thay-doi-trang-thai-don-hang');
+Route::get('/export-pdf', [OrderController::class, 'exportPDF'])->name('export-pdf');
+Route::get('/exportdetail-pdf/{id}', [OrderController::class, 'exportPDFdetail'])->name('exportdetail-pdf');
+
 Route::get('/quan-li-san-pham', function () {
     return view('admin.quan-li-san-pham');
 });
@@ -114,6 +154,16 @@ Route::get('/quan-li-san-pham', function () {
 Route::get('/doanh-thu', function () {
     return view('admin.doanh-thu');
 });
+Route::get('/doanh-thu', [DoanhThuController::class, 'index'])->name('doanh-thu');
+Route::get('/doanh-thu-pdf', [DoanhThuController::class, 'exportPDF'])->name('doanh-thu-pdf');
+
+
+
+Route::get('/nhap-xuat', [NhapXuatController::class, 'index'])->name('nhap-xuat');
+Route::get('/xuat-nhap-pdf', [NhapXuatController::class, 'exportPDF'])->name('xuat-nhap-pdf');
+
+
+
 
 
 Route::get('/them-san-pham', function () {
@@ -143,7 +193,7 @@ Route::delete('/xoa-san-pham-con/{id}', [ProductController::class, 'delete_child
 Route::post('/them-san-pham', [ProductController::class, 'store'])->name('xu-li-them-san-pham');
 Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'show'])->name('chi-tiet-san-pham');
 Route::get('/chinh-sua-san-pham/{id}', [ProductController::class, 'edit'])->name('chinh-sua-san-pham');
-Route::put('cap-nhat-san-pham/{id}', [ProductController::class, 'update'])->name('cap-nhat-san-pham');
+Route::post('cap-nhat-san-pham/{id}', [ProductController::class, 'update'])->name('cap-nhat-san-pham');
 
 Route::delete('/xoa-san-pham/{id}', [ProductController::class, 'destroy'])->name('xoa-san-pham');
 
@@ -173,7 +223,6 @@ Route::delete('/xoa-loai/{id}', [CategoryController::class, 'destroy'])->name('x
 
 Route::get('/trang-chu', [AdminController::class, 'home'])->name('trang-chu');
 Route::get('/quan-li-nhan-vien', [AdminController::class, 'index'])->name('quan-li-nhan-vien');
-Route::get('/doanh-thu', [AdminController::class, 'sale'])->name('doanh-thu');
 
 
 Route::get('/them-admin', [AdminController::class, 'create'])->name('them-admin');
@@ -187,3 +236,21 @@ Route::delete('/xoa-admin/{id}', [AdminController::class, 'destroy'])->name('xoa
 
 Route::get('/quan-li-khach-hang', [UserController::class, 'index'])->name('quan-li-khach-hang');
 Route::get('/chi-tiet-user/{id}', [UserController::class, 'show'])->name('chi-tiet-user');
+
+
+
+//ForgotPassword
+Route::get('forgot-password', [ForgotPasswordController::class, 'showForgotPasswordForm'])->name('password.request');
+// Route để xử lý việc gửi email reset mật khẩu
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+// Route để hiển thị form reset mật khẩu với token
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('password.reset');
+// Route để xử lý việc cập nhật mật khẩu mới
+Route::post('reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
+//Paypal
+Route::post('/payment', [PaymentController::class, 'vn_pay'])->name('vnpay-payment');
+Route::post('/payment/callback', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
+Route::get('/payment/callback', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
+
+
+Route::get('/fetch-data', [NhapXuatController::class, 'fetchData'])->name('fetch.data');

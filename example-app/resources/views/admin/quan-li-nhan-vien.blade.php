@@ -4,10 +4,9 @@
 
 @section('content')
     <style>
-        /* .text-align-center th,
-                                    td {
-                                        text-align: center;
-                                    } */
+        /* .text-align-center th{
+                text-align: center;
+            } */
 
         .bg-gray {
             background-color: #f2f2f2;
@@ -77,26 +76,6 @@
                                     <i class="fas fa-plus"></i> Tạo mới quản trị viên
                                 </a>
                             </div>
-
-                            <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm print-file" type="button" title="In"
-                                    onclick="myApp.printTable()">
-                                    <i class="fas fa-print"></i> In dữ liệu
-                                </a>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <a class="btn btn-excel btn-sm" href="" title="In">
-                                    <i class="fas fa-file-excel"></i> Xuất Excel
-                                </a>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
-                                    onclick="myFunction(this)">
-                                    <i class="fas fa-file-pdf"></i> Xuất PDF
-                                </a>
-                            </div>
                             <div class="ml-auto">
                                 <form action="{{ url('/quan-li-nhan-vien') }}" method="GET"
                                     class="d-flex align-items-center">
@@ -109,7 +88,6 @@
                                 </form>
                             </div>
                         </div>
-
 
                         <table class="table table-hover table-bordered mt-3" id="sampleTable">
                             <thead class="text-align-center">
@@ -137,7 +115,7 @@
                                         <td>{{ $item->diachi }}</td>
                                         <td>{{ $item->sdt }}</td>
                                         <td>
-                                            @if ($item->gioitinh === 'male')
+                                            @if ($item->gioitinh === 'Nam')
                                                 Nam
                                             @else
                                                 Nữ
@@ -146,7 +124,7 @@
                                         <td>{{ $item->ngaysinh }}</td>
                                         <td>
                                             @if ($item->phanquyen === 1)
-                                                Admin
+                                                Quản trị viên
                                             @else
                                                 {{ $item->phanquyen }}
                                             @endif
@@ -171,11 +149,30 @@
                                                     class="btn btn-primary btn-sm edit" type="button" title="Sửa">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-primary btn-sm trash" type="submit" title="Xóa"
+                                                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
                                                     data-toggle="modal"
                                                     data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
+
+                                                <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                    data-backdrop="static" data-keyboard="false">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body text-center">
+                                                                <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
+                                                                <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
+                                                                <div class="form-group mt-4">
+                                                                    <button class="btn btn-primary mr-2"
+                                                                        onclick="submitDeleteForm({{ $item->id }})">Xóa</button>
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Hủy bỏ</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </form>
                                         </td>
                                     </tr>
@@ -229,27 +226,10 @@
             </div>
         </div>
 
-        {{-- <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
-                        <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
-                        <div class="form-group mt-4">
-                            <button id="confirmDeleteBtn-{{ $item->id }}" class="btn btn-primary mr-2">Xác
-                                nhận</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            document.getElementById('confirmDeleteBtn-{{ $item->id }}').addEventListener('click', function() {
-                document.getElementById('deleteForm-{{ $item->id }}').submit();
-            });
+        {{-- <script>
+            function submitDeleteForm(itemId) {
+                document.getElementById('deleteForm-' + itemId).submit();
+            }
         </script> --}}
 
     </main>

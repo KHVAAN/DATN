@@ -4,6 +4,7 @@
 
 @section('content')
     <style>
+        <style>
         .Choicefile {
             display: block;
             background: #14142B;
@@ -31,50 +32,26 @@
         }
 
         #thumbbox {
-            position: relative;
-            width: 100%;
-            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
         }
 
         .thumbimage {
-            height: 200px;
+            height: 150px;
             width: 150px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            display: block;
+            margin: 5px;
+            object-fit: cover;
         }
 
         .removeimg {
-            height: 25px;
             position: absolute;
-            background-repeat: no-repeat;
             top: 5px;
-            left: 5px;
-            background-size: 25px;
-            width: 25px;
-            /* border: 3px solid red; */
+            right: 5px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px;
             border-radius: 50%;
-
-        }
-
-        .removeimg::before,
-        .removeimg::after {
-            box-sizing: border-box;
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: red;
-            top: 50%;
-            left: 0;
-        }
-
-        .removeimg::before {
-            transform: rotate(45deg);
-        }
-
-        .removeimg::after {
-            transform: rotate(-45deg);
+            cursor: pointer;
         }
     </style>
     <main class="app-content">
@@ -146,23 +123,21 @@
                                 <label class="control-label">Ảnh sản phẩm</label>
                                 <div id="thumbbox">
                                     <!-- Khu vực hiển thị ảnh thumbnail trước khi upload -->
-                                    <img height="200" width="150" alt="Thumbnail" id="thumbimage"
-                                        style="display: none;" />
-                                    <a class="removeimg" href="javascript:">
-                                        <!-- Đường dẫn xóa ảnh thumbnail nếu cần -->
-                                    </a>
+                                    <!-- Placeholder cho các ảnh sẽ được thêm vào sau -->
                                 </div>
+
                                 <div id="boxchoice">
                                     <!-- Button chọn ảnh từ máy tính -->
-                                    <label for="uploadfile" class="Choicefile"><i class="fas fa-cloud-upload-alt"></i> Chọn
-                                        ảnh</label>
+                                    <label for="uploadfile" class="Choicefile btn btn-primary"><i
+                                            class="fas fa-cloud-upload-alt"></i> Chọn ảnh</label>
                                     <!-- Input hidden để chọn file -->
                                     <input type="file" id="uploadfile" name="image[]" onchange="previewImages(this);"
-                                        multiple style="display: none;" />
+                                        multiple style="display: none;">
                                     <!-- Thông báo lựa chọn ảnh -->
                                     <p style="clear:both"></p>
                                 </div>
                             </div>
+
                             <div class="form-group col-md-12">
                                 <label class="control-label">Mô tả sản phẩm</label>
                                 <textarea class="form-control" name="mota" id="mota"></textarea>

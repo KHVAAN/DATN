@@ -37,6 +37,16 @@
                                     value="{{ $product->tensanpham }}" readonly>
                             </div>
                             <div class="form-group col-md-3">
+                                <label class="control-label">Số lượng hiện có</label>
+                                <input type="text" class="form-control" value="{{ $product->soluong }}" readonly>
+                            </div>
+                            <div class="form-group col-md-3">
+
+                            </div>
+                            <div class="form-group col-md-3">
+                               
+                            </div>
+                            <div class="form-group col-md-3">
                                 <label for="inputState" class="control-label">Màu sắc</label>
                                 <select id="inputState" name="mau" class="form-control">
                                     <option value="">-- Chọn màu sắc --</option>
@@ -105,11 +115,30 @@
                                                 action="{{ route('delete_child', ['id' => $item->id]) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="btn btn-primary btn-sm trash" type="submit" title="Xóa"
+                                                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
                                                     data-toggle="modal"
                                                     data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
+
+                                                <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                    data-backdrop="static" data-keyboard="false">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body text-center">
+                                                                <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
+                                                                <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
+                                                                <div class="form-group mt-4">
+                                                                    <button class="btn btn-primary mr-2"
+                                                                        onclick="submitDeleteForm({{ $item->id }})">Xóa</button>
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Hủy bỏ</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </form>
                                         </td>
                                     </tr>
@@ -123,29 +152,6 @@
                 </div>
             </div>
         </div>
-        {{-- form xóa có thông báo --}}
-        {{-- <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
-                        <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
-                        <div class="form-group mt-4">
-                            <button id="confirmDeleteBtn-{{ $item->id }}" class="btn btn-primary mr-2">Xác
-                                nhận</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy
-                                bỏ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
 
-        {{-- <script>
-            document.getElementById('confirmDeleteBtn-{{ $item->id }}').addEventListener('click', function() {
-                document.getElementById('deleteForm-{{ $item->id }}').submit();
-            });
-        </script> --}}
     </main>
 @endsection

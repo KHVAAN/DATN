@@ -16,9 +16,19 @@ class Order extends Model
         'ttthanhtoan',
         'ttvanchuyen',
         'trangthai',
+        'giaohang',
     ];
+
+    public function khachangorder()
+    {
+        return $this->hasOne(User::class, 'id', 'ma_kh');
+    }
     public function orderdetail()
     {
-        return $this->hasOne(Order_detail::class, 'ma_hd', 'id');
+        return $this->hasMany(Order_detail::class, 'ma_hd', 'id');
+    }
+    public function orderstatus()
+    {
+        return $this->belongsTo(Order_status::class, 'trangthai', 'id');
     }
 }

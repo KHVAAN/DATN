@@ -11,30 +11,48 @@
             object-fit: cover;
             /* Đảm bảo hình ảnh được cắt đúng kích thước mà không bị méo */
         }
+
+        .btn-primary.radius-border {
+            border-radius: 10px;
+            /* Điều chỉnh giá trị cho độ bo tròn mong muốn */
+        }
+
+        .position-relative {
+            position: relative;
+        }
+
+        .overlay-content {
+            position: absolute;
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%);
+            color: white;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            /* Màu nền mờ */
+            padding: 20px;
+            border-radius: 10px;
+            font-style: italic;
+        }
     </style>
+
+
     <!-- Slideshow Start-->
     <div id="header-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active" style="height: 410px;">
-                <img class="img-fluid" src="img/carousel-1.jpg" alt="Image">
+                <img class="img-fluid" src="{{ asset('img/1.png') }}" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width: 700px;">
-                        <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order
-                        </h4>
-                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">Fashionable Dress</h3>
-                        <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
-                    </div>
                 </div>
             </div>
             <div class="carousel-item" style="height: 410px;">
-                <img class="img-fluid" src="img/carousel-2.jpg" alt="Image">
+                <img class="img-fluid" src="{{ asset('img/2.png') }}" alt="Image">
                 <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                    <div class="p-3" style="max-width: 700px;">
-                        <h4 class="text-light text-uppercase font-weight-medium mb-3">10% Off Your First Order
-                        </h4>
-                        <h3 class="display-4 text-white font-weight-semi-bold mb-4">Reasonable Price</h3>
-                        <a href="" class="btn btn-light py-2 px-3">Shop Now</a>
-                    </div>
+                </div>
+            </div>
+            <div class="carousel-item" style="height: 410px;">
+                <img class="img-fluid" src="{{ asset('img/3.png') }}" alt="Image">
+                <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                 </div>
             </div>
         </div>
@@ -51,8 +69,159 @@
     </div>
     <!-- Slideshow End-->
 
+
+
+    <!-- Sản phẩm phân theo brand start -->
+    <div class="container-fluid pt-5">
+        @foreach ($brands as $brand)
+            <div class="text-center mb-4">
+                <h4 class="section-title px-5"><span class="px-2">{{ $brand->tennhanhieu }}</span></h4>
+            </div>
+            <div class="row px-xl-5 pb-3">
+                @php
+                    $brand_products = $products->where('nh_id', $brand->id);
+                @endphp
+                @if ($brand_products->count() > 0)
+                    @foreach ($brand_products->take(4) as $item)
+                        @php
+                            $firstImage = $item->image->first();
+                        @endphp
+                        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                            <div class="card product-item border-0 mb-4">
+                                @if ($firstImage)
+                                    <div
+                                        class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                        <img class="img-fluid w-100" src="{{ asset('storage/' . $firstImage->tenimage) }}"
+                                            alt="{{ $item->tensanpham }}">
+                                    </div>
+                                @endif
+                                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                    <h6 class="text-truncate mb-3">
+                                        <a href="{{ url('/detail', ['id' => $item->id]) }}">{{ $item->tensanpham }}</a>
+                                    </h6>
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        @if ($item->giamgia > 0)
+                                            <div class="mb-2">
+                                                <h5>{{ number_format($item->dongia * (1 - $item->giamgia / 100)) }}₫</h5>
+                                                <div class="d-flex justify-content-center align-items-center mt-2">
+                                                    <h6 class="text-muted mb-0 mr-2">
+                                                        <del>{{ number_format($item->dongia) }}₫</del>
+                                                    </h6>
+                                                    <span class="badge badge-danger">{{ $item->giamgia }}%</span>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <h5>{{ number_format($item->dongia) }}₫</h5>
+                                        @endif
+
+                                    </div>
+                                </div>
+                                <div class="border">
+                                    {{-- Additional action buttons if needed --}}
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    <div class="col-12 text-right mt-4 pr-4">
+                        <a href="{{ route('trang-nhan-hieu', ['id' => $brand->id]) }}"
+                            class="btn btn-primary radius-border">Xem các sản
+                            phẩm
+                            khác của {{ $brand->tennhanhieu }}</a>
+                    </div>
+                @else
+                    <div class="col-12 text-center">
+                        <p>Không tìm thấy sản phẩm cho nhãn hiệu {{ $brand->tennhanhieu }}.</p>
+                    </div>
+                @endif
+            </div>
+        @endforeach
+    </div>
+    <!-- Sản phẩm phân theo brand end -->
+
+
+
+    <!-- Subscribe Start -->
+    <div class="container-fluid pt-5">
+        <a href="{{ url('/shop') }}">
+            <img class="img-fluid" src="{{ asset('img/4.png') }}" alt="Image">
+        </a>
+    </div>
+
+    <!-- Subscribe End -->
+
+
+    <!-- Sản Phẩm mới start-->
+    <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h4 class="section-title px-5"><span class="px-2">Sản Phẩm Mới</span></h4>
+        </div>
+        <div class="row px-xl-5 pb-3" id="product-list">
+            @foreach ($products->take(12) as $product)
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="card product-item border-0 mb-4">
+                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            @php
+                                $firstImage = $product->image->first();
+                            @endphp
+                            @if ($firstImage)
+                                <div
+                                    class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                    <img class="img-fluid w-100" src="{{ asset('storage/' . $firstImage->tenimage) }}"
+                                        alt="{{ $product->tensanpham }}">
+                                </div>
+                            @endif
+                        </div>
+                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                            <!-- Hiển thị tên sản phẩm -->
+                            <h5 class="text-truncate mb-3">
+                                <a href="{{ url('/detail', ['id' => $product->id]) }}">{{ $product->tensanpham }}</a>
+                            </h5>
+                            <div class="d-flex justify-content-center align-items-center">
+                                @if ($item->giamgia > 0)
+                                    <div class="mb-2">
+                                        <h5>{{ number_format($item->dongia * (1 - $item->giamgia / 100)) }}₫</h5>
+                                        <div class="d-flex justify-content-center align-items-center mt-2">
+                                            <h6 class="text-muted mb-0 mr-2">
+                                                <del>{{ number_format($item->dongia) }}₫</del>
+                                            </h6>
+                                            <span class="badge badge-danger">{{ $item->giamgia }}%</span>
+                                        </div>
+                                    </div>
+                                @else
+                                    <h5>{{ number_format($item->dongia) }}₫</h5>
+                                @endif
+
+                            </div>
+                        </div>
+                        <div class="border">
+                            {{-- Additional action buttons if needed --}}
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+            <div class="col-12 text-right mt-4 pr-4">
+                <a href="{{ url('/shop') }}" class="btn btn-primary radius-border">Xem các sản phẩm khác</a>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid pt-5">
+        <div class="position-relative">
+            <a href="{{ url('/shop') }}">
+                <img class="img-fluid" src="{{ asset('img/5.png') }}" alt="Image">
+                <div class="overlay-content">
+                    <h4>Thời Trang Cao Cấp</h4>
+                    <p>"Thời trang không chỉ là quần áo, mà còn là cách bạn sống và cảm nhận thế giới."</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Sản phẩm mới end -->
     <!-- Featured Start -->
     <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h4 class="section-title px-5"><span class="px-2">Dịch Vụ</span></h4>
+        </div>
         <div class="row px-xl-5 pb-3">
             <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
                 <div class="d-flex align-items-center border mb-4" style="padding: 30px;">
@@ -83,230 +252,9 @@
     <!-- Featured End -->
 
 
-    <!-- Categories Start -->
-    {{-- <div class="container-fluid pt-5">
-        <div class="row px-xl-5 pb-3">
-            <!-- Đồ nam -->
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Sản Phẩm</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="img/cat-1.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Đồ Nam</h5>
-                </div>
-            </div>
-            <!-- Đồ nữ -->
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="img/cat-2.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Đồ Nữ</h5>
-                </div>
-            </div>
-            <!-- Đồ phụ kiện -->
-            <div class="col-lg-4 col-md-6 pb-1">
-                <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
-                    <p class="text-right">15 Products</p>
-                    <a href="" class="cat-img position-relative overflow-hidden mb-3">
-                        <img class="img-fluid" src="img/cat-3.jpg" alt="">
-                    </a>
-                    <h5 class="font-weight-semi-bold m-0">Phụ Kiện</h5>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    <!-- Categories End -->
-
-
-    <!-- Offer Start -->
-    {{-- <div class="container-fluid offer pt-5">
-        <div class="row px-xl-5">
-            <div class="col-md-6 pb-4">
-                <div class="position-relative bg-secondary text-center text-md-right text-white mb-2 py-5 px-5">
-                    <img src="img/offer-1.png" alt="">
-                    <div class="position-relative" style="z-index: 1;">
-                        <h5 class="text-uppercase text-primary mb-3">Giảm giá 20% cho tất cả đơn hàng</h5>
-                        <h1 class="mb-4 font-weight-semi-bold">BTS Mùa Xuân</h1>
-                        <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Mua ngay</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 pb-4">
-                <div class="position-relative bg-secondary text-center text-md-left text-white mb-2 py-5 px-5">
-                    <img src="img/offer-2.png" alt="">
-                    <div class="position-relative" style="z-index: 1;">
-                        <h5 class="text-uppercase text-primary mb-3">Giảm giá 20% cho tất cả đơn hàng</h5>
-                        <h1 class="mb-4 font-weight-semi-bold">BTS Mùa Đông</h1>
-                        <a href="" class="btn btn-outline-primary py-md-2 px-md-3">Mua ngay</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-    <!-- Offer End -->
-
-    <!-- Sản phẩm phân theo brand start -->
-    <div class="container-fluid pt-5">
-        @foreach ($brands as $brand)
-            <div class="text-center mb-4">
-                <h2 class="section-title px-5"><span class="px-2">{{ $brand->tennhanhieu }}</span></h2>
-            </div>
-            <div class="row px-xl-5 pb-3">
-                @php
-                    $brand_products = $products->where('nh_id', $brand->id);
-                @endphp
-                @if ($brand_products->count() > 0)
-                    @foreach ($brand_products as $item)
-                        @php
-                            $firstImage = $item->image->first();
-                        @endphp
-                        <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                            <div class="card product-item border-0 mb-4">
-                                @if ($firstImage)
-                                    <div
-                                        class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                        <img class="img-fluid w-100" src="{{ asset('storage/' . $firstImage->tenimage) }}"
-                                            alt="{{ $item->tensanpham }}">
-                                    </div>
-                                @endif
-                                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                                    <h6 class="text-truncate mb-3">
-                                        <a href="{{ url('/detail', ['id' => $item->id]) }}">{{ $item->tensanpham }}</a>
-                                    </h6>
-                                    <div class="d-flex justify-content-center">
-                                        <h6>{{ number_format($item->dongia * (1 - $item->giamgia / 100)) }} ₫</h6>
-                                        @if ($item->giamgia > 0)
-                                            <h6 class="text-muted ml-2">
-                                                <del>{{ number_format($item->dongia) }} ₫</del>
-                                            </h6>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="card-footer d-flex justify-content-between bg-light border">
-                                    <a href="{{ url('/detail', ['id' => $item->id]) }}" class="btn btn-sm text-dark p-0"><i
-                                            class="fas fa-eye text-primary mr-1"></i>Xem
-                                        Chi Tiết</a>
-                                    {{-- <form action="{{ url('/them-gio-hang') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{ $item->id }}">
-                                        <button type="submit" class="btn btn-sm text-dark p-0"><i
-                                                class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ
-                                            Hàng</button>
-                                    </form> --}}
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                @else
-                    <p>Không tìm thấy sản phẩm cho nhãn hiệu {{ $brand->tennhanhieu }}.</p>
-                @endif
-                {{-- <div class="text-center mt-3">
-                    <button class="btn btn-primary prev-btn" data-target="#carousel-{{ $brand->id }}">Trước</button>
-                    <button class="btn btn-primary next-btn" data-target="#carousel-{{ $brand->id }}">Tiếp</button>
-                </div> --}}
-            </div>
-        @endforeach
-    </div>
-
-    <!-- Sản phẩm phân theo brand end -->
-
-
-
-    <!-- Subscribe Start -->
-    <div class="container-fluid bg-secondary my-5">
-        <div class="row justify-content-md-center py-5 px-xl-5">
-            <div class="col-md-6 col-12 py-5">
-                <div class="text-center mb-2 pb-2">
-                    <h2 class="section-title px-5 mb-3"><span class="bg-secondary px-2">Cập Nhật Liên
-                            Tục</span>
-                    </h2>
-                    <p>"Chúng tôi liên tục cập nhật sản phẩm mới để đem đến trải nghiệm mua sắm đa dạng và thú
-                        vị
-                        cho quý
-                        khách hàng."</p>
-                </div>
-                <form action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-white p-4" placeholder="Email...">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary px-4">Subscribe</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- Subscribe End -->
-
-
-    <!-- Sản Phẩm mới start-->
-
-    <div class="container-fluid pt-5">
-        <div class="text-center mb-4">
-            <h2 class="section-title px-5"><span class="px-2">Sản Phẩm Mới</span></h2>
-        </div>
-        <div class="row px-xl-5 pb-3">
-            @foreach ($products as $product)
-                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                    <div class="card product-item border-0 mb-4">
-                        <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                            @php
-                                $firstImage = $product->image->first();
-                            @endphp
-                            @if ($firstImage)
-                                <div
-                                    class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                                    <img class="img-fluid w-100" src="{{ asset('storage/' . $firstImage->tenimage) }}"
-                                        alt="{{ $product->tensanpham }}">
-                                </div>
-                            @endif
-                        </div>
-                        <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                            <!-- Hiển thị tên sản phẩm -->
-                            <h6 class="text-truncate mb-3">
-                                <a href="{{ url('/detail', ['id' => $product->id]) }}">{{ $product->tensanpham }}</a>
-                            </h6>
-                            <div class="d-flex justify-content-center">
-                                <!-- Hiển thị giá bán -->
-                                @php
-                                    $finalPrice = $product->dongia * (1 - $product->giamgia / 100);
-                                @endphp
-                                <h6>{{ number_format($finalPrice) }} ₫</h6>
-                                <!-- Hiển thị giá gốc (nếu có giảm giá) -->
-                                @if ($product->giamgia > 0)
-                                    <h6 class="text-muted ml-2">
-                                        <del>{{ number_format($product->dongia) }} ₫</del>
-                                    </h6>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="card-footer d-flex justify-content-between bg-light border">
-                            <a href="{{ url('/detail', ['id' => $item->id]) }}" class="btn btn-sm text-dark p-0"><i
-                                    class="fas fa-eye text-primary mr-1"></i>Xem
-                                Chi Tiết</a>
-                            {{-- <form action="{{ url('/them-gio-hang') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $item->id }}">
-                                <button type="submit" class="btn btn-sm text-dark p-0"><i
-                                        class="fas fa-shopping-cart text-primary mr-1"></i>Thêm Vào Giỏ
-                                    Hàng</button>
-                            </form> --}}
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-
-
-    <!-- Sản phẩm mới end -->
-
 
     <!-- Vendor Start -->
-    <div class="container-fluid py-5">
+    {{-- <div class="container-fluid py-5">
         <div class="row px-xl-5">
             <div class="col">
                 <div class="owl-carousel vendor-carousel">
@@ -328,7 +276,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <script>
         $(document).ready(function() {

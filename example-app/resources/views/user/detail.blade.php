@@ -18,14 +18,14 @@
     <!-- Page Header Start -->
     <div class="container-fluid mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <img src="{{ asset('img/banner.png') }}" alt="" style="width:100%; height:400px;object-fit: cover;">
+            <img src="{{ asset('img/1.png') }}" alt="" style="width:100%; height:400px;object-fit: cover;">
         </div>
     </div>
     <!-- Page Header End -->
 
     <!-- Shop Detail Start -->
     <div class="container-fluid py-5">
-        <div class="row px-xl-5">
+        <div class="row justify-content-center px-xl-5">
             <div class="col-lg-5 pb-5">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
@@ -57,12 +57,12 @@
                     </div>
                     <small class="pt-1">({{ $product->reviews_count }} Đánh giá)</small>
                 </div>
-                <h3 class="font-weight-semi-bold mb-4">
-                    {{ number_format($product->dongia - ($product->dongia * $product->giamgia) / 100, 0, '.', '.') }} ₫
-                    <del style="font-size: 16px;">
-                        {{ number_format($product->dongia, 0, '.', '.') }} ₫
+                <h4 class="font-weight-semi-bold mb-4">
+                    {{ number_format($product->dongia - ($product->dongia * $product->giamgia) / 100, 0, ',', '.') }} ₫
+                    <del style="font-size: 18px; color:gray;">
+                        {{ number_format($product->dongia, 0, ',', '.') }} ₫
                     </del>
-                </h3>
+                </h4>
                 @if (isset($uniqueDetails))
                     @php
                         $usedSizes = [];
@@ -136,20 +136,11 @@
                             <i class="fa fa-shopping-cart mr-1"></i> Thêm Vào Giỏ Hàng
                         </button>
                     </form>
-                    <form action="{{ route('thanh-toan') }}" method="POST" id="buy-now-form">
-                        @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <input type="hidden" name="size_id" id="selectedSize" value="">
-                        <input type="hidden" name="mau_id" id="selectedColor" value="">
-                        <input type="hidden" name="soluong" id="selectedQuantityId" value="1">
-                        <button type="submit" class="btn btn-primary px-3 mr-2" id="btn-buy">
-                            <i class="fa fa-shopping-cart mr-1"></i> Mua Ngay
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
+
 
     <div class="row px-xl-5">
         <div class="col">
@@ -160,44 +151,49 @@
             </div>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="tab-pane-1">
-                    <h4 class="mb-3">Mô tả sản phẩm</h4>
-                    <p class="preserve-format">{{ $product->mota }}</p>
+                    <p>{{ $product->mota }}</p>
                 </div>
                 <div class="tab-pane fade" id="tab-pane-3">
                     <div class="row">
-                        <div class="col-md-6">
-                            <h4 class="mb-4">{{ $product->reviews_count }} bình luận cho sản phẩm
-                                "{{ $product->tensanpham }}"</h4>
-                            <div class="col-md-6">
-                                <h4 class="mb-4">Bình luận</h4>
-                                <small>Địa chỉ email của bạn sẽ được bảo mật. Các trường bắt buộc được đánh dấu *</small>
-                                <div class="d-flex my-3">
-                                    <p class="mb-0 mr-2">Đánh giá sao * :</p>
-                                    <div class="text-primary">
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                        <i class="far fa-star"></i>
-                                    </div>
+                        <div class="col-md-8">
+                            <div id="ratings-container">
+                                <!-- Đây là nơi hiển thị dữ liệu đánh giá được cập nhật bằng Ajax -->
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">
+                                    <h5 class="mb-0">Viết đánh giá</h5>
                                 </div>
-                                <form>
-                                    <div class="form-group">
-                                        <label for="message">Bình luận *</label>
-                                        <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="name">Tên *</label>
-                                        <input type="text" class="form-control" id="name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email">Email *</label>
-                                        <input type="email" class="form-control" id="email">
-                                    </div>
-                                    <div class="form-group mb-0">
-                                        <input type="submit" value="Đăng bài" class="btn btn-primary px-3">
-                                    </div>
-                                </form>
+                                <div class="card-body">
+                                    <form id="comment-form">
+                                        <div class="form-group">
+                                            <label for="rating">Đánh giá của bạn:</label>
+                                            <div class="text-warning" id="rating-stars">
+                                                <i class="far fa-star fa-lg" data-index="0"></i>
+                                                <i class="far fa-star fa-lg" data-index="1"></i>
+                                                <i class="far fa-star fa-lg" data-index="2"></i>
+                                                <i class="far fa-star fa-lg" data-index="3"></i>
+                                                <i class="far fa-star fa-lg" data-index="4"></i>
+                                            </div>
+                                            <input type="hidden" name="rating" id="rating" value="0">
+                                        </div>
+                                        <!-- <div class="form-group">
+                                                <label for="name">Tên của bạn:</label>
+                                                <input type="text" class="form-control" id="name" name="name" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="email">Email của bạn:</label>
+                                                <input type="email" class="form-control" id="email" name="email" required>
+                                            </div> -->
+                                        <div class="form-group">
+                                            <label for="message">Đánh giá của bạn:</label>
+                                            <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" id="btn-submit-review">Gửi Đánh
+                                            Giá</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -208,7 +204,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
+    <<script>
         $(document).ready(function() {
             // Xử lý khi nhấn nút +
             $('.btn-plus').click(function(e) {
@@ -249,22 +245,19 @@
             // Hàm cập nhật size đã chọn
             function updateSelectedSize(sizeId) {
                 $('#selectedSizeId').val(sizeId);
-                $('#selectedSize').val(sizeId); // Cập nhật size cho form Mua Ngay
             }
 
             // Hàm cập nhật màu đã chọn
             function updateSelectedColor(colorId) {
                 $('#selectedColorId').val(colorId);
-                $('#selectedColor').val(colorId); // Cập nhật màu cho form Mua Ngay
             }
 
             // Hàm cập nhật số lượng đã chọn
             function updateSelectedQuantity(quantity) {
                 $('#selectedQuantity').val(quantity);
-                $('#selectedQuantityId').val(quantity); // Cập nhật số lượng cho form Mua Ngay
             }
 
-            // Hàm cập nhật nút Thêm vào Giỏ Hàng và Mua Ngay
+            // Hàm cập nhật nút Thêm vào Giỏ Hàng
             function updateAddToCartButton() {
                 var selectedColor = $('input[name="color"]:checked').val();
                 var selectedSize = $('input[name="size"]:checked').val();
@@ -276,26 +269,120 @@
                         // Cập nhật số lượng tồn kho
                         var stockQuantity = filteredDetail[0].soluong;
                         $('#stock-quantity').text(stockQuantity + ' sản phẩm có sẵn').css('color', '');
-                        // Enable nút Thêm vào Giỏ Hàng và Mua Ngay và cập nhật dữ liệu
+                        // Enable nút Thêm vào Giỏ Hàng
                         $('#btn-add-to-cart').removeClass('btn-disabled').prop('disabled', false);
-                        $('#btn-buy').removeClass('btn-disabled').prop('disabled', false); // Kích hoạt nút Mua Ngay
                     } else {
                         // Nếu không tìm thấy chi tiết sản phẩm phù hợp
                         $('#stock-quantity').text('Hết hàng').css('color', 'red');
-                        // Disable nút Thêm vào Giỏ Hàng và Mua Ngay
+                        // Disable nút Thêm vào Giỏ Hàng
                         $('#btn-add-to-cart').addClass('btn-disabled').prop('disabled', true);
-                        $('#btn-buy').addClass('btn-disabled').prop('disabled', true); // Vô hiệu hóa nút Mua Ngay
                     }
                 } else {
                     // Nếu chưa chọn màu sắc hoặc kích thước
                     $('#stock-quantity').text('{{ $product->totalStock }} sản phẩm có sẵn').css('color', '');
-                    // Disable nút Thêm vào Giỏ Hàng và Mua Ngay
+                    // Disable nút Thêm vào Giỏ Hàng
                     $('#btn-add-to-cart').addClass('btn-disabled').prop('disabled', true);
-                    $('#btn-buy').addClass('btn-disabled').prop('disabled', true); // Vô hiệu hóa nút Mua Ngay
                 }
             }
-            // Gọi hàm cập nhật nút khi trang được tải lần đầu
+            // Gọi hàm cập nhật khi trang được tải lần đầu
             updateAddToCartButton();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Rating stars interaction
+            $('#rating-stars i').on('click', function() {
+                let currentIndex = parseInt($(this).data('index')) + 1;
+                $('#rating').val(currentIndex);
+                highlightStars(currentIndex - 1); // Highlight stars up to the clicked one
+            });
+
+            function highlightStars(index) {
+                resetStars();
+                for (let i = 0; i <= index; i++) {
+                    $('#rating-stars i:eq(' + i + ')').removeClass('far').addClass('fas');
+                }
+            }
+
+            function resetStars() {
+                $('#rating-stars i').removeClass('fas').addClass('far');
+            }
+
+            // Submit review form via Ajax
+            $('#comment-form').submit(function(event) {
+                event.preventDefault();
+                let formData = {
+                    rating: $('#rating').val(),
+                    message: $('#message').val(),
+                    product_id: '{{ $product->id }}', // Include product_id here
+                    _token: '{{ csrf_token() }}'
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/rating',
+                    data: formData,
+                    dataType: 'json',
+                    encode: true,
+                    success: function(data) {
+                        console.log(data);
+                        // Optionally, you can show a success message or update the UI
+                        // Clear form fields after successful submission
+                        resetStars(); // Reset stars after submission
+                        $('#message').val('');
+                    },
+                    error: function(xhr, textStatus, errorThrown) {
+                        console.log(xhr.responseText);
+                        // Handle errors here, if any
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        console.log('{{ $product->id }}');
+    </script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                type: 'GET',
+                url: '/getrating/{{ $product->id }}',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.ratings.length > 0) {
+                        var ratingsHtml = '';
+                        response.ratings.forEach(function(rating) {
+                            ratingsHtml += '<div class="media mb-3">';
+                            ratingsHtml += '<div class="media-body">';
+                            ratingsHtml += '<h5 class="mt-0">' + rating.user.hovaten + '</h5>';
+                            ratingsHtml += '<p>';
+                            // Thay thế phần rating bằng biểu tượng số sao (vd: FontAwesome)
+                            ratingsHtml += 'Đánh giá: ';
+                            for (var i = 0; i < rating.rating; i++) {
+                                ratingsHtml +=
+                                    '<i class="fas fa-star"></i>'; // Sử dụng class của FontAwesome cho sao đầy
+                            }
+                            for (var i = rating.rating; i < 5; i++) {
+                                ratingsHtml +=
+                                    '<i class="far fa-star"></i>'; // Sử dụng class của FontAwesome cho sao rỗng
+                            }
+                            ratingsHtml += '</p>';
+                            ratingsHtml += '<p>Nội dung: ' + rating.message + '</p>';
+                            ratingsHtml += '</div>';
+                            ratingsHtml += '</div>';
+                        });
+                        $('#ratings-container').html(ratingsHtml);
+                    } else {
+                        $('#ratings-container').html('<p>Chưa có đánh giá nào cho sản phẩm này.</p>');
+                    }
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    console.error(xhr.responseText);
+                    // Xử lý lỗi nếu có
+                }
+            });
         });
     </script>
 

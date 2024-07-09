@@ -12,28 +12,36 @@ class Order_detail extends Model
     protected $fillable = [
         'ma_hd',
         'sp_id',
-        'mau_id',
-        'size_id',
+        'chitietietsp_id',
         'soluong',
         'giaohang',
         'thanhtien',
         'diachi',
+        'size',
+        'color'
     ];
     public function product()
     {
         return $this->hasOne(Product::class, 'id', 'sp_id');
     }
+    public function productDetail()
+    {
+        return $this->belongsTo(Product_detail::class, 'sp_id', 'sanpham_id');
+    }
     public function order()
     {
         return $this->hasMany(Order::class, 'id', 'ma_hd');
     }
-    public function color()
+    public function orderdetail()
     {
-        return $this->belongsTo(Color::class, 'mau_id', 'id');
+        return $this->belongsTo(Order_detail::class, 'chitietsp_id', 'id');
     }
-
-    public function size()
+     public function sizeDetail()
     {
-        return $this->belongsTo(Size::class, 'size_id', 'id');
+        return $this->belongsTo(Size::class, 'size', 'id');
+    }
+      public function colorDetail()
+    {
+        return $this->belongsTo(Color::class, 'color', 'id');
     }
 }

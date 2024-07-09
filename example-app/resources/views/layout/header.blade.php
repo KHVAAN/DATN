@@ -9,12 +9,16 @@
         display: none;
         position: absolute;
         background-color: white;
-        min-width: 160px;
+        min-width: 120px;
+        /* Điều chỉnh chiều rộng tối thiểu của menu */
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
         border-radius: 10px;
         /* Bo viền tròn cho toàn bộ menu */
         overflow: hidden;
+        padding: 5px 0;
+        /* Điều chỉnh khoảng cách bên trong menu */
+        text-align: center;
     }
 
     .user-menu:hover .user-menu-items {
@@ -23,14 +27,25 @@
 
     .user-menu-items a {
         color: black;
-        padding: 12px 16px;
+        padding: 8px 16px;
+        /* Điều chỉnh khoảng cách của các mục trong menu */
         text-decoration: none;
         display: block;
-
     }
 
     .user-menu-items a:hover {
-        background-color: #ffffff;
+        background-color: #f0f0f0;
+        /* Đổi màu nền khi hover */
+    }
+
+    .navbar-vertical {
+        width: calc(100% - 30px);
+        /* Đảm bảo chiều rộng */
+        z-index: 10;
+    }
+
+    .navbar-nav a {
+        padding: 10px 15px;
     }
 </style>
 
@@ -68,37 +83,57 @@
     </div>
     <div class="row align-items-center py-3 px-xl-5">
         <div class="col-lg-3 d-none d-lg-block">
-            <a href="" class="text-decoration-none">
+            <a href="{{ route('trang-chu-user') }}" class="text-decoration-none">
                 <h1 class="m-0 display-5 font-weight-semi-bold"><span
                         class="text-primary font-weight-bold border px-3 mr-1">E</span>StyleVista</h1>
             </a>
         </div>
         <div class="col-lg-6 col-6 text-left">
-            <form action="" method="GET">
+            <form action="{{ route('tim-kiem-khach-hang') }}" method="GET">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm...">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm..." name="keyword">
                     <div class="input-group-append">
-                        <span class="input-group-text bg-transparent text-primary">
+                        <button class="btn btn-primary" type="submit">
                             <i class="fa fa-search"></i>
-                        </span>
+                        </button>
                     </div>
                 </div>
             </form>
         </div>
+
         <div class="col-lg-3 col-6 text-right">
-            <a href="" class="btn border">
-                <i class="fas fa-heart text-primary"></i>
-                <span class="badge">0</span>
-            </a>
             <a href="{{ url('/cart') }}" class="btn border">
                 <i class="fas fa-shopping-cart text-primary"></i>
-                <span class="badge"></span>
+                <span class="badge">{{ $cartCount }}</span>
             </a>
+            @if (Auth::check())
+                <div class="nav-item nav-link user-menu">
+                    <a href="#" class="btn border">
+                        <i class="fas fa-user text-primary"></i>
+                    </a>
+                    <span class="user-name">{{ Auth::user()->hovaten }}</span>
+                    <div class="user-menu-items">
+                        <a class="nav-item" href="{{ route('profile') }}">Tài khoản</a>
+                        <a class="nav-item" href="{{ route('billUser') }}">Đơn mua</a>
+                        <a class="nav-item" href="{{ route('dang-xuat') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Đăng xuất
+                        </a>
+
+                        <form id="logout-form" action="{{ route('dang-xuat') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                </div>
+            @else
+                <a href="{{ route('dang-nhap') }}" class="btn border">
+                    <i class="fas fa-user text-primary"></i>
+                </a>
+            @endif
         </div>
     </div>
 </div>
 <!-- Topbar End -->
-
 
 <!-- Navbar Start -->
 <div class="container-fluid mb-5">
@@ -106,23 +141,17 @@
         <div class="col-lg-3 d-none d-lg-block">
             <a class="btn shadow-none d-flex align-items-center justify-content-between bg-primary text-white w-100"
                 data-toggle="collapse" data-target="#navbar-vertical"
-                style="height: 65px; margin-top: -1px; padding: 0 30px;">
-                <h6 class="m-0">Danh mục</h6>
+                style="height: 65px; margin-top: -1px; padding: 0 40px; width:">
+                <h6 class="m-0">DANH MỤC</h6>
                 <i class="fa fa-angle-down text-dark"></i>
             </a>
             <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0 bg-light"
-                id="navbar-vertical" style="width: calc(100% - 30px); z-index: 10;">
-                <div class="navbar-nav w-100 overflow-hidden" style="height: 410px">
-                    <a href="" class="nav-item nav-link">Áo sơ mi</a>
-                    <a href="" class="nav-item nav-link">Áo khoác cổ cao</a>
-                    <a href="" class="nav-item nav-link">Áo khoác có nón</a>
-                    <a href="" class="nav-item nav-link">Áo thun</a>
-                    <a href="" class="nav-item nav-link">Áo hoodie</a>
-                    <a href="" class="nav-item nav-link">Áo polo</a>
-                    <a href="" class="nav-item nav-link">Áo T-shirt</a>
-                    <a href="" class="nav-item nav-link">Quần jeans</a>
-                    <a href="" class="nav-item nav-link">Quần short</a>
-                    <a href="" class="nav-item nav-link">Quần kaki</a>
+                id="navbar-vertical" style="width: calc(100% - 30px); z-index: 10; ">
+                <div class="navbar-nav w-100 overflow-hidden" style="height: 420px">
+                    @foreach ($categories as $category)
+                        <a href="{{ route('trang-loai', ['id' => $category->id]) }}"
+                            class="nav-item nav-link">{{ $category->tenloaisp }}</a>
+                    @endforeach
                 </div>
             </nav>
         </div>
@@ -137,44 +166,12 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                     <div class="navbar-nav mr-auto py-0">
-                        <a href="{{ url('/') }}" class="nav-item nav-link">Trang Chủ</a>
-                        <a href="{{ url('/shop') }}" class="nav-item nav-link">Sản Phẩm</a>
-                        {{-- <a href="{{ url('/detail') }}" class="nav-item nav-link">Cart</a> --}}
-                        {{-- <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Trang</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="{{ url('/cart') }}" class="dropdown-item">Giỏ Hàng</a>
-                                <a href="{{ url('/checkout') }}" class="dropdown-item">Thanh Toán</a>
-                            </div>
-                        </div> --}}
-                        <a href="{{ url('/intro') }}" class="nav-item nav-link">Giới Thiệu</a>
-                        <a href="{{ url('/contact') }}" class="nav-item nav-link">Liên Hệ</a>
+                        <a href="{{ url('/') }}" class="nav-item nav-link">TRANG CHỦ</a>
+                        <a href="{{ url('/shop') }}" class="nav-item nav-link">SẢN PHẨM</a>
+                        <a href="{{ url('/intro') }}" class="nav-item nav-link">GIỚI THIỆU</a>
+                        <a href="{{ url('/contact') }}" class="nav-item nav-link">LIÊN HỆ</a>
                     </div>
-                    <div class="navbar-nav ml-auto py-0">
-                        @if (Auth::check())
-                            <div class="nav-item nav-link user-menu">
-                                <i class="fas fa-user"></i>
-                                <span class="user-name">{{ Auth::user()->hovaten }}</span>
-                                <div class="user-menu-items">
-                                    <a class="nav-item" href="">Tài khoản của tôi</a>
-                                    <a class="nav-item" href="{{ url('/order') }}">Đơn mua</a>
-                                    <a class="nav-item" href="{{ route('dang-xuat') }}"
-                                        onclick="event.preventDefault();
-                             document.getElementById('logout-form').submit();">
-                                        Đăng xuất
-                                    </a>
 
-                                    <form id="logout-form" action="{{ route('dang-xuat') }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </div>
-                        @else
-                            <a href="{{ route('dang-nhap') }}" class="nav-item nav-link">Đăng nhập</a>
-                            <a href="{{ route('dang-ki') }}" class="nav-item nav-link">Đăng ký</a>
-                        @endif
-                    </div>
                 </div>
             </nav>
         </div>

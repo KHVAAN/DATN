@@ -4,11 +4,90 @@
 
 @section('content')
     <style>
+        body {
+            font-family: 'DejaVu Sans', sans-serif;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .table-detail {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table-detail th,
+        .table-detail td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table-detail th {
+            background-color: #f2f2f2;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .table th,
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
         .text-align-center th {
             text-align: center;
         }
-    </style>
 
+        .modal-xl {
+            max-width: 60% !important;
+        }
+    </style>
     <main class="app-content">
         <div class="app-title">
             <ul class="app-breadcrumb breadcrumb side">
@@ -20,127 +99,125 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body">
-                        <div class="row element-button">
+                        <div class="row element-button mb-3">
                             <div class="col-sm-2">
-
                                 <a class="btn btn-add btn-sm" href="{{ url('/them-don-hang') }}" title="Thêm"><i
-                                        class="fas fa-plus"></i>
-                                    Tạo mới đơn hàng</a>
+                                        class="fas fa-plus"></i> Tạo mới đơn hàng</a>
                             </div>
-
-                            <div class="col-sm-2">
+                            {{-- <div class="col-sm-2">
                                 <a class="btn btn-delete btn-sm print-file" type="button" title="In"
                                     onclick="myApp.printTable()"><i class="fas fa-print"></i> In dữ liệu</a>
                             </div>
-
                             <div class="col-sm-2">
                                 <a class="btn btn-excel btn-sm" href="" title="In"><i
                                         class="fas fa-file-excel"></i> Xuất Excel</a>
                             </div>
                             <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
-                                    onclick="myFunction(this)"><i class="fas fa-file-pdf"></i> Xuất PDF</a>
-                            </div>
-                           
+                                <a class="btn btn-delete btn-sm pdf-file" href="{{ route('export-pdf') }}" title="In"><i
+                                        class="fas fa-file-pdf"></i> Xuất PDF</a>
+                            </div> --}}
                         </div>
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead class="text-align-center">
                                 <tr>
-                                    <th width="10"></th>
+
                                     <th>ID đơn hàng</th>
                                     <th>Khách hàng</th>
-                                    <th>Đơn hàng</th>
-                                    <th>Số lượng</th>
                                     <th>Tổng tiền</th>
                                     <th>Tình trạng</th>
+                                    <th>Thanh toán</th>
+                                    <th>Chi tiết</th>
                                     <th>Tính năng</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>MD0837</td>
-                                    <td>Triệu Thanh Phú</td>
-                                    <td>Ghế làm việc Zuno, Bàn ăn gỗ Theresa</td>
-                                    <td>2</td>
-                                    <td>9.400.000 đ</td>
-                                    <td><span class="badge bg-success">Hoàn thành</span></td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt"></i> </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                                                class="fa fa-edit"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>MĐ8265</td>
-                                    <td>Nguyễn Thị Ngọc Cẩm</td>
-                                    <td>Ghế ăn gỗ Lucy màu trắng</td>
-                                    <td>1</td>
-                                    <td>3.800.000 đ</td>
-                                    <td><span class="badge bg-success">Hoàn thành</span></td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt"></i> </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                                                class="fa fa-edit"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>MT9835</td>
-                                    <td>Đặng Hoàng Phúc</td>
-                                    <td>Giường ngủ Jimmy, Bàn ăn mở rộng cao cấp Dolas, Ghế làm việc Zuno</td>
-                                    <td>3 </td>
-                                    <td>40.650.000 đ</td>
-                                    <td><span class="badge bg-success">Hoàn thành</span></td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt"></i> </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                                                class="fa fa-edit"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>ER3835</td>
-                                    <td>Nguyễn Thị Mỹ Yến</td>
-                                    <td>Bàn ăn mở rộng Gepa</td>
-                                    <td>1 </td>
-                                    <td>16.770.000 đ</td>
-                                    <td><span class="badge bg-info">Chờ thanh toán</span></td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt"></i> </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                                                class="fa fa-edit"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>AL3947</td>
-                                    <td>Phạm Thị Ngọc</td>
-                                    <td>Bàn ăn Vitali mặt đá, Ghế ăn gỗ Lucy màu trắng</td>
-                                    <td>2 </td>
-                                    <td>19.770.000 đ</td>
-                                    <td><span class="badge bg-warning">Đang giao hàng</span></td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt"></i> </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                                                class="fa fa-edit"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="10"><input type="checkbox" name="check1" value="1"></td>
-                                    <td>QY8723</td>
-                                    <td>Ngô Thái An</td>
-                                    <td>Giường ngủ Kara 1.6x2m</td>
-                                    <td>1 </td>
-                                    <td>14.500.000 đ</td>
-                                    <td><span class="badge bg-danger">Đã hủy</span></td>
-                                    <td><button class="btn btn-primary btn-sm trash" type="button" title="Xóa"><i
-                                                class="fas fa-trash-alt"></i> </button>
-                                        <button class="btn btn-primary btn-sm edit" type="button" title="Sửa"><i
-                                                class="fa fa-edit"></i></button>
-                                    </td>
-                                </tr>
+                                @php
+                                    $index = 0;
+                                @endphp
+                                @foreach ($orders as $order)
+                                    @php
+                                        $paymentStatusBadgeClass =
+                                            $order->ttvanchuyen == '1'
+                                                ? 'bg-success'
+                                                : ($order->ttvanchuyen == '2'
+                                                    ? 'bg-danger'
+                                                    : 'bg-warning');
+                                    @endphp
+
+                                    <tr>
+                                        <td> {{ ++$index }} </td>
+                                        <td>{{ $order->khachangorder->hovaten }}</td>
+                                        <td>{{ number_format($order->ttthanhtoan) }} đ</td>
+                                        <td>
+                                            @php
+                                                $orderStatus = $order->orderstatus->value;
+                                                $statusBadgeClass = '';
+                                                switch ($orderStatus) {
+                                                    case 'Đang Xử Lý':
+                                                        $statusBadgeClass = 'bg-warning';
+                                                        break;
+                                                    case 'Đang Giao Hàng':
+                                                        $statusBadgeClass = 'bg-info';
+                                                        break;
+                                                    case 'Đã Xong':
+                                                        $statusBadgeClass = 'bg-success';
+                                                        break;
+                                                    case 'Đã Hủy':
+                                                        $statusBadgeClass = 'bg-danger';
+                                                        break;
+                                                    default:
+                                                        $statusBadgeClass = 'bg-secondary';
+                                                        break;
+                                                }
+                                            @endphp
+                                            <span class="badge {{ $statusBadgeClass }} ">{{ $orderStatus }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge {{ $paymentStatusBadgeClass }}">
+                                                @if ($order->ttvanchuyen == 1)
+                                                    Đã thanh toán
+                                                @elseif ($order->ttvanchuyen == 0)
+                                                    Chưa thanh toán
+                                                @else
+                                                    Đã hoàn tiền
+                                                @endif
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                <form method="GET"
+                                                    action="{{ route('chinh-sua-don-hang', ['id' => $order->id]) }}">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary btn-sm edit"
+                                                        title="Sửa">
+                                                        <i class="fa fa-edit"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                @if ($order->orderstatus->id == 1)
+                                                    <form method="POST"
+                                                        action="{{ route('thay-doi-trang-thai-don-hang', ['id' => $order->id]) }}">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-primary btn-sm"
+                                                            title="Xác nhận đơn hàng">
+                                                            Xác nhận đơn hàng
+                                                        </button>
+                                                    </form>
+                                                @elseif ($order->orderstatus->id == 3)
+                                                    <span class="badge bg-success">Đã xác nhận đơn</span>
+                                                @elseif ($order->orderstatus->id == 2)
+                                                    <span class="badge bg-success">Đã xác nhận đơn</span>
+                                                @elseif ($order->orderstatus->id == 4)
+                                                    <span class="badge bg-danger">Đã hủy đơn</span>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

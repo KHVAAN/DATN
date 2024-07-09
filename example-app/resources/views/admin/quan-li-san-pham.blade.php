@@ -70,27 +70,6 @@
                                     <i class="fas fa-plus"></i> Tạo mới sản phẩm
                                 </a>
                             </div>
-
-                            <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm print-file" type="button" title="In"
-                                    onclick="myApp.printTable()">
-                                    <i class="fas fa-print"></i> In dữ liệu
-                                </a>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <a class="btn btn-excel btn-sm" href="" title="In">
-                                    <i class="fas fa-file-excel"></i> Xuất Excel
-                                </a>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm pdf-file" type="button" title="In"
-                                    onclick="myFunction(this)">
-                                    <i class="fas fa-file-pdf"></i> Xuất PDF
-                                </a>
-                            </div>
-
                             <div class="ml-auto">
                                 <form action="{{ url('/quan-li-san-pham') }}" method="GET"
                                     class="d-flex align-items-center">
@@ -103,20 +82,6 @@
                                 </form>
                             </div>
                         </div>
-                        {{-- <div class="d-flex justify-content-between align-items-center mt-3">
-                            <div class="d-flex align-items-center">
-                                <label class="mr-2 mb-0">Hiển thị
-                                    <select name="sampleTable_length" aria-controls="sampleTable"
-                                        class="form-control form-control-sm d-inline-block">
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="50">50</option>
-                                    </select>
-                                </label>
-                            </div>
-                        </div> --}}
-
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead class="text-align-center">
                                 <tr class="bg-gray text-dark font-weight-bold">
@@ -146,8 +111,10 @@
                                         <td>
                                             @if ($item->trangthai == 0)
                                                 <span class="badge bg-success">Còn hàng</span>
-                                            @else
+                                            @elseif ($item->trangthai == 1)
                                                 <span class="badge bg-danger">Hết hàng</span>
+                                            @elseif ($item->trangthai == 2)
+                                                <span class="badge bg-warning text-dark">Sắp hết hàng</span>
                                             @endif
                                         </td>
                                         <td>
@@ -167,13 +134,31 @@
                                                     class="btn btn-primary btn-sm edit" title="Sửa">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <button class="btn btn-primary btn-sm trash" type="submit" title="Xóa"
+                                                <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
                                                     data-toggle="modal"
                                                     data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
-                                            </form>
 
+                                                <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                                    data-backdrop="static" data-keyboard="false">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body text-center">
+                                                                <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
+                                                                <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
+                                                                <div class="form-group mt-4">
+                                                                    <button class="btn btn-primary mr-2"
+                                                                        onclick="submitDeleteForm({{ $item->id }})">Xóa</button>
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Hủy bỏ</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -211,8 +196,8 @@
 
                                         {{-- Link đến trang tiếp theo --}}
                                         @if ($product->hasMorePages())
-                                            <li class="page-item"><a class="page-link" href="{{ $product->nextPageUrl() }}"
-                                                    rel="next">&raquo;</a></li>
+                                            <li class="page-item"><a class="page-link"
+                                                    href="{{ $product->nextPageUrl() }}" rel="next">&raquo;</a></li>
                                         @else
                                             <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
                                         @endif
@@ -224,28 +209,11 @@
                 </div>
             </div>
         </div>
-
-        {{-- <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body text-center">
-                        <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
-                        <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
-                        <div class="form-group mt-4">
-                            <button id="confirmDeleteBtn-{{ $item->id }}" class="btn btn-primary mr-2">Xác
-                                nhận</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script>
-            document.getElementById('confirmDeleteBtn-{{ $item->id }}').addEventListener('click', function() {
-                document.getElementById('deleteForm-{{ $item->id }}').submit();
-            });
+        {{-- <script>
+            function submitDeleteForm(itemId) {
+                document.getElementById('deleteForm-' + itemId).submit();
+            }
         </script> --}}
+
     </main>
 @endsection

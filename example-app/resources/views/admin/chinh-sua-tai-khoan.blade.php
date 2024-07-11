@@ -120,21 +120,24 @@
                             <div class="form-group col-md-3">
                                 <label class="control-label">Phân quyền</label>
                                 <select name="phanquyen" class="form-control">
-                                    <option value="1" {{ $item->phanquyen == 'admin' ? 'selected' : '' }}>Quản trị viên
+                                    <option value="1" {{ $item->phanquyen == 'admin' ? 'selected' : '' }}>Quản trị
+                                        viên
                                     </option>
-                                    <option value="2" {{ $item->phanquyen == 'user' ? 'selected' : '' }}>Khách hàng</option>
+                                    <option value="2" {{ $item->phanquyen == 'user' ? 'selected' : '' }}>Khách hàng
+                                    </option>
                                 </select>
                                 <div class="error-message">{{ $errors->first('phanquyen') }}</div>
                             </div>
 
                             <div class="form-group col-md-3">
                                 <label class="control-label">Giới tính</label>
-                                <select class="form-control" name="gioitinh" required>
-                                    <option value="Nam" {{ $item->gioitinh == 'Nam' ? 'selected' : '' }}>Nam</option>
-                                    <option value="Nữ" {{ $item->gioitinh == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+                                <select name="gioitinh" class="form-control">
+                                    <option value="male" {{ $item->gioitinh == 'male' ? 'selected' : '' }}>Nam</option>
+                                    <option value="female" {{ $item->gioitinh == 'female' ? 'selected' : '' }}>Nữ</option>
                                 </select>
                                 <div class="error-message">{{ $errors->first('gioitinh') }}</div>
                             </div>
+
 
                             <div class="form-group col-md-6">
                                 <label class="control-label">Địa chỉ</label>

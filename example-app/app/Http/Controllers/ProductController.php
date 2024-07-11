@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+
+
     public function index_ad(Request $request)
     {
         $query = Product::with(['category', 'brand']);
@@ -71,7 +73,6 @@ class ProductController extends Controller
 
         return view('user.index', compact('brand_detail', 'brands', 'products', 'categories'));
     }
-
     public function brand($id)
     {
         // Lấy danh sách sản phẩm theo brand_id đã chọn
@@ -203,23 +204,16 @@ class ProductController extends Controller
             'soluong' => 'required|integer|min:1',
         ]);
 
-        // Kiểm tra nếu chi tiết sản phẩm đã tồn tại cho sản phẩm chính
         $existingProductDetail = Product_detail::where('sanpham_id', $id)
             ->where('mau_id', $request->input('mau'))
             ->where('size_id', $request->input('size'))
             ->first();
 
         if ($existingProductDetail) {
-            // Nếu chi tiết sản phẩm đã tồn tại, cập nhật số lượng
             $existingProductDetail->soluong += $request->input('soluong');
             $existingProductDetail->save();
             Alert()->success('Thành công', 'Số lượng sản phẩm con đã được cập nhật.');
-
-            // Tính lại tổng số lượng tồn kho
-            $subProducts = Product_detail::where('sanpham_id', $id)->get();
-            $total = $subProducts->sum('soluong');
         } else {
-            // Nếu chi tiết sản phẩm chưa tồn tại, tạo mới
             $productDetail = new Product_detail();
             $productDetail->sanpham_id = $id;
             $productDetail->mau_id = $request->input('mau');
@@ -227,20 +221,10 @@ class ProductController extends Controller
             $productDetail->soluong = $request->input('soluong');
             $productDetail->save();
             Alert()->success('Thành công', 'Sản phẩm con được thêm thành công.');
-
-            // Tính lại tổng số lượng tồn kho
-            $subProducts = Product_detail::where('sanpham_id', $id)->get();
-            $total = $subProducts->sum('soluong');
         }
-
-        // Cập nhật lại số lượng hiện có của sản phẩm chính
-        $product = Product::findOrFail($id);
-        $product->soluong = $total;
-        $product->save();
-
-        // Chuyển hướng trở lại trang trước sau khi xử lý
         return redirect()->back();
     }
+
 
     // Xử lý xóa sản phẩm con
     public function delete_child($id)
@@ -260,58 +244,43 @@ class ProductController extends Controller
     }
     public function update(Request $request, $id)
     {
-        //dd($request->all());
-        // Validate input data
+        //dd($request->all()); // In ra để kiểm tra dữ liệu gửi đi từ form
+
         $request->validate(
             [
                 'dongia' => 'required|numeric|min:1',
                 'giamgia' => 'required|numeric|max:100',
                 'tensanpham' => 'required|unique:product,tensanpham,' . $id,
                 'loaisp_id' => 'required',
-                'nh_id' => 'required',
+                'nhanhieu_id' => 'required',
                 'mota' => 'required',
                 'soluong' => 'required|integer|min:0',
             ],
             [
-                'giamgia.max' => 'Không được lớn hơn 100',
+                'giamgia.max' => 'Không được quá 100',
                 'giamgia.required' => 'Không được để trống',
                 'giamgia.numeric' => 'Phải là một số',
-                'dongia.min' => 'Phải lớn hơn 0',
+                'dongia.min' => 'Phải lớn hơn 0',
                 'dongia.required' => 'Không được để trống',
                 'loaisp_id.required' => 'Không được để trống',
-                'nh_id.required' => 'Không được để trống',
+                'nhanhieu_id.required' => 'Không được để trống',
                 'mota.required' => 'Không được để trống',
                 'tensanpham.required' => 'Không được để trống',
-                'tensanpham.unique' => 'Tên sản phẩm đã tồn tại',
+                'tensanpham.unique' => 'Tên sản phẩm đã tồn tại',
                 'soluong.required' => 'Không được để trống',
                 'soluong.integer' => 'Phải là số nguyên',
                 'soluong.min' => 'Không được nhỏ hơn 0',
             ]
         );
 
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
+        $product->fill($request->all());
+        $product->trangthai = $request->input('trangthai', '0');
+        $product->save();
 
-        $product->tensanpham = $request->input('tensanpham') ?? $product->tensanpham;
-        $product->soluong = $request->input('soluong') ?? $product->soluong;
-        $product->trangthai = $request->input('trangthai', '0') ?? $product->trangthai;
-        $product->loaisp_id = $request->input('loaisp_id') ?? $product->loaisp_id;
-        $product->nh_id = $request->input('nh_id') ?? $product->nh_id;
-        $product->dongia = $request->input('dongia') ?? $product->dongia;
-        $product->giamgia = $request->input('giamgia') ?? $product->giamgia;
-        $product->mota = $request->input('mota') ?? $product->mota;
+        // Xóa hình ảnh cũ của sản phẩm (nếu cần thiết)
+        //$product->image()->delete();
 
-        // Xử lý xóa ảnh
-        if ($request->has('remove_images')) {
-            foreach ($request->remove_images as $imageId) {
-                $image = Image::find($imageId);
-                if ($image) {
-                    Storage::delete('public/' . $image->tenimage);
-                    $image->delete();
-                }
-            }
-        }
-
-        // Xử lý thêm ảnh mới
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $image) {
                 $filenameWithExt = $image->getClientOriginalName();
@@ -326,12 +295,11 @@ class ProductController extends Controller
             }
         }
 
-        // Lưu lại thông tin sản phẩm
-        $product->save();
-
-        Alert()->success('Thành công', 'Cập nhật sản phẩm thành công');
+        Alert()->success('Thành công', 'Cập nhật sản phẩm thành công');
         return redirect()->back();
     }
+
+
 
     public function destroy(Request $request, $id)
     {
@@ -341,6 +309,8 @@ class ProductController extends Controller
         alert()->success('Thành công', 'Xóa sản phẩm thành công');
         return redirect()->back();
     }
+
+
 
     public function detail($id)
     {
@@ -393,66 +363,62 @@ class ProductController extends Controller
 
     public function shop()
     {
+        // Lấy danh sách các sản phẩm chính
 
         $products = Product::where('trangthai', 0)
-            ->with('image')
-            ->paginate(12);
+            ->with('image') // Load các ảnh liên kết
+            ->paginate(9); // Giới hạn 9 sản phẩm mỗi trang
         return view('user.shop', compact('products'));
     }
 
     public function search(Request $request)
     {
         $searchTerm = $request->input('search');
-        $products = Product::where('tensanpham', 'like', "%$searchTerm%")
-            ->where('trangthai', 0)
-            ->paginate(12);
+        $sort = $request->input('sort', 'default');
+
+        $query = Product::where('trangthai', 0);
+
+        if (!empty($searchTerm)) {
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('tensanpham', 'like', "%$searchTerm%")
+                    ->orWhereHas('category', function ($q) use ($searchTerm) {
+                        $q->where('tenloaisp', 'like', "%$searchTerm%");
+                    })
+                    ->orWhereHas('brand', function ($q) use ($searchTerm) {
+                        $q->where('tennhanhieu', 'like', "%$searchTerm%");
+                    });
+            });
+        }
+
+        if ($sort === 'asc') {
+            $query->orderBy('tensanpham', 'asc');
+        } elseif ($sort === 'desc') {
+            $query->orderBy('tensanpham', 'desc');
+        } elseif ($sort === 'price_asc') {
+            $query->orderBy('dongia', 'asc');
+        } elseif ($sort === 'price_desc') {
+            $query->orderBy('dongia', 'desc');
+        }
+
+        $products = $query->paginate(12);
 
         return view('user.shop', compact('products'));
     }
 
+
     public function search_user(Request $request)
     {
         $keyword = $request->input('keyword');
-        // Tìm sản phẩm có tên chứa từ khóa và thuộc loại sản phẩm hoặc thuộc thương hiệu
+        // Tìm sản phẩm có tên chứa từ khóa hoặc thuộc loại sản phẩm hoặc thuộc thương hiệu
         $products = Product::where('tensanpham', 'LIKE', "%$keyword%")
-            ->where(function ($query) use ($keyword) {
-                $query->whereHas('category', function ($q) use ($keyword) {
-                    $q->where('tenloaisp', 'LIKE', "%$keyword%");
-                })
-                    ->orWhereHas('brand', function ($q) use ($keyword) {
-                        $q->where('tennhanhieu', 'LIKE', "%$keyword%");
-                    });
+            ->orWhereHas('category', function ($q) use ($keyword) {
+                $q->where('tenloaisp', 'LIKE', "%$keyword%");
+            })
+            ->orWhereHas('brand', function ($q) use ($keyword) {
+                $q->where('tennhanhieu', 'LIKE', "%$keyword%");
             })
             ->get();
+
         return view('user.search', compact('products'));
     }
-
-    // public function index(Request $request)
-    // {
-    //     $sort = $request->input('sort', 'default');
-    //     $query = Product::query();
-
-    //     switch ($sort) {
-    //         case 'price_asc':
-    //             $query->orderBy('dongia', 'asc');
-    //             break;
-    //         case 'price_desc':
-    //             $query->orderBy('dongia', 'desc');
-    //             break;
-    //         case 'name_asc':
-    //             $query->orderBy('tensanpham', 'asc');
-    //             break;
-    //         case 'name_desc':
-    //             $query->orderBy('tensanpham', 'desc');
-    //             break;
-    //         default:
-    //             // Default sorting (optional)
-    //             break;
-    //     }
-
-    //     $products = $query->paginate(10); // Adjust pagination as needed
-
-    //     return view('products.index', compact('products', 'sort'));
-    // }
-
 }

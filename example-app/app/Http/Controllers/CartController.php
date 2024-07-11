@@ -105,9 +105,10 @@ class CartController extends Controller
             $cart->user_id = $user->id;
             $cart->product_id = $productId;
             $cart->product_detail_id = $productDetail->id;
-            $cart->color_id = $colorId;
-            $cart->size_id = $sizeId;
+            $cart->color = $colorId;
+            $cart->size = $sizeId;
             $cart->soluong = $quantity;
+            $cart->soluongconlai = $productDetail->soluong;
             $cart->dongia = $finalPrice;
             $cart->save();
         }
@@ -245,7 +246,7 @@ class CartController extends Controller
 
         // Xóa giỏ hàng sau khi tạo đơn hàng
         Cart::where('user_id', $user->id)->delete();
-
-        return redirect()->route('trang-chu-user')->with('success', 'Đặt hàng thành công!');
+        Alert()->success('Thành công', 'Đặt hàng thành công!');
+        return redirect()->route('trang-chu-user');
     }
 }

@@ -30,6 +30,8 @@
                             class="fas fa-file-pdf"></i> Xuất PDF</a>
                 </div>
             </div>
+
+
         </div>
         <div class="row">
             <div class="col-md-6 col-lg-3">
@@ -52,7 +54,7 @@
                 <div class="widget-small primary coloured-icon"><i class='icon fa-3x bx bxs-chart'></i>
                     <div class="info">
                         <h4>Tổng thu nhập</h4>
-                        <p><b>{{ number_format($totalThuNhap, 0, ',', '.') }} VND</b></p>
+                        <p><b>{{ number_format($totalThuNhap, 0, ',', '.') }} vnđ</b></p>
                     </div>
                 </div>
             </div>
@@ -122,11 +124,17 @@
                                     $index = 0;
                                 @endphp
                                 @foreach ($tongDonHang as $item)
+                                    @php
+                                        $totalQuantity = 0;
+                                        foreach ($item->orderdetail as $detail) {
+                                            $totalQuantity += $detail->soluong;
+                                        }
+                                    @endphp
                                     <tr>
                                         <td>{{ ++$index }}</td>
                                         <td>{{ $item->khachangorder->hovaten }}</td>
                                         <td>{{ $item->orderdetail[0]->product->tensanpham }}</td>
-                                        <td>{{ $item->orderdetail[0]->soluong }} sản phẩm</td>
+                                        <td>{{ $totalQuantity }} sản phẩm</td>
                                         <td>{{ number_format($item->ttthanhtoan, 0, ',', '.') }} đ</td>
                                     </tr>
                                 @endforeach

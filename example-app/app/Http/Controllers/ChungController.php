@@ -19,6 +19,7 @@ class ChungController extends Controller
         $category = Category::all();
         return view('admin.danh-sach-chung', compact('brand', 'size', 'color', 'category'));
 
+
     }
 
     public function store1(Request $request)

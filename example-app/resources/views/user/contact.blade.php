@@ -23,7 +23,8 @@
                     chúng tôi giúp đỡ bạn!</p>
                 <div class="d-flex align-items-center">
                     <i class="fa fa-envelope text-primary mr-2"></i>
-                    <a href="https://forms.gle/o6huqcAoBiecwrNs5" class="text-primary" target="_blank">Hãy nhấn vào đây để phản hồi hoặc đóng góp ý kiến!</a>
+                    <a href="https://forms.gle/o6huqcAoBiecwrNs5" class="text-primary" target="_blank">Hãy nhấn vào đây để
+                        phản hồi hoặc đóng góp ý kiến!</a>
                 </div>
             </div>
 

@@ -1,7 +1,6 @@
 @extends('layout.master')
 
 @section('title', 'Giỏ Hàng')
-
 @section('content')
     <style>
         .custom-back-button {
@@ -58,6 +57,7 @@
                             <th>Số lượng</th>
                             <th>Số tiền</th>
                             <th>Xóa</th>
+                            {{-- <th>Ton</th> --}}
                         </tr>
                     </thead>
 
@@ -95,7 +95,10 @@
                                                         style="color: #333;">{{ $item->productDetail->color->tenmau }}</span></span>,
                                                 <span class="product-attribute" style="font-size: smaller;">Kích thước:
                                                     <span class="size"
-                                                        style="color: #333;">{{ $item->productDetail->size->tensize }}</span></span>
+                                                        style="color: #333;">{{ $item->productDetail->size->tensize }}</span></span>,
+                                                <span class="product-attribute" style="font-size: smaller;">Tồn kho:
+                                                    <span class="soluongconlai"
+                                                        style="color: #333;">{{ $item->soluongconlai }}</span></span>
                                             </p>
 
                                         </div>
@@ -119,7 +122,9 @@
                                         <div class="input-group quantity mx-auto" style="width: 130px;">
                                             <div class="input-group-btn">
                                                 <button class="btn btn-primary btn-minus" type="button"
-                                                    data-id="{{ $item->id }}" data-price="{{ $item->dongia }}">
+                                                    data-id="{{ $item->id }}" data-price="{{ $item->dongia }}"
+                                                    onclick="checkDisableBtnMinus(this)"
+                                                    id="btn-minus-{{ $item->id }}">
                                                     <i class="fa fa-minus"></i>
                                                 </button>
                                             </div>
@@ -127,9 +132,12 @@
                                                 class="form-control bg-secondary text-center input-quantity" name="soluong"
                                                 value="{{ $item->soluong }}" data-id="{{ $item->id }}"
                                                 data-price="{{ $item->dongia }}">
+
                                             <div class="input-group-btn">
-                                                <button class="btn btn-primary btn-plus" type="button"
-                                                    data-id="{{ $item->id }}" data-price="{{ $item->dongia }}">
+                                                <button @if ($item->soluong == $item->soluongconlai || $item->soluongconlai == 0) disabled @endif
+                                                    class="btn btn-primary btn-plus" type="button"
+                                                    data-id="{{ $item->id }}" data-price="{{ $item->dongia }}"
+                                                    onclick="checkDisableBtnPlus(this)" id="btn-plus-{{ $item->id }}">
                                                     <i class="fa fa-plus"></i>
                                                 </button>
                                             </div>
@@ -151,7 +159,6 @@
                                             data-toggle="modal" data-target="#confirmDeleteModal-{{ $item->id }}">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
-
                                         <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1"
                                             role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static"
                                             data-keyboard="false">
@@ -161,8 +168,9 @@
                                                         <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
                                                         <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
                                                         <div class="form-group mt-4">
-                                                            <button class="btn btn-primary mr-2"
-                                                                onclick="submitDeleteForm({{ $item->id }})">Xóa</button>
+                                                            <button id="confirmDeleteBtn-{{ $item->id }}"
+                                                                class="btn btn-primary mr-2">Xác
+                                                                nhận</button>
                                                             <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">Hủy bỏ</button>
                                                         </div>
@@ -172,6 +180,12 @@
                                         </div>
                                     </form>
                                 </td>
+
+                                {{-- <td>
+                                    <input type="text" class="form-control bg-secondary text-center input-quantity"
+                                        name="soluongconlai" value="{{ $item->soluongconlai }}"
+                                        data-id="{{ $item->id }}">
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>
@@ -200,7 +214,7 @@
                                 </div>
                             </div>
 
-                            <!-- Modal -->
+                            {{-- <!-- Modal -->
                             <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog"
                                 aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -217,7 +231,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <div class="col-lg-4">
                                 <!-- Form mã giảm giá -->
@@ -244,43 +258,6 @@
     <!-- Cart End -->
 
     <script>
-        // //Cách thức checkbox sản phẩm
-        // function checkPayment(id) {
-        //     var checked = $(`#product-checkbox-${id}`).is(":checked");
-        //     console.log("checked", checked);
-        //     if (checked) {
-        //         @json($giohang).find(item => item.id == id).isPayment = true;
-        //     } else {
-        //         @json($giohang).find(item => item.id == id).isPayment = false;
-        //     }
-        //     console.log("isPayment ", id, " ", @json($giohang).find(item => item.id == id).isPayment);
-        // }
-
-        // document.addEventListener('DOMContentLoaded', (event) => {
-        //     const checkboxes = document.querySelectorAll('.product-checkbox');
-        //     const totalPriceElement = document.getElementById('total-price');
-        //     const checkAll = document.getElementById('checkAll');
-
-        //     // Xử lý sự kiện khi checkbox "Chọn tất cả" thay đổi
-        //     checkAll.addEventListener('change', function() {
-        //         checkboxes.forEach(checkbox => {
-        //             checkbox.checked = checkAll.checked;
-        //         });
-        //         updateTotalPrice();
-        //     });
-
-        //     // Xử lý sự kiện khi một checkbox sản phẩm thay đổi
-        //     checkboxes.forEach(checkbox => {
-        //         checkbox.addEventListener('change', function() {
-        //             if (!this.checked) {
-        //                 checkAll.checked = false;
-        //             } else {
-        //                 checkAll.checked = [...checkboxes].every(checkbox => checkbox.checked);
-        //             }
-        //             updateTotalPrice();
-        //         });
-        //     });
-
         // Hàm cập nhật tổng số tiền
         function updateTotalPrice() {
             let total = 0;
@@ -331,45 +308,45 @@
                 });
         }
 
-        // Hàm cập nhật tổng giá tiền
-        // function updateTotalPrice() {
-        //     let totalPrice = 0;
-        //     // Lặp qua từng sản phẩm trong giỏ hàng
-        //     document.querySelectorAll('.product-item').forEach(item => {
-        //         const id = item.getAttribute('data-id');
-        //         const quantity = parseInt(item.querySelector('.input-quantity').value);
-        //         const price = parseFloat(item.getAttribute('data-price'));
-        //         totalPrice += quantity * price;
-
-        //         // Cập nhật giá tiền của sản phẩm
-        //         const totalPriceElement = item.querySelector(`.total-price-${id}`);
-        //         totalPriceElement.textContent = `${(quantity * price).toLocaleString()}₫`;
-        //     });
-
-        //     // Cập nhật tổng giá tiền
-        //     const totalPriceElement = document.getElementById('total-price');
-        //     if (totalPriceElement) {
-        //         totalPriceElement.textContent = `${totalPrice.toLocaleString()}₫`;
-        //     }
-        // }
-
-        // Xử lý sự kiện khi nhấn nút tăng số lượng
-        document.querySelectorAll('.btn-plus').forEach(button => {
-            button.addEventListener('click', function() {
-                const input = this.parentNode.parentNode.querySelector('.input-quantity');
-                const newQuantity = parseInt(input.value) + 1;
+        function checkDisableBtnPlus(element) {
+            const item_id = element.attributes['data-id']['nodeValue'];
+            var soluong_conlai = @json($giohang).filter(item => item.id == item_id)[0]
+                .soluongconlai;
+            const input = element.parentNode.parentNode.querySelector('.input-quantity');
+            $(`#btn-minus-${item_id}`).attr("disabled", false);
+            if (soluong_conlai == 0 || parseInt(input.value) >= soluong_conlai) {
+                element.disabled = true
+            } else {
+                element.disabled = false
+                var newQuantity = parseInt(input.value) + 1;
                 updateCartItemQuantity(input, newQuantity);
-            });
-        });
 
-        // Xử lý sự kiện khi nhấn nút giảm số lượng
-        document.querySelectorAll('.btn-minus').forEach(button => {
-            button.addEventListener('click', function() {
-                const input = this.parentNode.parentNode.querySelector('.input-quantity');
-                const newQuantity = Math.max(1, parseInt(input.value) - 1);
+                //Disable luôn nút cộng nếu giá trị mới bằng số lượng còn lại
+                if (newQuantity == soluong_conlai) {
+                    element.disabled = true
+                }
+            }
+        }
+
+        function checkDisableBtnMinus(element) {
+            const item_id = element.attributes['data-id']['nodeValue'];
+            var soluong_conlai = @json($giohang).filter(item => item.id == item_id)[0]
+                .soluongconlai;
+            $(`#btn-plus-${item_id}`).attr("disabled", false);
+            const input = element.parentNode.parentNode.querySelector('.input-quantity');
+            if (soluong_conlai == 0 || input.value == 0) {
+                element.disabled = true
+            } else {
+                element.disabled = false
+                var newQuantity = parseInt(input.value) - 1;
                 updateCartItemQuantity(input, newQuantity);
-            });
-        });
+
+                //Disable luôn nút trừ nếu giá trị mới bằng 0
+                if (newQuantity == 0) {
+                    element.disabled = true
+                }
+            }
+        }
 
         // Xử lý sự kiện khi thay đổi số lượng trực tiếp
         document.querySelectorAll('.input-quantity').forEach(input => {
@@ -386,7 +363,7 @@
     </script>
 
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#confirmDeleteModal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget); // Button mà người dùng đã click để mở modal
@@ -426,6 +403,6 @@
                 });
             });
         });
-    </script>
+    </script> --}}
 
 @endsection

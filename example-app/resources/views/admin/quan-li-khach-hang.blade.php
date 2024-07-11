@@ -5,9 +5,9 @@
 @section('content')
     <style>
         /* .text-align-center th,
-                                td {
-                                    text-align: center;
-                                } */
+                                    td {
+                                        text-align: center;
+                                    } */
 
         .bg-gray {
             background-color: #f2f2f2;
@@ -73,7 +73,6 @@
                 <div class="tile">
                     <div class="tile-body">
                         <div class="row element-button">
-
                             <div class="ml-auto">
                                 <form action="{{ url('/quan-li-khach-hang') }}" method="GET"
                                     class="d-flex align-items-center">
@@ -102,27 +101,23 @@
                                 </tr>
                             </thead>
                             <tbody class="text-align-center">
-                                @php
-                                    $currentPage = $user->currentPage();
-                                    $perPage = $user->perPage();
-                                @endphp
                                 @foreach ($user as $index => $item)
                                     <tr>
-                                        <td>{{ ($currentPage - 1) * $perPage + $index + 1 }}</td>
+                                        <td>{{ $index + 1 }}</td> <!-- STT -->
                                         <td>{{ $item->hovaten }}</td>
                                         <td>{{ $item->diachi }}</td>
                                         <td>{{ $item->sdt }}</td>
                                         <td>
                                             @if ($item->gioitinh === 'male')
                                                 Nam
-                                            @else
+                                            @elseif ($item->gioitinh === 'female')
                                                 Nữ
                                             @endif
                                         </td>
                                         <td>{{ $item->ngaysinh }}</td>
                                         <td>
                                             @if ($item->phanquyen === 2)
-                                                Khách hàng
+                                                User
                                             @else
                                                 {{ $item->phanquyen }}
                                             @endif
@@ -152,7 +147,6 @@
                                                     data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
-
                                                 <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
                                                     data-backdrop="static" data-keyboard="false">
@@ -224,28 +218,4 @@
             </div>
         </div>
     </main>
-
-    {{-- <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
-                    <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
-                    <div class="form-group mt-4">
-                        <button id="confirmDeleteBtn-{{ $item->id }}" class="btn btn-primary mr-2">Xác
-                            nhận</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-    {{-- <script>
-        function submitDeleteForm(itemId) {
-            document.getElementById('deleteForm-' + itemId).submit();
-        }
-    </script> --}}
-
 @endsection

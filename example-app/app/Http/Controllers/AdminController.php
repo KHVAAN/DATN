@@ -11,22 +11,9 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $query = User::where('phanquyen', 1);
-
-        if ($request->has('search')) {
-            $search = $request->input('search');
-            $query->where(function ($q) use ($search) {
-                $q->where('hovaten', 'like', '%' . $search . '%')
-                    ->orWhere('sdt', 'like', '%' . $search . '%')
-                    ->orWhere('ngaysinh', 'like', '%' . $search . '%')
-                    ->orWhere('diachi', 'like', '%' . $search . '%');
-            });
-        }
-
-        $admin = $query->paginate(10); // Sử dụng paginate() thay vì get()
-
+        $admin = User::where('phanquyen', 1)->paginate(10);
         return view('admin.quan-li-nhan-vien', compact('admin'));
     }
 
@@ -188,7 +175,7 @@ class AdminController extends Controller
 
     public function destroy(Request $request, $id)
     {
-
+        dd();
         $admin = User::findOrFail($id);
         $admin->delete();
         alert()->success('Thành công', 'Xóa tài khoản thành công');

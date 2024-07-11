@@ -4,9 +4,10 @@
 
 @section('content')
     <style>
-        /* .text-align-center th{
-                text-align: center;
-            } */
+        /* .text-align-center th,
+                                                    td {
+                                                        text-align: center;
+                                                    } */
 
         .bg-gray {
             background-color: #f2f2f2;
@@ -76,6 +77,7 @@
                                     <i class="fas fa-plus"></i> Tạo mới quản trị viên
                                 </a>
                             </div>
+
                             <div class="ml-auto">
                                 <form action="{{ url('/quan-li-nhan-vien') }}" method="GET"
                                     class="d-flex align-items-center">
@@ -104,13 +106,9 @@
                                 </tr>
                             </thead>
                             <tbody class="text-align-center">
-                                @php
-                                    $currentPage = $admin->currentPage();
-                                    $perPage = $admin->perPage();
-                                @endphp
                                 @foreach ($admin as $index => $item)
                                     <tr>
-                                        <td>{{ ($currentPage - 1) * $perPage + $index + 1 }}</td>
+                                        <td>{{ $index + 1 }}</td> <!-- STT -->
                                         <td>{{ $item->hovaten }}</td>
                                         <td>{{ $item->diachi }}</td>
                                         <td>{{ $item->sdt }}</td>
@@ -154,7 +152,6 @@
                                                     data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
-
                                                 <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
                                                     data-backdrop="static" data-keyboard="false">
@@ -164,8 +161,9 @@
                                                                 <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
                                                                 <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
                                                                 <div class="form-group mt-4">
-                                                                    <button class="btn btn-primary mr-2"
-                                                                        onclick="submitDeleteForm({{ $item->id }})">Xóa</button>
+                                                                    <button id="confirmDeleteBtn-{{ $item->id }}"
+                                                                        class="btn btn-primary mr-2">Xác
+                                                                        nhận</button>
                                                                     <button type="button" class="btn btn-secondary"
                                                                         data-dismiss="modal">Hủy bỏ</button>
                                                                 </div>
@@ -220,17 +218,8 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-        </div>
-
-        {{-- <script>
-            function submitDeleteForm(itemId) {
-                document.getElementById('deleteForm-' + itemId).submit();
-            }
-        </script> --}}
-
     </main>
 @endsection

@@ -31,12 +31,16 @@
                 <div class="col-md-6 mb-5">
                     <h5 class="font-weight-bold text-dark mb-4">CSKH</h5>
                     <div class="d-flex flex-column justify-content-start">
-                        <a class="text-dark mb-2" href="{{ url('/intro') }}"><i class="fa fa-angle-right mr-2"></i>Vận chuyển</a>
-                        <a class="text-dark mb-2" href="{{ url('/intro') }}"><i class="fa fa-angle-right mr-2"></i>Chính sách đổi
+                        <a class="text-dark mb-2" href="{{ url('/intro') }}"><i class="fa fa-angle-right mr-2"></i>Vận
+                            chuyển</a>
+                        <a class="text-dark mb-2" href="{{ url('/intro') }}"><i class="fa fa-angle-right mr-2"></i>Chính
+                            sách đổi
                             trả</a>
-                        <a class="text-dark mb-2" href="{{ url('/intro') }}"><i class="fa fa-angle-right mr-2"></i>Chính sách bảo
+                        <a class="text-dark mb-2" href="{{ url('/intro') }}"><i class="fa fa-angle-right mr-2"></i>Chính
+                            sách bảo
                             hành</a>
-                        <a class="text-dark mb-2" href="{{ url('/intro/brand') }}"><i class="fa fa-angle-right mr-2"></i>Đối tác cung
+                        <a class="text-dark mb-2" href="{{ url('/intro/brand') }}"><i
+                                class="fa fa-angle-right mr-2"></i>Đối tác cung
                             cấp</a>
                     </div>
                 </div>

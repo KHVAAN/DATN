@@ -16,7 +16,7 @@
                         <div class="row element-button mb-3">
                         </div>
                         <table class="table table-hover table-bordered" id="sampleTable">
-                            <thead class="text-align-center">
+                            <thead style="text-align:center;">
                                 <tr>
                                     {{-- <th width="10"></th> --}}
                                     <th>STT</th>
@@ -27,7 +27,7 @@
                                     <th>Tính năng</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody style="text-align: center;">
                                 @php
                                     $index = 0;
                                 @endphp

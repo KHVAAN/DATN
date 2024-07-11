@@ -225,7 +225,7 @@
             if (url.includes('chinh-sua-mau')) {
                 $('.app-menu a[href*="danh-sach-chung"]').addClass('active');
             }
-             //
+            //
             if (url.includes('chinh-sua-loai')) {
                 $('.app-menu a[href*="danh-sach-chung"]').addClass('active');
             }

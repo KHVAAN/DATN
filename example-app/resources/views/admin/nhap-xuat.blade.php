@@ -18,7 +18,7 @@
 
         <div class="row">
             <div class="col-md-3 col-lg-6 d-flex align-items-center">
-                <form action="{{ route('doanh-thu') }}" method="GET" class="d-flex align-items-center">
+                <form id="filterForm" action="{{ route('nhap-xuat') }}" method="GET" class="d-flex align-items-center">
                     <label for="datepicker" class="me-2">Chọn Ngày:</label>
                     <input type="text" id="datepicker" name="ngay" class="form-control me-2" style="width: 150px;">
                     <div class="col-sm-2">
@@ -26,10 +26,12 @@
                     </div>
                 </form>
                 <div class="col-sm-2">
-                    <a id="doanhthuPdfBtn" class="btn btn-delete btn-sm pdf-file" href="#" title="In"><i
+                    <a id="exportPdfBtn" class="btn btn-delete btn-sm pdf-file" href="#" title="In"><i
                             class="fas fa-file-pdf"></i> Xuất PDF</a>
                 </div>
             </div>
+
+
         </div>
 
         <div class="row mt-3">
@@ -138,23 +140,8 @@
             </div>
         </div>
         <div class="row">
-            <!-- <div class="col-md-6">
-                                                                                                <div class="tile">
-                                                                                                    <h3 class="tile-title">DỮ LIỆU HÀNG THÁNG</h3>
-                                                                                                    <div class="embed-responsive embed-responsive-16by9">
-                                                                                                        <canvas class="embed-responsive-item" id="lineChartDemo"></canvas>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <div class="tile">
-                                                                                                    <h3 class="tile-title">THỐNG KÊ DOANH SỐ</h3>
-                                                                                                    <div class="embed-responsive embed-responsive-16by9">
-                                                                                                        <canvas class="embed-responsive-item" id="barChartDemo"></canvas>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div> -->
         </div>
+
 
     </main>
 

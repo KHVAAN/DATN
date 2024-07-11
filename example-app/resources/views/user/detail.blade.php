@@ -2,6 +2,7 @@
 
 @section('title', 'Chi Tiết Sản Phẩm')
 
+
 @section('content')
     <style>
         .preserve-format {
@@ -25,7 +26,7 @@
 
     <!-- Shop Detail Start -->
     <div class="container-fluid py-5">
-        <div class="row justify-content-center px-xl-5">
+        <div class="row px-xl-5">
             <div class="col-lg-5 pb-5">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
@@ -49,6 +50,7 @@
 
             <div class="col-lg-7 pb-5">
                 <h3 class="font-weight-semi-bold">{{ $product->tensanpham }}</h3>
+                
                 <div class="d-flex mb-3">
                     <div class="text-primary mr-2">
                         @for ($i = 0; $i < 5; $i++)
@@ -57,54 +59,65 @@
                     </div>
                     <small class="pt-1">({{ $product->reviews_count }} Đánh giá)</small>
                 </div>
-                <h4 class="font-weight-semi-bold mb-4">
+                <h3 class="font-weight-semi-bold mb-4">
                     {{ number_format($product->dongia - ($product->dongia * $product->giamgia) / 100, 0, ',', '.') }} ₫
-                    <del style="font-size: 18px; color:gray;">
+                    <del style="font-size: 16px;">
                         {{ number_format($product->dongia, 0, ',', '.') }} ₫
                     </del>
-                </h4>
+                </h3>
                 @if (isset($uniqueDetails))
                     @php
+                        $usedColors = [];
                         $usedSizes = [];
                     @endphp
 
-                    <div class="d-flex mb-4">
+                    <div class="d-flex mb-4 flex-wrap">
                         <p class="text-dark font-weight-medium mb-0 mr-3">Màu sắc</p>
-                        <form>
+                        <form id="product-options" class="d-flex flex-wrap">
+                            @php
+                                $count = 0;
+                            @endphp
                             @foreach ($uniqueDetails as $detail)
-                                @if (!in_array($detail->color->tenmau, $usedSizes))
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" class="custom-control-input" id="color-{{ $detail->mau_id }}"
-                                            name="color" value="{{ $detail->mau_id }}">
+                                @if (!in_array($detail->color->tenmau, $usedColors))
+                                    <div class="custom-control custom-radio custom-control-inline mb-2 mr-3">
+                                        <input onclick="CheckDisableQuantityBtn()" type="radio"
+                                            class="custom-control-input" id="color-{{ $detail->mau_id }}" name="color"
+                                            value="{{ $detail->mau_id }}">
                                         <label class="custom-control-label"
                                             for="color-{{ $detail->mau_id }}">{{ $detail->color->tenmau }}</label>
                                     </div>
                                     @php
-                                        $usedSizes[] = $detail->color->tenmau;
+                                        $usedColors[] = $detail->color->tenmau;
+                                        $count++;
                                     @endphp
+                                    @if ($count % 4 == 0)
+                                        {{-- Chia hàng sau mỗi 4 màu --}}
+                                        <div class="w-100"></div> {{-- Kết thúc hàng --}}
+                                    @endif
                                 @endif
                             @endforeach
                         </form>
                     </div>
 
+
                     <div class="d-flex mb-4">
                         <p class="text-dark font-weight-medium mb-0 mr-3">Kích thước</p>
-                        <form>
-                            @foreach ($uniqueDetails as $detail)
-                                @if (!in_array($detail->size->tensize, $usedSizes))
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" class="custom-control-input" id="size-{{ $detail->size_id }}"
-                                            name="size" value="{{ $detail->size_id }}">
-                                        <label class="custom-control-label"
-                                            for="size-{{ $detail->size_id }}">{{ $detail->size->tensize }}</label>
-                                    </div>
-                                    @php
-                                        $usedSizes[] = $detail->size->tensize;
-                                    @endphp
-                                @endif
-                            @endforeach
+                        @foreach ($uniqueDetails as $detail)
+                            @if (!in_array($detail->size->tensize, $usedSizes))
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input onclick="CheckDisableQuantityBtn()" type="radio" class="custom-control-input"
+                                        id="size-{{ $detail->size_id }}" name="size" value="{{ $detail->size_id }}">
+                                    <label class="custom-control-label"
+                                        for="size-{{ $detail->size_id }}">{{ $detail->size->tensize }}</label>
+                                </div>
+                                @php
+                                    $usedSizes[] = $detail->size->tensize;
+                                @endphp
+                            @endif
+                        @endforeach
                         </form>
                     </div>
+
                 @endif
 
                 <div class="d-flex align-items-center mb-4 pt-2">
@@ -115,9 +128,10 @@
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control bg-secondary text-center" name="quantity" value="1">
+                        <input id="input_soluong" type="text" class="form-control bg-secondary text-center"
+                            name="quantity" value="0">
                         <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus">
+                            <button id="btn-plus" class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </div>
@@ -131,16 +145,27 @@
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <input type="hidden" name="size_id" id="selectedSizeId" value="">
                         <input type="hidden" name="mau_id" id="selectedColorId" value="">
-                        <input type="hidden" name="soluong" id="selectedQuantity" value="1">
+                        <input type="hidden" name="soluong" id="selectedQuantity" value="0">
                         <button type="submit" class="btn btn-primary px-3 mr-2" id="btn-add-to-cart">
                             <i class="fa fa-shopping-cart mr-1"></i> Thêm Vào Giỏ Hàng
                         </button>
                     </form>
+                    {{-- <form action="{{ route('mua-ngay') }}" method="POST" id="buy-now-form">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="size_id" id="selectedSizeId"
+                            value="{{ $uniqueDetails[0]->size_id }}">
+                        <input type="hidden" name="mau_id" id="selectedColorId"
+                            value="{{ $uniqueDetails[0]->mau_id }}">
+                        <input type="hidden" name="soluong" id="selectedQuantity" value="1">
+                        <button type="submit" class="btn btn-primary px-3 mr-2" id="btn-buy-now">
+                            <i class="fa fa-shopping-cart mr-1"></i> Mua Ngay
+                        </button>
+                    </form> --}}
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="row px-xl-5">
         <div class="col">
@@ -151,7 +176,8 @@
             </div>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="tab-pane-1">
-                    <p>{{ $product->mota }}</p>
+                    <h4 class="mb-3">Mô tả sản phẩm</h4>
+                    <p class="preserve-format">{{ $product->mota }}</p>
                 </div>
                 <div class="tab-pane fade" id="tab-pane-3">
                     <div class="row">
@@ -178,19 +204,13 @@
                                             </div>
                                             <input type="hidden" name="rating" id="rating" value="0">
                                         </div>
-                                        <!-- <div class="form-group">
-                                                <label for="name">Tên của bạn:</label>
-                                                <input type="text" class="form-control" id="name" name="name" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="email">Email của bạn:</label>
-                                                <input type="email" class="form-control" id="email" name="email" required>
-                                            </div> -->
+
                                         <div class="form-group">
                                             <label for="message">Đánh giá của bạn:</label>
                                             <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
                                         </div>
-                                        <button type="submit" class="btn btn-primary" id="btn-submit-review">Gửi Đánh
+                                        <button type="submit" class="btn btn-primary" id="btn-submit-review">Gửi
+                                            Đánh
                                             Giá</button>
                                     </form>
                                 </div>
@@ -204,7 +224,19 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <<script>
+    <script>
+        function CheckDisableQuantityBtn() {
+            var selectedSize = $('input[name="size"]:checked').val();
+            var selectedColor = $('input[name="color"]:checked').val();
+            var soluong_conlai = @json($uniqueDetails).filter(detail => detail.mau_id ==
+                selectedColor && detail.size_id == selectedSize)[0].soluong;
+            if (soluong_conlai == 0) {
+                $(".btn-plus").attr("disabled", true);
+            } else {
+                $(".btn-plus").attr("disabled", false);
+            }
+        }
+
         $(document).ready(function() {
             // Xử lý khi nhấn nút +
             $('.btn-plus').click(function(e) {
@@ -223,6 +255,7 @@
                 var quantityInput = $(this).closest('.input-group').find('input[name="quantity"]');
                 var currentValue = parseInt(quantityInput.val());
                 if (!isNaN(currentValue) && currentValue > 1) {
+                    //Dòng này là trừ 1
                     quantityInput.val(currentValue - 1);
                     updateSelectedQuantity(currentValue - 1);
                 }
@@ -255,6 +288,17 @@
             // Hàm cập nhật số lượng đã chọn
             function updateSelectedQuantity(quantity) {
                 $('#selectedQuantity').val(quantity);
+                var selectedSize = $('input[name="size"]:checked').val();
+                var selectedColor = $('input[name="color"]:checked').val();
+                var soluong_conlai = @json($uniqueDetails).filter(detail => detail.mau_id ==
+                    selectedColor && detail.size_id == selectedSize)[0].soluong;
+
+                var soluong_nhap = $("#input_soluong").val();
+                if (soluong_nhap >= soluong_conlai || soluong_conlai == 0) {
+                    $(".btn-plus").attr("disabled", true);
+                } else {
+                    $(".btn-plus").attr("disabled", false);
+                }
             }
 
             // Hàm cập nhật nút Thêm vào Giỏ Hàng
@@ -268,9 +312,17 @@
                     if (filteredDetail.length > 0) {
                         // Cập nhật số lượng tồn kho
                         var stockQuantity = filteredDetail[0].soluong;
-                        $('#stock-quantity').text(stockQuantity + ' sản phẩm có sẵn').css('color', '');
-                        // Enable nút Thêm vào Giỏ Hàng
-                        $('#btn-add-to-cart').removeClass('btn-disabled').prop('disabled', false);
+
+                        if (stockQuantity > 0) {
+                            $('#stock-quantity').text(stockQuantity + ' sản phẩm có sẵn').css('color', '');
+                            // Enable nút Thêm vào Giỏ Hàng
+                            $('#btn-add-to-cart').removeClass('btn-disabled').prop('disabled', false);
+                        } else {
+                            // Nếu số lượng tồn kho bằng 0
+                            $('#stock-quantity').text('Hết hàng').css('color', 'red');
+                            // Disable nút Thêm vào Giỏ Hàng
+                            $('#btn-add-to-cart').addClass('btn-disabled').prop('disabled', true);
+                        }
                     } else {
                         // Nếu không tìm thấy chi tiết sản phẩm phù hợp
                         $('#stock-quantity').text('Hết hàng').css('color', 'red');

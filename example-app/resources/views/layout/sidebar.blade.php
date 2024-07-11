@@ -1,7 +1,6 @@
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 <aside class="app-sidebar">
-    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/img/user.jpg" width="50px"
-            alt="User Image">
+    <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="/img/user.jpg" width="50px" alt="User Image">
         <div>
             <p class="app-sidebar__user-name"><b>Gia Huy</b></p>
             <p class="app-sidebar__user-designation">Chào mừng bạn trở lại</p>
@@ -13,7 +12,8 @@
                     class='app-menu__icon bx bx-tachometer'></i><span class="app-menu__label">Trang chủ</span></a>
         </li>
         <li><a class="app-menu__item" href="{{ url('/danh-sach-chung') }}"><i
-                    class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Danh sách chung</span></a>
+                    class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Danh sách
+                    chung</span></a>
         </li>
         <li><a class="app-menu__item " href="{{ url('/quan-li-nhan-vien') }}"><i
                     class='app-menu__icon bx bx-id-card'></i>
@@ -34,7 +34,8 @@
                     thu</span></a>
         </li>
         <li><a class="app-menu__item" href="{{ url('/nhap-xuat') }}"><i
-                    class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Xuất nhập sản phẩm</span></a>
+                    class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Xuât Nhập Sản
+                    Phẩm</span></a>
         </li>
 
     </ul>

@@ -21,47 +21,58 @@
                             <!-- Hàng đầu tiên -->
                             <div class="col-md-6 form-group">
                                 <label>Họ tên</label>
-                                <input class="form-control" type="text" name="hovaten" placeholder="Họ và tên" value="{{ Auth::user()->hovaten }}">
+                                <input class="form-control" type="text" name="hovaten" placeholder="Họ và tên"
+                                    value="{{ Auth::user()->hovaten }}">
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>Số điện thoại</label>
-                                <input class="form-control" type="text" name="sodienthoai" placeholder="Số điện thoại" value="{{ Auth::user()->sdt }}">
+                                <input class="form-control" type="text" name="sodienthoai" placeholder="Số điện thoại"
+                                    value="{{ Auth::user()->sdt }}">
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>Địa chỉ</label>
-                                <input class="form-control" type="text" name="diachi" placeholder="Địa chỉ" value="{{ Auth::user()->diachi }}">
+                                <input class="form-control" type="text" name="diachi" placeholder="Địa chỉ"
+                                    value="{{ Auth::user()->diachi }}">
                             </div>
                             <div class="col-md-6 form-group">
                                 <label>Email</label>
-                                <input class="form-control" type="text" name="email" placeholder="Email" value="{{ Auth::user()->email }}">
+                                <input class="form-control" type="text" name="email" placeholder="Email"
+                                    value="{{ Auth::user()->email }}">
                             </div>
                             <!-- Hàng thứ hai -->
                             <div class="col-md-6 form-group">
                                 <label>Giới tính</label>
                                 <select class="form-control" name="gioitinh">
                                     <option value="">-- Chọn giới tính --</option>
-                                    <option value="Nam" {{ Auth::user()->gioitinh == 'Nam' ? 'selected' : '' }}>Nam</option>
-                                    <option value="Nữ" {{ Auth::user()->gioitinh == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+                                    <option value="Nam" {{ Auth::user()->gioitinh == 'Nam' ? 'selected' : '' }}>Nam
+                                    </option>
+                                    <option value="Nữ" {{ Auth::user()->gioitinh == 'Nữ' ? 'selected' : '' }}>Nữ
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-md-6 form-group">
                                 <label class="control-label">Ngày sinh</label>
-                                <input class="form-control" type="date" name="ngaysinh" value="{{ Auth::user()->ngaysinh }}">
+                                <input class="form-control" type="date" name="ngaysinh"
+                                    value="{{ Auth::user()->ngaysinh }}">
                             </div>
                         </div>
                         <div class="row">
                             <!-- Avatar và nút lưu -->
                             <div class="col-md-12 form-group">
                                 <label for="avatar">Ảnh đại diện</label>
-                                <input type="file" class="form-control-file" id="avatar" name="avatar" onchange="previewAvatar(this)">
+                                <input type="file" class="form-control-file" id="avatar" name="avatar"
+                                    onchange="previewAvatar(this)">
                                 @if (Auth::user()->avatar)
-                                    <img id="avatar-preview" src="{{ asset('storage/' . Auth::user()->avatar) }}" class="mt-2" style="max-width: 200px; max-height: 200px;" alt="Ảnh đại diện">
+                                    <img id="avatar-preview" src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                                        class="mt-2" style="max-width: 200px; max-height: 200px;" alt="Ảnh đại diện">
                                 @else
-                                    <img id="avatar-preview" src="{{ asset('path/to/default_avatar.jpg') }}" class="mt-2" style="max-width: 200px; max-height: 200px;" alt="Ảnh đại diện">
+                                    <img id="avatar-preview" src="{{ asset('path/to/default_avatar.jpg') }}" class="mt-2"
+                                        style="max-width: 200px; max-height: 200px;" alt="Ảnh đại diện">
                                 @endif
                             </div>
                             <div class="col-md-12 form-group">
-                                <button type="submit" class="btn btn-primary btn-block btn-bold">CẬP NHẬT THÔNG TIN</button>
+                                <button type="submit" class="btn btn-primary btn-block btn-bold">CẬP NHẬT THÔNG
+                                    TIN</button>
                             </div>
                         </div>
                     </div>
@@ -114,7 +125,8 @@
                     $('input[name="ngaysinh"]').val(response.user.ngaysinh);
 
                     // Cập nhật ảnh đại diện nếu có thay đổi
-                    $('#avatar-preview').attr('src', response.user.avatar ? '/storage/' + response.user.avatar : '/path/to/default_avatar.jpg');
+                    $('#avatar-preview').attr('src', response.user.avatar ? '/storage/' + response.user
+                        .avatar : '/path/to/default_avatar.jpg');
                 },
                 error: function(error) {
                     console.log('Error:', error);

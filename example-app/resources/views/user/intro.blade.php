@@ -7,7 +7,6 @@
         h4 {
             text-align: center;
         }
-
     </style>
     <!-- ***** Services Area Starts ***** -->
     <section class="our-services">
@@ -50,7 +49,8 @@
                     </div>
                     <div class="service-item">
                         <h4>Vận Chuyển</h4>
-                        <img src="{{ asset('img/6.png') }}" alt="Ảnh giới thiệu 2" class="img-fluid mx-auto d-block mb-3" style="max-width: 600px;">
+                        <img src="{{ asset('img/6.png') }}" alt="Ảnh giới thiệu 2" class="img-fluid mx-auto d-block mb-3"
+                            style="max-width: 600px;">
 
                     </div>
                     <div class="service-item">

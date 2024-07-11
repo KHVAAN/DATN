@@ -106,11 +106,16 @@
                 <i class="fas fa-shopping-cart text-primary"></i>
                 <span class="badge">{{ $cartCount }}</span>
             </a>
+            {{-- <a href="" class="btn border">
+                <i class="far fa-heart text-primary"></i>
+                <span class="badge"></span>
+            </a> --}}
             @if (Auth::check())
+                <a href="#" class="btn border">
+                    <i class="fas fa-user text-primary"></i>
+                </a>
                 <div class="nav-item nav-link user-menu">
-                    <a href="#" class="btn border">
-                        <i class="fas fa-user text-primary"></i>
-                    </a>
+
                     <span class="user-name">{{ Auth::user()->hovaten }}</span>
                     <div class="user-menu-items">
                         <a class="nav-item" href="{{ route('profile') }}">Tài khoản</a>

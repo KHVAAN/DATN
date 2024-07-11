@@ -17,6 +17,7 @@ class Cart extends Model
         'color_id',
         'size_id',
         'soluong',
+        'soluongconlai',        
         'dongia',
     ];
 

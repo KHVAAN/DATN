@@ -6,13 +6,13 @@
     <!-- Profile Update Form -->
     <div class="container pt-5">
         <div class="row justify-content-center">
-            <h6 class="text-center">Danh sách đơn hàng</h6>
+            <h3 class="text-center">Danh sách đơn hàng</h3>
         </div>
         <div class="row">
             <!-- Cột bên trái -->
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="tile">
-                    <h3 class="tile-title">Thông tin đơn hàng</h3>
+                    <h5 class="tile-title">Thông tin</h5>
                     <div class="tile-body">
                         <form>
                             <div class="form-group">
@@ -56,14 +56,14 @@
                 </div>
             </div>
             <!-- Cột bên phải -->
-            <div class="col-md-6">
+            <div class="col-md-10">
                 <div class="tile">
-                    <h3 class="tile-title">Chi tiết sản phẩm</h3>
+                    <h5 class="tile-title">Chi tiết sản phẩm</h5>
                     <div class="tile-body">
-                        <table class="table table-detail">
+                        <table class="table table-detail" style="text-align: center;">
                             <thead>
                                 <tr>
-                                    <th>Hình ảnh</th>
+                                    <th style="width:100px;">Hình ảnh</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Số lượng</th>
                                     <th>Giá</th>
@@ -78,14 +78,14 @@
                                         <td>
                                             <img class="d-block w-100"
                                                 src="{{ asset('storage/' . $item->productDetail->firstImage->tenimage) }}"
-                                                alt="Product Image" style="width: 40px; height: 40px; object-fit: contain;">
+                                                alt="Product Image" style="width: 80px; height: 80px; object-fit: contain;">
                                         </td>
-                                        <td>{{ $item->product->tensanpham }}</td>
-                                        <td>{{ $item->soluong }}</td>
-                                        <td>{{ number_format($item->thanhtien) }} đ</td>
-                                        <td>{{ $item->sizeDetail->tensize }} </td>
-                                        <td>{{ $item->colorDetail->tenmau }} </td>
-                                        <td>
+                                        <td class="align-middle">{{ $item->product->tensanpham }}</td>
+                                        <td class="align-middle">{{ $item->soluong }}</td>
+                                        <td class="align-middle">{{ number_format($item->thanhtien) }} đ</td>
+                                        <td class="align-middle">{{ $item->sizeDetail->tensize }} </td>
+                                        <td class="align-middle">{{ $item->colorDetail->tenmau }} </td>
+                                        <td class="align-middle">
                                             @if ($order[0]->order[0]->orderstatus->id == 3)
                                                 <form method="GET"
                                                     action="{{ route('chi-tiet-san-pham-user', ['id' => $order[0]->product->id]) }}">
@@ -142,7 +142,7 @@
             </div>
         </div>
     </div>
-
+    <script src="{{ asset('js/main.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function previewAvatar(input) {

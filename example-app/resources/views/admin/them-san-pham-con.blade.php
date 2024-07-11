@@ -44,7 +44,7 @@
 
                             </div>
                             <div class="form-group col-md-3">
-                               
+
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="inputState" class="control-label">Màu sắc</label>

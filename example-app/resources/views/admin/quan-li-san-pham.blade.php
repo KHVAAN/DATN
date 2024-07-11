@@ -4,6 +4,11 @@
 
 @section('content')
     <style>
+        /* .text-align-center th,
+                                                        td {
+                                                            text-align: center;
+                                                        } */
+
         .bg-gray {
             background-color: #f2f2f2;
             /* Màu nền xám */
@@ -64,12 +69,12 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body">
-                        <div class="row element-button align-items-center">
+                        <div class="row element-button">
                             <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" href="{{ url('/them-san-pham') }}" title="Thêm">
-                                    <i class="fas fa-plus"></i> Tạo mới sản phẩm
-                                </a>
+                                <a class="btn btn-add btn-sm" href="{{ url('/them-san-pham') }}" title="Thêm"><i
+                                        class="fas fa-plus"></i> Tạo mới sản phẩm</a>
                             </div>
+
                             <div class="ml-auto">
                                 <form action="{{ url('/quan-li-san-pham') }}" method="GET"
                                     class="d-flex align-items-center">
@@ -82,6 +87,7 @@
                                 </form>
                             </div>
                         </div>
+
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead class="text-align-center">
                                 <tr class="bg-gray text-dark font-weight-bold">
@@ -96,13 +102,9 @@
                                 </tr>
                             </thead>
                             <tbody class="text-align-center">
-                                @php
-                                    $currentPage = $product->currentPage();
-                                    $perPage = $product->perPage();
-                                @endphp
                                 @foreach ($product as $index => $item)
                                     <tr>
-                                        <td>{{ ($currentPage - 1) * $perPage + $index + 1 }}</td>
+                                        <td>{{ $index + 1 }}</td> <!-- Chỉnh sửa chỉ số -->
                                         <td>{{ $item->tensanpham }}</td>
                                         <td>{{ $item->soluong }}</td>
                                         <td>{{ $item->dongia }}</td>
@@ -139,7 +141,6 @@
                                                     data-target="#confirmDeleteModal-{{ $item->id }}">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
-
                                                 <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
                                                     data-backdrop="static" data-keyboard="false">
@@ -149,8 +150,9 @@
                                                                 <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
                                                                 <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
                                                                 <div class="form-group mt-4">
-                                                                    <button class="btn btn-primary mr-2"
-                                                                        onclick="submitDeleteForm({{ $item->id }})">Xóa</button>
+                                                                    <button id="confirmDeleteBtn-{{ $item->id }}"
+                                                                        class="btn btn-primary mr-2">Xác
+                                                                        nhận</button>
                                                                     <button type="button" class="btn btn-secondary"
                                                                         data-dismiss="modal">Hủy bỏ</button>
                                                                 </div>
@@ -205,15 +207,13 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
-        {{-- <script>
-            function submitDeleteForm(itemId) {
-                document.getElementById('deleteForm-' + itemId).submit();
-            }
-        </script> --}}
+
+
 
     </main>
 @endsection

@@ -4,7 +4,11 @@
 
 
 @section('content')
-
+    {{-- <div class="container-fluid mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <img src="img/banner.png" alt="" style="width:100%; height:400px;object-fit: cover;">
+        </div>
+    </div> --}}
     <!-- Checkout Start -->
     <div class="container-fluid pt-5">
         <form id="checkoutForm" action="{{ route('tao-hoa-don') }}" method="POST">
@@ -46,7 +50,7 @@
                                                 <img class="d-block w-100"
                                                     src="{{ asset('storage/' . $item->productDetail->firstImage->tenimage) }}"
                                                     alt="Product Image"
-                                                    style="width: 180px; height: 180px; object-fit: contain;">
+                                                    style="width: 80px; height: 80px; object-fit: contain;">
                                             </div>
                                         </div>
                                     </div>

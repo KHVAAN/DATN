@@ -16,11 +16,12 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DoanhThuController;
 use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\NhapXuatController;
+use App\Http\Controllers\NhapXuaController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WishlistController;
 use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Product;
@@ -97,7 +98,7 @@ Route::post('/update-cart/{id}', [CartController::class, 'update'])->name('cap-n
 Route::get('/checkout-cart', [CartController::class, 'checkout'])->name('checkout');
 Route::post('/create-order', [CartController::class, 'storeOrder'])->name('tao-hoa-don');
 
-// Route::get('/checkout', [CheckoutController::class, 'create'])->name('thanh-toan');
+Route::get('/checkout', [CheckoutController::class, 'create'])->name('thanh-toan');
 
 // Route::post('/checkout/payment', [CheckoutController::class, 'payment'])->name('xu-li-thanh-toan');
 // Route::post('/dat-hang', [CheckoutController::class, 'placeOrder'])->name('dat-hang');
@@ -119,7 +120,6 @@ Route::get('/contact', function () {
 Route::get('/intro/brand', function () {
     return view('user.doi-tac');
 });
-
 Route::get('/intro', function () {
     return view('user.intro');
 });
@@ -159,8 +159,8 @@ Route::get('/doanh-thu-pdf', [DoanhThuController::class, 'exportPDF'])->name('do
 
 
 
-Route::get('/nhap-xuat', [NhapXuatController::class, 'index'])->name('nhap-xuat');
-Route::get('/xuat-nhap-pdf', [NhapXuatController::class, 'exportPDF'])->name('xuat-nhap-pdf');
+Route::get('/nhap-xuat', [NhapXuaController::class, 'index'])->name('nhap-xuat');
+Route::get('/xuat-nhap-pdf', [NhapXuaController::class, 'exportPDF'])->name('xuat-nhap-pdf');
 
 
 
@@ -194,6 +194,7 @@ Route::post('/them-san-pham', [ProductController::class, 'store'])->name('xu-li-
 Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'show'])->name('chi-tiet-san-pham');
 Route::get('/chinh-sua-san-pham/{id}', [ProductController::class, 'edit'])->name('chinh-sua-san-pham');
 Route::post('cap-nhat-san-pham/{id}', [ProductController::class, 'update'])->name('cap-nhat-san-pham');
+Route::post('/them-vao-yeu-thich', [WishlistController::class, 'add'])->name('them-vao-yeu-thich');
 
 Route::delete('/xoa-san-pham/{id}', [ProductController::class, 'destroy'])->name('xoa-san-pham');
 
@@ -253,4 +254,4 @@ Route::post('/payment/callback', [PaymentController::class, 'vnpayReturn'])->nam
 Route::get('/payment/callback', [PaymentController::class, 'vnpayReturn'])->name('vnpay.return');
 
 
-Route::get('/fetch-data', [NhapXuatController::class, 'fetchData'])->name('fetch.data');
+Route::get('/fetch-data', [NhapXuaController::class, 'fetchData'])->name('fetch.data');

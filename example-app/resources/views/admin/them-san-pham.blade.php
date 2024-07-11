@@ -4,7 +4,6 @@
 
 @section('content')
     <style>
-        <style>
         .Choicefile {
             display: block;
             background: #14142B;
@@ -32,16 +31,17 @@
         }
 
         #thumbbox {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 10px;
+            position: relative;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         .thumbimage {
-            height: 150px;
+            height: 200px;
             width: 150px;
-            margin: 5px;
-            object-fit: cover;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: block;
         }
 
         .removeimg {
@@ -52,6 +52,7 @@
             padding: 5px;
             border-radius: 50%;
             cursor: pointer;
+
         }
     </style>
     <main class="app-content">
@@ -125,19 +126,17 @@
                                     <!-- Khu vực hiển thị ảnh thumbnail trước khi upload -->
                                     <!-- Placeholder cho các ảnh sẽ được thêm vào sau -->
                                 </div>
-
                                 <div id="boxchoice">
                                     <!-- Button chọn ảnh từ máy tính -->
                                     <label for="uploadfile" class="Choicefile btn btn-primary"><i
                                             class="fas fa-cloud-upload-alt"></i> Chọn ảnh</label>
                                     <!-- Input hidden để chọn file -->
                                     <input type="file" id="uploadfile" name="image[]" onchange="previewImages(this);"
-                                        multiple style="display: none;">
+                                        multiple style="display: none;" />
                                     <!-- Thông báo lựa chọn ảnh -->
                                     <p style="clear:both"></p>
                                 </div>
                             </div>
-
                             <div class="form-group col-md-12">
                                 <label class="control-label">Mô tả sản phẩm</label>
                                 <textarea class="form-control" name="mota" id="mota"></textarea>

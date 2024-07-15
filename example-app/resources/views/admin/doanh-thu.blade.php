@@ -54,7 +54,7 @@
                 <div class="widget-small primary coloured-icon"><i class='icon fa-3x bx bxs-chart'></i>
                     <div class="info">
                         <h4>Tổng thu nhập</h4>
-                        <p><b>{{ number_format($totalThuNhap, 0, ',', '.') }} vnđ</b></p>
+                        <p><b>{{ number_format($totalThuNhap, 0, ',', '.') }} VND</b></p>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                 <div class="widget-small warning coloured-icon"><i class='icon fa-3x bx bxs-tag-x'></i>
                     <div class="info">
                         <h4>Hết hàng</h4>
-                        <p><b>{{ $SanPhamDaHet }} đơn hàng</b></p>
+                        <p><b>{{ $SanPhamDaHet }} sản phẩm</b></p>
                     </div>
                 </div>
             </div>

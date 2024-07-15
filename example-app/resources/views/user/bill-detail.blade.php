@@ -6,13 +6,13 @@
     <!-- Profile Update Form -->
     <div class="container pt-5">
         <div class="row justify-content-center">
-            <h3 class="text-center">Danh sách đơn hàng</h3>
+            <h6 class="text-center">Danh sách đơn hàng</h6>
         </div>
         <div class="row">
             <!-- Cột bên trái -->
             <div class="col-md-2">
                 <div class="tile">
-                    <h5 class="tile-title">Thông tin</h5>
+                    <h3 class="tile-title">Thông tin đơn hàng</h3>
                     <div class="tile-body">
                         <form>
                             <div class="form-group">
@@ -58,12 +58,12 @@
             <!-- Cột bên phải -->
             <div class="col-md-10">
                 <div class="tile">
-                    <h5 class="tile-title">Chi tiết sản phẩm</h5>
+                    <h3 class="tile-title">Chi tiết sản phẩm</h3>
                     <div class="tile-body">
                         <table class="table table-detail" style="text-align: center;">
                             <thead>
                                 <tr>
-                                    <th style="width:100px;">Hình ảnh</th>
+                                    <th>Hình ảnh</th>
                                     <th>Tên sản phẩm</th>
                                     <th>Số lượng</th>
                                     <th>Giá</th>
@@ -78,7 +78,7 @@
                                         <td>
                                             <img class="d-block w-100"
                                                 src="{{ asset('storage/' . $item->productDetail->firstImage->tenimage) }}"
-                                                alt="Product Image" style="width: 80px; height: 80px; object-fit: contain;">
+                                                alt="Product Image" style="width: 40px; height: 40px; object-fit: contain;">
                                         </td>
                                         <td class="align-middle">{{ $item->product->tensanpham }}</td>
                                         <td class="align-middle">{{ $item->soluong }}</td>

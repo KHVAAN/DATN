@@ -87,6 +87,54 @@
         .modal-xl {
             max-width: 60% !important;
         }
+
+        .bg-gray {
+            background-color: #f2f2f2;
+            /* Màu nền xám */
+        }
+
+        .text-dark {
+            color: #000000;
+            /* Màu chữ đen */
+        }
+
+        .font-weight-bold {
+            font-weight: bold;
+            /* Chữ in đậm */
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .align-items-center {
+            align-items: center;
+        }
+
+        .form-control-sm.d-inline-block {
+            display: inline-block;
+            width: auto;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+        }
+
+        .mr-2 {
+            margin-right: 0.5rem;
+        }
+
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .mt-3 {
+            margin-top: 0.5rem;
+        }
+
+        .pagination {
+            justify-content: flex-end;
+        }
     </style>
     <main class="app-content">
         <div class="app-title">
@@ -95,27 +143,46 @@
             </ul>
             <div id="clock"></div>
         </div>
+        <div class="row mb-3">
+            <div class="col-md-9">
+                <form action="{{ route('quan-li-don-hang') }}" method="GET" class="form-inline">
+                    <div class="form-group mr-2">
+                        <select name="status" class="form-control">
+                            <option value="">Tất cả tình trạng</option>
+                            @foreach ($orderStatuses as $status)
+                                <option value="{{ $status->id }}"
+                                    {{ request('status') == $status->id ? 'selected' : '' }}>
+                                    {{ $status->value }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group mr-2">
+                        <select name="payment" class="form-control">
+                            <option value="">Tất cả trạng thái thanh toán</option>
+                            <option value="1" {{ request('payment') == '1' ? 'selected' : '' }}>Đã thanh toán</option>
+                            <option value="0" {{ request('payment') == '0' ? 'selected' : '' }}>Chưa thanh toán
+                            </option>
+                            <option value="2" {{ request('payment') == '2' ? 'selected' : '' }}>Đã hoàn tiền</option>
+                        </select>
+                    </div>
+                    <div class="form-group mr-2">
+                        <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}"
+                            placeholder="Từ ngày">
+                    </div>
+                    <div class="form-group mr-2">
+                        <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}"
+                            placeholder="Đến ngày">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Lọc</button>
+                </form>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body">
                         <div class="row element-button mb-3">
-                            <div class="col-sm-2">
-                                <a class="btn btn-add btn-sm" href="{{ url('/them-don-hang') }}" title="Thêm"><i
-                                        class="fas fa-plus"></i> Tạo mới đơn hàng</a>
-                            </div>
-                            {{-- <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm print-file" type="button" title="In"
-                                    onclick="myApp.printTable()"><i class="fas fa-print"></i> In dữ liệu</a>
-                            </div>
-                            <div class="col-sm-2">
-                                <a class="btn btn-excel btn-sm" href="" title="In"><i
-                                        class="fas fa-file-excel"></i> Xuất Excel</a>
-                            </div>
-                            <div class="col-sm-2">
-                                <a class="btn btn-delete btn-sm pdf-file" href="{{ route('export-pdf') }}" title="In"><i
-                                        class="fas fa-file-pdf"></i> Xuất PDF</a>
-                            </div> --}}
                         </div>
                         <table class="table table-hover table-bordered" id="sampleTable">
                             <thead class="text-align-center">
@@ -220,6 +287,46 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="row mt-3">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info" id="sampleTable_info" role="status" aria-live="polite">
+                                    <h6>Có {{ $orders->total() }} thông tin được tìm thấy</h6>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="dataTables_paginate paging_simple_numbers" id="sampleTable_paginate">
+                                    <ul class="pagination">
+                                        {{-- Link đến trang trước --}}
+                                        @if ($orders->onFirstPage())
+                                            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                                        @else
+                                            <li class="page-item"><a class="page-link"
+                                                    href="{{ $orders->previousPageUrl() }}" rel="prev">&laquo;</a></li>
+                                        @endif
+
+                                        {{-- Các trang phân trang --}}
+                                        @foreach ($orders->getUrlRange(1, $orders->lastPage()) as $page => $url)
+                                            @if ($page == $orders->currentPage())
+                                                <li class="page-item active"><span
+                                                        class="page-link">{{ $page }}</span>
+                                                </li>
+                                            @else
+                                                <li class="page-item"><a class="page-link"
+                                                        href="{{ $url }}">{{ $page }}</a></li>
+                                            @endif
+                                        @endforeach
+
+                                        {{-- Link đến trang tiếp theo --}}
+                                        @if ($orders->hasMorePages())
+                                            <li class="page-item"><a class="page-link" href="{{ $orders->nextPageUrl() }}"
+                                                    rel="next">&raquo;</a></li>
+                                        @else
+                                            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                                        @endif
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

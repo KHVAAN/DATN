@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Order_detail;
 use App\Models\Cart;
 use App\Models\Image;
+use App\Models\Order_status;
 use PDF;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -127,10 +128,33 @@ class OrderController extends Controller
         return redirect()->route('quan-li-don-hang')->with('success', 'Cập nhật trạng thái đơn hàng thành công.');
     }
 
-    public function getorder()
+
+   public function getorder(Request $request)
     {
-        $orders = Order::with('orderdetail.product', 'khachangorder', 'orderstatus')->get();
-        return view('admin.quan-li-don-hang', compact('orders'));
+        $query = Order::with('orderdetail.product', 'khachangorder', 'orderstatus');
+
+        if ($request->has('status') && $request->status != '') {
+            $query->where('trangthai', $request->status);
+        }
+
+        if ($request->has('payment') && $request->payment != '') {
+            $query->where('ttvanchuyen', $request->payment);
+        }
+
+        // Lọc theo ngày
+        if ($request->filled('start_date')) {
+        $query->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        if ($request->filled('end_date')) {
+        $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $orders = $query->paginate(10); // Hiển thị 10 đơn hàng mỗi trang
+
+        $orderStatuses = Order_status::all();
+
+        return view('admin.quan-li-don-hang', compact('orders', 'orderStatuses'));
     }
     public function exportPDF()
     {

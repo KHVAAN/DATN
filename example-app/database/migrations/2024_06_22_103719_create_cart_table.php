@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreign('product_detail_id')->references('id')->on('product_detail');
             $table->foreign('color_id')->references('id')->on('color');
             $table->foreign('size_id')->references('id')->on('size');
+            $table->integer('soluongconlai')->nullable()->default(null);
         });
     }
 

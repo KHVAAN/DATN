@@ -50,14 +50,13 @@
 
             <div class="col-lg-7 pb-5">
                 <h3 class="font-weight-semi-bold">{{ $product->tensanpham }}</h3>
-                
                 <div class="d-flex mb-3">
-                    <div class="text-primary mr-2">
+                    {{-- <div class="text-primary mr-2">
                         @for ($i = 0; $i < 5; $i++)
                             <small class="fas fa-star{{ $i < $product->rating ? '' : '-half-alt' }}"></small>
                         @endfor
                     </div>
-                    <small class="pt-1">({{ $product->reviews_count }} Đánh giá)</small>
+                    <small class="pt-1">({{ $product->reviews_count }} Đánh giá)</small> --}}
                 </div>
                 <h3 class="font-weight-semi-bold mb-4">
                     {{ number_format($product->dongia - ($product->dongia * $product->giamgia) / 100, 0, ',', '.') }} ₫
@@ -71,15 +70,12 @@
                         $usedSizes = [];
                     @endphp
 
-                    <div class="d-flex mb-4 flex-wrap">
+                    <div class="d-flex mb-4">
                         <p class="text-dark font-weight-medium mb-0 mr-3">Màu sắc</p>
-                        <form id="product-options" class="d-flex flex-wrap">
-                            @php
-                                $count = 0;
-                            @endphp
+                        <form id="product-options">
                             @foreach ($uniqueDetails as $detail)
                                 @if (!in_array($detail->color->tenmau, $usedColors))
-                                    <div class="custom-control custom-radio custom-control-inline mb-2 mr-3">
+                                    <div class="custom-control custom-radio custom-control-inline">
                                         <input onclick="CheckDisableQuantityBtn()" type="radio"
                                             class="custom-control-input" id="color-{{ $detail->mau_id }}" name="color"
                                             value="{{ $detail->mau_id }}">
@@ -88,17 +84,10 @@
                                     </div>
                                     @php
                                         $usedColors[] = $detail->color->tenmau;
-                                        $count++;
                                     @endphp
-                                    @if ($count % 4 == 0)
-                                        {{-- Chia hàng sau mỗi 4 màu --}}
-                                        <div class="w-100"></div> {{-- Kết thúc hàng --}}
-                                    @endif
                                 @endif
                             @endforeach
-                        </form>
                     </div>
-
 
                     <div class="d-flex mb-4">
                         <p class="text-dark font-weight-medium mb-0 mr-3">Kích thước</p>
@@ -129,7 +118,7 @@
                             </button>
                         </div>
                         <input id="input_soluong" type="text" class="form-control bg-secondary text-center"
-                            name="quantity" value="0">
+                            name="quantity" value="1">
                         <div class="input-group-btn">
                             <button id="btn-plus" class="btn btn-primary btn-plus">
                                 <i class="fa fa-plus"></i>
@@ -150,18 +139,15 @@
                             <i class="fa fa-shopping-cart mr-1"></i> Thêm Vào Giỏ Hàng
                         </button>
                     </form>
-                    {{-- <form action="{{ route('mua-ngay') }}" method="POST" id="buy-now-form">
+                    <!-- Nút thêm vào danh sách yêu thích -->
+                    <form action="{{ route('wishlist.add') }}" method="POST">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <input type="hidden" name="size_id" id="selectedSizeId"
-                            value="{{ $uniqueDetails[0]->size_id }}">
-                        <input type="hidden" name="mau_id" id="selectedColorId"
-                            value="{{ $uniqueDetails[0]->mau_id }}">
-                        <input type="hidden" name="soluong" id="selectedQuantity" value="1">
-                        <button type="submit" class="btn btn-primary px-3 mr-2" id="btn-buy-now">
-                            <i class="fa fa-shopping-cart mr-1"></i> Mua Ngay
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <button type="submit" class="btn btn-outline-danger px-3" id="btn-add-to-wishlist">
+                            <i class="fa fa-heart mr-1"></i> Yêu Thích
                         </button>
-                    </form> --}}
+                    </form>
                 </div>
             </div>
         </div>
@@ -176,8 +162,7 @@
             </div>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="tab-pane-1">
-                    <h4 class="mb-3">Mô tả sản phẩm</h4>
-                    <p class="preserve-format">{{ $product->mota }}</p>
+                    <p>{{ $product->mota }}</p>
                 </div>
                 <div class="tab-pane fade" id="tab-pane-3">
                     <div class="row">
@@ -235,6 +220,14 @@
             } else {
                 $(".btn-plus").attr("disabled", false);
             }
+
+            //CheckDisable nút mua sản phẩm khi số lương là 0
+            var selectedQuantity = parseInt($('#input_soluong').val());
+            if (selectedQuantity === 0) {
+                $('#btn-add-to-cart').addClass('btn-disabled').prop('disabled', true);
+            } else {
+                $('#btn-add-to-cart').removeClass('btn-disabled').prop('disabled', false);
+            }
         }
 
         $(document).ready(function() {
@@ -266,6 +259,7 @@
                 var selectedColor = $(this).val();
                 updateSelectedColor(selectedColor);
                 updateAddToCartButton();
+                //CheckDisableQuantityBtn(); // Gọi hàm kiểm tra sau khi thay đổi số lượng
             });
 
             // Xử lý khi thay đổi kích thước
@@ -273,6 +267,7 @@
                 var selectedSize = $(this).val();
                 updateSelectedSize(selectedSize);
                 updateAddToCartButton();
+                //CheckDisableQuantityBtn(); // Gọi hàm kiểm tra sau khi thay đổi số lượng
             });
 
             // Hàm cập nhật size đã chọn
@@ -338,6 +333,7 @@
             }
             // Gọi hàm cập nhật khi trang được tải lần đầu
             updateAddToCartButton();
+            //CheckDisableQuantityBtn(); // Gọi hàm kiểm tra sau khi thay đổi số lượng
         });
     </script>
 

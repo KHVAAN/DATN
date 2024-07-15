@@ -7,7 +7,7 @@
     <!-- Profile Update Form -->
     <div class="container pt-5">
         <div class="row justify-content-center">
-            <h4 class="text-center">DANH SÁCH ĐƠN HÀNG</h4>
+            <h6 class="text-center">Danh sách đơn hàng</h6>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -16,9 +16,9 @@
                         <div class="row element-button mb-3">
                         </div>
                         <table class="table table-hover table-bordered" id="sampleTable">
-                            <thead style="text-align:center;">
+                            <thead class="text-align-center">
                                 <tr>
-                                    {{-- <th width="10"></th> --}}
+                                    <th width="10"></th>
                                     <th>STT</th>
                                     <th>Khách hàng</th>
                                     <th>Tổng tiền</th>
@@ -27,7 +27,7 @@
                                     <th>Tính năng</th>
                                 </tr>
                             </thead>
-                            <tbody style="text-align: center;">
+                            <tbody>
                                 @php
                                     $index = 0;
                                 @endphp
@@ -42,7 +42,7 @@
                                     @endphp
 
                                     <tr>
-                                        {{-- <td width="10"><input type="checkbox" name="check1" value="1"></td> --}}
+                                        <td width="10"><input type="checkbox" name="check1" value="1"></td>
                                         <td>{{ ++$index }}</td>
                                         <td>{{ $order->khachangorder->hovaten }}</td>
                                         <td>{{ number_format($order->ttthanhtoan) }} đ</td>

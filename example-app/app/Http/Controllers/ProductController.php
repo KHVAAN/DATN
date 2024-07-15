@@ -36,7 +36,7 @@ class ProductController extends Controller
         }
 
         $product = $query->paginate(10);
-        // Cập nhật trạng thái sản phẩm
+         // Cập nhật trạng thái sản phẩm
         foreach ($product as $item) {
             if ($item->soluong == 0) {
                 $item->trangthai = 1; // Chuyển thành hết hàng
@@ -71,7 +71,7 @@ class ProductController extends Controller
         // Tính toán số lượng sản phẩm trong giỏ hàng cho người dùng hiện tại
         // $count = Auth::check() ? Cart::where('user_id', Auth::id())->count() : 0;
 
-        return view('user.index', compact('brand_detail', 'brands', 'products', 'categories'));
+        return view('user.index', compact('brand_detail', 'brands', 'products','categories'));
     }
     public function brand($id)
     {
@@ -278,8 +278,16 @@ class ProductController extends Controller
         $product->trangthai = $request->input('trangthai', '0');
         $product->save();
 
-        // Xóa hình ảnh cũ của sản phẩm (nếu cần thiết)
-        //$product->image()->delete();
+    // Xử lý xóa ảnh
+        if ($request->has('remove_images')) {
+            foreach ($request->remove_images as $imageId) {
+                $image = Image::find($imageId);
+                if ($image) {
+                    Storage::delete('public/' . $image->tenimage);
+                    $image->delete();
+                }
+            }
+        }
 
         if ($request->hasFile('image')) {
             foreach ($request->file('image') as $image) {
@@ -371,7 +379,7 @@ class ProductController extends Controller
         return view('user.shop', compact('products'));
     }
 
-    public function search(Request $request)
+   public function search(Request $request)
     {
         $searchTerm = $request->input('search');
         $sort = $request->input('sort', 'default');
@@ -395,9 +403,9 @@ class ProductController extends Controller
         } elseif ($sort === 'desc') {
             $query->orderBy('tensanpham', 'desc');
         } elseif ($sort === 'price_asc') {
-            $query->orderBy('dongia', 'asc');
+            $query->orderByRaw('(dongia * (1 - giamgia / 100)) ASC');
         } elseif ($sort === 'price_desc') {
-            $query->orderBy('dongia', 'desc');
+            $query->orderByRaw('(dongia * (1 - giamgia / 100)) DESC');
         }
 
         $products = $query->paginate(12);
@@ -405,20 +413,45 @@ class ProductController extends Controller
         return view('user.shop', compact('products'));
     }
 
-
-    public function search_user(Request $request)
+      public function search_user(Request $request)
     {
         $keyword = $request->input('keyword');
-        // Tìm sản phẩm có tên chứa từ khóa hoặc thuộc loại sản phẩm hoặc thuộc thương hiệu
+        // Tìm sản phẩm có tên chứa từ khóa và thuộc loại sản phẩm hoặc thuộc thương hiệu
         $products = Product::where('tensanpham', 'LIKE', "%$keyword%")
-            ->orWhereHas('category', function ($q) use ($keyword) {
-                $q->where('tenloaisp', 'LIKE', "%$keyword%");
-            })
-            ->orWhereHas('brand', function ($q) use ($keyword) {
-                $q->where('tennhanhieu', 'LIKE', "%$keyword%");
+            ->where(function ($query) use ($keyword) {
+                $query->whereHas('category', function ($q) use ($keyword) {
+                    $q->where('tenloaisp', 'LIKE', "%$keyword%");
+                })
+                    ->orWhereHas('brand', function ($q) use ($keyword) {
+                        $q->where('tennhanhieu', 'LIKE', "%$keyword%");
+                    });
             })
             ->get();
-
         return view('user.search', compact('products'));
+    }
+    public function filterByPrice(Request $request)
+    {
+        $query = Product::query();
+
+        // Xử lý lọc theo giá dựa trên dữ liệu từ form
+        if ($request->has('price_all')) {
+            // Lọc tất cả sản phẩm (không áp dụng filter giá)
+        } else {
+            // Xử lý các khoảng giá được chọn
+            $priceRanges = $request->input('price_range');
+
+            foreach ($priceRanges as $range) {
+                if ($range == 2) {
+                    $query->orWhereBetween('dongia', [0, 500000]);
+                } elseif ($range == 3) {
+                    $query->orWhereBetween('dongia', [500001, 1000000]);
+                }
+                // Thêm các khoảng giá khác tương tự
+            }
+        }
+
+        $products = $query->paginate(9); // Số sản phẩm trên mỗi trang
+
+        return view('user.shop', compact('products'));
     }
 }

@@ -84,7 +84,6 @@
     </style>
 </head>
 
-
 <body>
     <h2>Báo cáo doanh thu</h2>
     <div class="row">
@@ -140,12 +139,12 @@
                             @php
                                 $index = 0;
                             @endphp
-                            @foreach ($sanPhamBanChay as $item)
+                            @foreach ($tongDonHang as $item)
                                 <tr>
                                     <td>{{ ++$index }}</td>
-                                    <td>{{ $item->tensanpham }}</td>
-                                    <td>{{ number_format($item->dongia, 0, ',', '.') }} đ</td>
-                                    <td>{{ $item->category->tenloaisp }}</td>
+                                    <td>{{ $item->orderdetail[0]->product->tensanpham }}</td>
+                                    <td>{{ $item->ttthanhtoan }} đ</td>
+                                    <td>{{ $item->orderdetail[0]->product->category->tenloaisp }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

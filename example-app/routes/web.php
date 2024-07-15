@@ -194,7 +194,13 @@ Route::post('/them-san-pham', [ProductController::class, 'store'])->name('xu-li-
 Route::get('/chi-tiet-san-pham/{id}', [ProductController::class, 'show'])->name('chi-tiet-san-pham');
 Route::get('/chinh-sua-san-pham/{id}', [ProductController::class, 'edit'])->name('chinh-sua-san-pham');
 Route::post('cap-nhat-san-pham/{id}', [ProductController::class, 'update'])->name('cap-nhat-san-pham');
-Route::post('/them-vao-yeu-thich', [WishlistController::class, 'add'])->name('them-vao-yeu-thich');
+
+Route::middleware('auth')->group(function () {
+    Route::post('/wishlist/add', [WishlistController::class, 'add'])->name('wishlist.add');
+    Route::delete('/wishlist/remove/{id}', [WishlistController::class, 'remove'])->name('wishlist.remove');
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+});
+
 
 Route::delete('/xoa-san-pham/{id}', [ProductController::class, 'destroy'])->name('xoa-san-pham');
 

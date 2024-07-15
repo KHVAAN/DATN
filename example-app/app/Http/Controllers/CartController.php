@@ -246,7 +246,7 @@ class CartController extends Controller
 
         // Xóa giỏ hàng sau khi tạo đơn hàng
         Cart::where('user_id', $user->id)->delete();
-        Alert()->success('Thành công', 'Đặt hàng thành công!');
-        return redirect()->route('trang-chu-user');
+
+        return redirect()->route('trang-chu-user')->with('success', 'Đặt hàng thành công!');
     }
 }

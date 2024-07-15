@@ -106,6 +106,12 @@
                 <i class="fas fa-shopping-cart text-primary"></i>
                 <span class="badge">{{ $cartCount }}</span>
             </a>
+            <a href="{{ url('/wishlist') }}" class="btn border">
+                <i class="fa fa-heart mr-1 text-primary"></i>
+                <span class="badge">{{ $WishlistCount }}</span>
+            </a>
+
+
             {{-- <a href="" class="btn border">
                 <i class="far fa-heart text-primary"></i>
                 <span class="badge"></span>

@@ -163,7 +163,7 @@
                             </div>
                             <div class="form-group col-md-3 ">
                                 <label for="exampleSelect1" class="control-label">Nhãn hiệu</label>
-                                <select class="form-control" id="exampleSelect1" name="nh_id">
+                                <select class="form-control" id="exampleSelect1" name="nhanhieu_id">
                                     @foreach ($brand as $item)
                                         <option value="{{ $item->id }}"
                                             {{ $product->nh_id == $item->id ? 'selected' : '' }}>

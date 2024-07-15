@@ -121,7 +121,8 @@
                                         @csrf
                                         <div class="input-group quantity mx-auto" style="width: 130px;">
                                             <div class="input-group-btn">
-                                                <button class="btn btn-primary btn-minus" type="button"
+                                                <button @if ($item->soluong == 0) disabled @endif
+                                                    class="btn btn-primary btn-minus" type="button"
                                                     data-id="{{ $item->id }}" data-price="{{ $item->dongia }}"
                                                     onclick="checkDisableBtnMinus(this)"
                                                     id="btn-minus-{{ $item->id }}">
@@ -155,29 +156,8 @@
                                         action="{{ url('/cart', ['id' => $item->id]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-primary btn-sm trash" type="button" title="Xóa"
-                                            data-toggle="modal" data-target="#confirmDeleteModal-{{ $item->id }}">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                        <div class="modal fade" id="confirmDeleteModal-{{ $item->id }}" tabindex="-1"
-                                            role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static"
-                                            data-keyboard="false">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-body text-center">
-                                                        <h4 class="modal-title mt-4 mb-3">Cảnh báo</h4>
-                                                        <h5 class="control-label">Bạn có chắc muốn xóa không?</h5>
-                                                        <div class="form-group mt-4">
-                                                            <button id="confirmDeleteBtn-{{ $item->id }}"
-                                                                class="btn btn-primary mr-2">Xác
-                                                                nhận</button>
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Hủy bỏ</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-primary"><i
+                                                class="fa fa-times"></i></button>
                                     </form>
                                 </td>
 
@@ -214,7 +194,7 @@
                                 </div>
                             </div>
 
-                            {{-- <!-- Modal -->
+                            <!-- Modal -->
                             <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog"
                                 aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -231,7 +211,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
 
                             <div class="col-lg-4">
                                 <!-- Form mã giảm giá -->
@@ -363,7 +343,7 @@
     </script>
 
 
-    {{-- <script>
+    <script>
         $(document).ready(function() {
             $('#confirmDeleteModal').on('show.bs.modal', function(event) {
                 var button = $(event.relatedTarget); // Button mà người dùng đã click để mở modal
@@ -403,6 +383,6 @@
                 });
             });
         });
-    </script> --}}
+    </script>
 
 @endsection

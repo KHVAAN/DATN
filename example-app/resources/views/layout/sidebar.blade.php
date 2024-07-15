@@ -34,8 +34,8 @@
                     thu</span></a>
         </li>
         <li><a class="app-menu__item" href="{{ url('/nhap-xuat') }}"><i
-                    class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Xuât Nhập Sản
-                    Phẩm</span></a>
+                    class='app-menu__icon bx bx-pie-chart-alt-2'></i><span class="app-menu__label">Xuất nhập sản
+                    phẩm</span></a>
         </li>
 
     </ul>

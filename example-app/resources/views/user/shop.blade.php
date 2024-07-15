@@ -38,8 +38,8 @@
                     <div class="d-flex align-items-center justify-content-between mb-4">
                         <form action="{{ route('tim-kiem') }}" method="GET"
                             class="d-flex align-items-center justify-content-between">
-                            <div class="input-group mr-2">
-                                <input type="text" class="form-control" name="search" value="{{ request('search') }}"
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search"
                                     placeholder="Nhập từ khóa tìm kiếm...">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit">
@@ -62,6 +62,16 @@
                                 </select>
                             </div>
                         </form>
+                        {{-- <div>
+                            <select name="sort_by" id="sort_by" class="form-control mr-2">
+                                <option value="default" {{ $sort_by === 'default' ? 'selected' : '' }}>Mặc định</option>
+                                <option value="price_asc" {{ $sort_by === 'price_asc' ? 'selected' : '' }}>Giá tăng dần</option>
+                                <option value="price_desc" {{ $sort_by === 'price_desc' ? 'selected' : '' }}>Giá giảm dần</option>
+                                <option value="name_asc" {{ $sort_by === 'name_asc' ? 'selected' : '' }}>Tên A-Z</option>
+                                <option value="name_desc" {{ $sort_by === 'name_desc' ? 'selected' : '' }}>Tên Z-A</option>
+                            </select>
+                        </div> --}}
+
                     </div>
                 </div>
 
@@ -158,7 +168,7 @@
     </div>
     <!-- Shop End -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    {{-- <script>
+    <script>
         $(document).ready(function() {
             $('#sort_by').change(function() {
                 var sort_by = $(this).val();
@@ -169,6 +179,6 @@
                 window.location.href = url;
             });
         });
-    </script> --}}
+    </script>
 
 @endsection
